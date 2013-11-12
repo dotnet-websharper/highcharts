@@ -10,16 +10,18 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
     /// Value: Type.Type records
     let typeMap =
         ref <| Map [
-            "Object"    , T<obj>
-            "(Object"   , T<obj>
-            "String"    , T<string>
-            "Number"    , T<float>
-            "Boolean"   , T<bool>
-            "Array"     , T<obj[]>
-            "Function"  , T<unit -> unit>
-            "Color"     , T<string>
-            "Colo"      , T<string>
-            "CSSObject" , T<obj>
+            "Object"             , T<obj>
+            "(Object"            , T<obj>
+            "object"             , T<obj>
+            "String"             , T<string>
+            "Number"             , T<float>
+            "Boolean"            , T<bool>
+            "Function"           , T<unit -> unit>
+            "Color"              , T<string>
+            "Colo"               , T<string>
+            "CSSObject"          , T<obj>
+            "Array&lt;Mixed&gt;" , T<obj[]>
+            "null"               , T<unit>
         ]
 
     let warnTypeCreate = ref false
@@ -38,7 +40,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
         | null | "" -> T<unit>
         | _ ->
         if n.StartsWith "Array<" then
-            getRawType (n.[6 ..].TrimEnd('>')) |> Type.ArrayOf
+            getRawType (n.[6 ..].TrimEnd(';', '>')) |> Type.ArrayOf
         else
             let ts = n.Split '|'
             ts |> Array.map getRawType |> Array.reduce (+)
@@ -87,7 +89,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             |> fun cls ->
                 match c.Extends with                  
                 | Some t ->
-                    printfn "Inherits: %s -> %s" t c.RefName
+//                    printfn "Inherits: %s -> %s" t c.RefName
                     cls |=> Inherits (getRawType t)
                 | _ -> cls
             |+> Protocol (
@@ -110,10 +112,13 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
         configsList := upcast cls :: !configsList
         cls
 
+    let optConfigs, hcConfigs =
+        configs |> List.partition (fun c -> c.RefName = "global" || c.RefName = "lang")
+
     let configCls =
         Class "HighchartsCfg"
         |+> Protocol (
-            configs |> List.map (fun c -> 
+            hcConfigs |> List.map (fun c -> 
                 let cls = getConfig "" c
                 if isArray c.Type then
                     c.Name =@ Type.ArrayOf cls :> CodeModel.Member
@@ -124,6 +129,18 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
         |+> [ Constructor T<unit> |> WithInline "{}" ] 
 
     configsList := upcast configCls :: !configsList
+
+    let optionsCls =
+        Class "OptionsCfg"
+        |+> Protocol (
+            optConfigs |> List.map (fun c -> 
+                let cls = getConfig "" c
+                c.Name =@ cls :> CodeModel.Member
+            )
+        )
+        |+> [ Constructor T<unit> |> WithInline "{}" ] 
+
+    configsList := upcast optionsCls :: !configsList
 
     warnTypeCreate := true
 
@@ -140,15 +157,20 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             Class o.Name
             |=> getRawType o.Name
             |+> (
-                if o.Name = "Highcharts" 
-                then
-                    "create" => 
-                        T<IntelliFactory.WebSharper.JQuery.JQuery>?container 
-                        * configCls?config 
-                        ^-> getRawType "Chart" 
-                        |> WithInline "$container.highcharts($config)" :> _
-                    :: (members |> Seq.cast |> List.ofSeq)
-                else Protocol members
+                match o.Name with
+                | "Highcharts" -> 
+                    [
+                        "create" => 
+                            T<IntelliFactory.WebSharper.JQuery.JQuery>?container 
+                            * configCls?config 
+                            ^-> getRawType "Chart" 
+                            |> WithInline "$container.highcharts($config)" :> CodeModel.Member
+                        "setOptions" => optionsCls?options ^-> optionsCls :> _
+                    ]
+                    @ (members |> List.filter (fun m -> m.Name <> "setOptions"))
+                    |> Seq.cast |> List.ofSeq
+                | "Renderer" -> members |> Seq.cast |> List.ofSeq
+                | _ -> Protocol members
             )  
             |> WithOptComment o.Desc
         cls
