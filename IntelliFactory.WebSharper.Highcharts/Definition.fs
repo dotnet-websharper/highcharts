@@ -89,7 +89,6 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             |> fun cls ->
                 match c.Extends with                  
                 | Some t ->
-//                    printfn "Inherits: %s -> %s" t c.RefName
                     cls |=> Inherits (getRawType t)
                 | _ -> cls
             |+> Protocol (
