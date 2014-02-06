@@ -21,5 +21,9 @@ Div [] |>! OnAfterRender (fun el ->
     )
 ```
 
+Sometimes a config property can accept multiple types, for example an array instead of a config object. In these cases, use WebSharper's `As` helper
+function to cast it to the required type. As this cast is erased from the
+resulting JavaScript code, the library works as intended.
+
 [hc]: http://www.highcharts.com/
 [hcapi]: http://api.highcharts.com/highcharts
