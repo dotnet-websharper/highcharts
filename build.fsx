@@ -27,6 +27,7 @@ do  use cl = new System.Net.WebClient()
 let bt = 
     BuildTool().PackageId("WebSharper.Highcharts", "2.5")
         .References(fun r -> [r.Assembly "System.Web"])
+    |> fun bt -> bt.WithFramework(bt.Framework.Net40)
 
 let main =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highcharts")
