@@ -1,0 +1,11 @@
+<ivy-module version="2.0">
+  <info organisation="IntelliFactory" module="if-ws-highcharts" revision="2.5" />
+  <publications>
+    <artifact name="IntelliFactory.WebSharper.Highcharts" type="bin" ext="dll" />
+    <artifact name="IntelliFactory.WebSharper.Highcharts" type="debug" ext="pdb" />
+    <artifact name="IntelliFactory.WebSharper.Highcharts" type="doc" ext="xml" />
+  </publications>
+  <dependencies>
+    <dependency name="websharper" rev="latest.integration" />
+  </dependencies>
+</ivy-module>

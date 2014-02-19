@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>76c3cd18-efc6-4b89-b887-11b2d2dfeef8</ProjectGuid>
+    <Name>IntelliFactory.WebSharper.Highcharts.Tests</Name>
+    <WebSharperProject>Html</WebSharperProject>
+    <OutputPath>../build/net45</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Import Project="../build/net45/$(Name).proj" />
+  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/3.0/Framework/v4.0/Microsoft.FSharp.targets" />
+  <Target Name="Build" />
+  <Target Name="Clean" />
+  <ItemGroup>
+    <Compile Include="Control.fs" />
+    <Compile Include="Main.fs" />
+    <Content Include="Main.html" />
+    <None Include="extra.files" />
+  </ItemGroup>
+</Project>
