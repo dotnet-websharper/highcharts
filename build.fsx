@@ -1,10 +1,12 @@
 ﻿#load "tools/includes.fsx"
-#r "System.IO.Compression.FileSystem"
 open IntelliFactory.Build
 
 open System.IO
-
 let ( +/ ) a b = Path.Combine(a, b)
+
+let bt = 
+    let bt = BuildTool().PackageId("WebSharper.Highcharts", "2.5")
+    bt.WithFramework(bt.Framework.Net40)
 
 let tempDir = __SOURCE_DIRECTORY__ +/ ".temp"
 
@@ -21,13 +23,8 @@ do  use cl = new System.Net.WebClient()
     )
     cl.DownloadFile(
         "http://code.highcharts.com/highcharts.js",
-        @"IntelliFactory.WebSharper.Highcharts\highcharts.js"
+        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highcharts\highcharts.js"
     )
-
-let bt = 
-    BuildTool().PackageId("WebSharper.Highcharts", "2.5")
-        .References(fun r -> [r.Assembly "System.Web"])
-    |> fun bt -> bt.WithFramework(bt.Framework.Net40)
 
 let main =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highcharts")
