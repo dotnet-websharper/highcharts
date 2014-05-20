@@ -22,6 +22,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             "CSSObject"          , T<obj>
             "Array&lt;Mixed&gt;" , T<obj[]>
             "null"               , T<unit>
+            "undefined"          , T<unit>
         ]
 
     let warnTypeCreate = ref false
