@@ -16,7 +16,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             "String"             , T<string>
             "Number"             , T<float>
             "Boolean"            , T<bool>
-            "Function"           , T<unit -> unit>
+            "Function"           , T<IntelliFactory.WebSharper.EcmaScript.Function>
             "Color"              , T<string>
             "Colo"               , T<string>
             "CSSObject"          , T<obj>
