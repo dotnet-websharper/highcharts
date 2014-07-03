@@ -8,10 +8,10 @@ let ( +/ ) a b = Path.Combine(a, b)
 
 let Assembly =
     let configs =
-        File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hcconfigs.json")  
+        File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hmconfigs.json")  
         |> Json.parse |> HcJson.getConfigs
     let objects =  
-        File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hcobjects.json")  
+        File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hmobjects.json")  
         |> Json.parse |> HcJson.getObjects
     try 
         Definition.getAssembly configs objects
@@ -20,9 +20,9 @@ let Assembly =
         reraise()    
 
 [<Sealed>]
-type HighchartsExtension() =
+type HighmapsExtension() =
     interface IExtension with
         member ext.Assembly = Assembly
 
-[<assembly: Extension(typeof<HighchartsExtension>)>]
+[<assembly: Extension(typeof<HighmapsExtension>)>]
 do ()
