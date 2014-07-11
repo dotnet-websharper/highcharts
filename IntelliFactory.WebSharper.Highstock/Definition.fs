@@ -116,7 +116,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
         configs |> List.partition (fun c -> c.RefName = "global" || c.RefName = "lang")
 
     let configCls =
-        Class "HighmapsCfg"
+        Class "HighstockCfg"
         |+> Protocol (
             hcConfigs |> List.map (fun c -> 
                 let cls = getConfig "" c
@@ -164,7 +164,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
                             T<IntelliFactory.WebSharper.JQuery.JQuery>?container 
                             * configCls?config 
                             ^-> getRawType "Chart" 
-                            |> WithInline "$container.highcharts('Map', $config)" :> CodeModel.Member
+                            |> WithInline "$container.highcharts('StockChart', $config)" :> CodeModel.Member
                         "setOptions" => optionsCls?options ^-> optionsCls :> _
                     ]
                     @ (members |> List.filter (fun m -> m.Name <> "setOptions"))
@@ -176,11 +176,11 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
         cls
 
     Assembly [
-        Namespace "IntelliFactory.WebSharper.Highmaps" (
+        Namespace "IntelliFactory.WebSharper.Highstock" (
             !configsList @
             (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
         ) 
-        Namespace "IntelliFactory.WebSharper.Highmaps.Resources" [
-            (Resource "Highmaps" "highmaps.js").AssemblyWide()
+        Namespace "IntelliFactory.WebSharper.Highstock.Resources" [
+            (Resource "Highstock" "highstock.js").AssemblyWide()
         ]
     ]
