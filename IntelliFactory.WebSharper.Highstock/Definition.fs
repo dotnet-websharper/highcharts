@@ -158,7 +158,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             |=> getRawType o.Name
             |+> (
                 match o.Name with
-                | "Highmaps" -> 
+                | "Highcharts" -> 
                     [
                         "create" => 
                             T<IntelliFactory.WebSharper.JQuery.JQuery>?container 
