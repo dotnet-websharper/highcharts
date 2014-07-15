@@ -181,6 +181,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
         ) 
         Namespace "IntelliFactory.WebSharper.Highmaps.Resources" [
-            (Resource "Highmaps" "highmaps.js").AssemblyWide()
+            Resource "Highmaps" "highmaps.js"
+            Resource "MapModule" "map.js"
         ]
     ]
