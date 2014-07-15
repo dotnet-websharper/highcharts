@@ -94,7 +94,7 @@ bt.Solution [
             })
     bt.PackageId("WebSharper.Highstock", "2.5").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highstock")
-        .Add(hc)
+        .Add(hs)
         .Configure(fun c ->
             { c with
                 Authors = ["IntelliFactory"]
@@ -107,7 +107,7 @@ bt.Solution [
             })
     bt.PackageId("WebSharper.Highmaps", "2.5").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highmaps")
-        .Add(hc)
+        .Add(hm)
         .Configure(fun c ->
             { c with
                 Authors = ["IntelliFactory"]
