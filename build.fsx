@@ -23,7 +23,7 @@ do  use cl = new System.Net.WebClient()
     )
     cl.DownloadFile(
         "http://code.highcharts.com/highcharts.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highcharts\highcharts.js"
+        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highcharts/highcharts.js"
     )
     cl.DownloadFile(
         "http://api.highcharts.com/highstock/option/dump.json", 
@@ -35,7 +35,7 @@ do  use cl = new System.Net.WebClient()
     )
     cl.DownloadFile(
         "http://code.highcharts.com/stock/highstock.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highstock\highstock.js"
+        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highstock/highstock.js"
     )
     cl.DownloadFile(
         "http://api.highcharts.com/highmaps/option/dump.json", 
@@ -47,7 +47,11 @@ do  use cl = new System.Net.WebClient()
     )
     cl.DownloadFile(
         "http://code.highcharts.com/maps/highmaps.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highmaps\highmaps.js"
+        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highmaps/highmaps.js"
+    )
+    cl.DownloadFile(
+        "http://code.highcharts.com/maps/modules/map.js",
+        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highmaps/map.js"
     )
 
 let hc =
@@ -65,19 +69,13 @@ let hs =
 let hm =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highmaps")
         .SourcesFromProject()
-        .Embed(["highmaps.js"])
+        .Embed(["highmaps.js"; "map.js"])
         .References(fun r -> [r.NuGet("FParsec").Reference()])
-
-let tests =
-    bt.WebSharper.HtmlWebsite("IntelliFactory.WebSharper.Highcharts.Tests")
-        .SourcesFromProject()
-        .References(fun r -> [r.Project hc; r.Project hs; r.Project hm])
 
 bt.Solution [
     hc
     hs
     hm
-    tests
 
     bt.PackageId("WebSharper.Highcharts", "2.5").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highcharts")
