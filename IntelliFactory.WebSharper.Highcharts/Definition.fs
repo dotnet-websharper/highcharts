@@ -181,6 +181,6 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
         ) 
         Namespace "IntelliFactory.WebSharper.Highcharts.Resources" [
-            Resource "Highcharts" "highcharts.js"
+            Resource "Highcharts" "highcharts.js" |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
         ]
     ]
