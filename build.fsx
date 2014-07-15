@@ -5,7 +5,7 @@ open System.IO
 let ( +/ ) a b = Path.Combine(a, b)
 
 let bt = 
-    let bt = BuildTool().PackageId("WebSharper.Highcharts", "2.5")
+    let bt = BuildTool()
     bt.WithFramework(bt.Framework.Net40)
 
 let tempDir = __SOURCE_DIRECTORY__ +/ ".temp"
@@ -79,7 +79,7 @@ bt.Solution [
     hm
     tests
 
-    bt.NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highcharts", "2.5").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highcharts")
         .Add(hc)
         .Configure(fun c ->
@@ -92,7 +92,7 @@ bt.Solution [
                         dep.PackageId.Contains "FParsec" |> not
                     )
             })
-    bt.NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highstock", "2.5").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highstock")
         .Add(hc)
         .Configure(fun c ->
@@ -105,7 +105,7 @@ bt.Solution [
                         dep.PackageId.Contains "FParsec" |> not
                     )
             })
-    bt.NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highmaps", "2.5").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highmaps")
         .Add(hc)
         .Configure(fun c ->
