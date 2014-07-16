@@ -175,13 +175,31 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             |> WithOptComment o.Desc
         cls
 
+    let hmRes =
+        Resource "Highmaps" "http://code.highcharts.com/maps/highmaps.js"
+        |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+
     Assembly [
         Namespace "IntelliFactory.WebSharper.Highmaps" (
             !configsList @
             (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
         ) 
         Namespace "IntelliFactory.WebSharper.Highmaps.Resources" [
-            Resource "Highmaps" "highmaps.js" |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
-            Resource "MapModule" "map.js" |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+            hmRes
+
+            Resource "MapModuleForCharts" "http://code.highcharts.com/maps/modules/map.js" 
+            |> RequiresExternal [ T<IntelliFactory.WebSharper.Highcharts.Resources.Highcharts> ]
+            
+            Resource "MapModuleForStock" "http://code.highcharts.com/maps/modules/map.js" 
+            |> RequiresExternal [ T<IntelliFactory.WebSharper.Highstock.Resources.Highstock> ]
+
+            Resource "ExportingModule" "http://code.highcharts.com/maps/modules/exporting.js" 
+            |> Requires [ hmRes ]
+            
+            Resource "MooToolsAdapter" "http://code.highcharts.com/maps/adapters/mootools-adapter.js" 
+            |> Requires [ hmRes ]
+
+            Resource "PrototypeAdapter" "http://code.highcharts.com/maps/adapters/prototype-adapter.js" 
+            |> Requires [ hmRes ]
         ]
     ]
