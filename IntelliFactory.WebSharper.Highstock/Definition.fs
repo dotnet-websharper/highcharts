@@ -175,12 +175,25 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             |> WithOptComment o.Desc
         cls
 
+    let hsRes =
+        Resource "Highstock" "http://code.highcharts.com/stock/highstock.js"
+        |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+
     Assembly [
         Namespace "IntelliFactory.WebSharper.Highstock" (
             !configsList @
             (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
         ) 
         Namespace "IntelliFactory.WebSharper.Highstock.Resources" [
-            Resource "Highstock" "highstock.js" |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+            hsRes
+
+            Resource "ExportingModule" "http://code.highcharts.com/stock/modules/exporting.js" 
+            |> Requires [ hsRes ]
+            
+            Resource "MooToolsAdapter" "http://code.highcharts.com/stock/adapters/mootools-adapter.js" 
+            |> Requires [ hsRes ]
+
+            Resource "PrototypeAdapter" "http://code.highcharts.com/stock/adapters/prototype-adapter.js" 
+            |> Requires [ hsRes ]
         ]
     ]

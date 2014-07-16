@@ -22,20 +22,12 @@ do  use cl = new System.Net.WebClient()
         tempDir +/ "hcobjects.json"
     )
     cl.DownloadFile(
-        "http://code.highcharts.com/highcharts.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highcharts/highcharts.js"
-    )
-    cl.DownloadFile(
         "http://api.highcharts.com/highstock/option/dump.json", 
         tempDir +/ "hsconfigs.json"
     )
     cl.DownloadFile(
         "http://api.highcharts.com/highstock/object/dump.json", 
         tempDir +/ "hsobjects.json"
-    )
-    cl.DownloadFile(
-        "http://code.highcharts.com/stock/highstock.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highstock/highstock.js"
     )
     cl.DownloadFile(
         "http://api.highcharts.com/highmaps/option/dump.json", 
@@ -45,32 +37,21 @@ do  use cl = new System.Net.WebClient()
         "http://api.highcharts.com/highmaps/object/dump.json", 
         tempDir +/ "hmobjects.json"
     )
-    cl.DownloadFile(
-        "http://code.highcharts.com/maps/highmaps.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highmaps/highmaps.js"
-    )
-    cl.DownloadFile(
-        "http://code.highcharts.com/maps/modules/map.js",
-        __SOURCE_DIRECTORY__ +/ "IntelliFactory.WebSharper.Highmaps/map.js"
-    )
 
 let hc =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highcharts")
         .SourcesFromProject()
-        .Embed(["highcharts.js"])
         .References(fun r -> [r.NuGet("FParsec").Reference()])
 
 let hs =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highstock")
         .SourcesFromProject()
-        .Embed(["highstock.js"])
         .References(fun r -> [r.NuGet("FParsec").Reference()])
 
 let hm =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highmaps")
         .SourcesFromProject()
-        .Embed(["highmaps.js"; "map.js"])
-        .References(fun r -> [r.NuGet("FParsec").Reference()])
+        .References(fun r -> [r.NuGet("FParsec").Reference(); r.Project hc; r.Project hs])
 
 bt.Solution [
     hc
