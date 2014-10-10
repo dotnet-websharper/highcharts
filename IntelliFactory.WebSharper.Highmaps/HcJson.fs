@@ -92,7 +92,7 @@ let getConfig (j: Json) (members: HcConfig list) =
     with _ -> failwithf "getConfig error on: %A" (jo |> Map.find "values" |> getString)
 
 let getConfigs (j: Json) =
-    let l = j |> getObject |> Map.find "Options" |> getObject |> Map.find "options" |> getList
+    let l = j |> getList
     let nestingMap =
         l |> Seq.filter (fun c -> c |> getObject |> hasTrue "deprecated" |> not)
         |> Seq.map (fun c -> c |> getObject |> Map.find "parent" |> getString, c)
@@ -156,7 +156,7 @@ let getMember (j: Json) =
     | t -> failwithf "getMember error: type not found: %s" t
 
 let getObjects (j: Json) =
-    let l = j |> getObject |> Map.find "HObjects" |> getObject |> Map.find "objects" |> getList
+    let l = j |> getList
     let memberMap =
         l |> Seq.map (fun c -> c |> getObject |> Map.find "parent" |> getString, c)
         |> Seq.groupBy fst |> Seq.map (fun (k, vl) -> k, vl |> Seq.map snd |> List.ofSeq)
