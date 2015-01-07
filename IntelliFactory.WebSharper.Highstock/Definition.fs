@@ -1,5 +1,6 @@
 ﻿module Definition
 
+open IntelliFactory.WebSharper
 open IntelliFactory.WebSharper.InterfaceGenerator
 
 open HcJson
@@ -16,7 +17,7 @@ let getAssembly (configs: HcConfig list) (objects : HcObject list) =
             "String"             , T<string>
             "Number"             , T<float>
             "Boolean"            , T<bool>
-            "Function"           , T<IntelliFactory.WebSharper.EcmaScript.Function>
+            "Function"           , T<JavaScript.Function>
             "Color"              , T<string>
             "Colo"               , T<string>
             "CSSObject"          , T<obj>
