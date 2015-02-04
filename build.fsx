@@ -38,22 +38,28 @@ do  use cl = new System.Net.WebClient()
         tempDir +/ "hmobjects.json"
     )
 
+let common =
+    bt.WebSharper.Library("HighchartsGeneratorCommon")
+        .SourcesFromProject()
+        .References(fun r -> [r.NuGet("FParsec").Reference()])
+
 let hc =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highcharts")
         .SourcesFromProject()
-        .References(fun r -> [r.NuGet("FParsec").Reference()])
+        .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
 
 let hs =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highstock")
         .SourcesFromProject()
-        .References(fun r -> [r.NuGet("FParsec").Reference()])
+        .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
 
 let hm =
     bt.WebSharper.Extension("IntelliFactory.WebSharper.Highmaps")
         .SourcesFromProject()
-        .References(fun r -> [r.NuGet("FParsec").Reference(); r.Project hc; r.Project hs])
+        .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference(); r.Project hc; r.Project hs])
 
 bt.Solution [
+    common
     hc
     hs
     hm

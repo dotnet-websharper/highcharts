@@ -6,15 +6,13 @@
     <WebSharperProject>InterfaceGenerator</WebSharperProject>
     <OutputPath>../build/net40</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
   <Import Project="../build/net40/$(Name).proj" />
   <Import Project="../msbuild/FSharp.targets" />
   <Target Name="Build" />
   <Target Name="Clean" />
   <ItemGroup>
-    <Compile Include="Json.fs" />
-    <Compile Include="HcJson.fs" />
-    <Compile Include="Definition.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 </Project>
