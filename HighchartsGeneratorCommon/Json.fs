@@ -1,4 +1,4 @@
-﻿module Json
+﻿module HighchartsGeneratorCommon.Json
 
 open FParsec
 

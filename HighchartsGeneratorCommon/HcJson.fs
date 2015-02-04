@@ -1,4 +1,4 @@
-﻿module HcJson
+﻿module HighchartsGeneratorCommon.HcJson
 
 type HcConfig =
     {
@@ -53,29 +53,28 @@ let getObject j    = match j with JObject s -> s | o -> failwithf "not an object
     
 let hasTrue p j = j |> Map.tryFind p = Some (JBool true)
 
-#if INTERACTIVE
-let mutable findErrorKey = null
-let mutable findErrorTable = null 
-
 module Map =
     let find key table =
         try Map.find key table
         with _ ->
-            findErrorKey <- box key
-            findErrorTable <- box table
-            failwith "Map.find error: please check findErrorKey and findErrorTable"
-#endif
+            failwithf "Key not found:\nItem: %A\nMap:%A" key table
    
 let trimAndSplit (tr: string) (s: string) =
     s.TrimStart(tr.[0]).TrimEnd(tr.[1]).Split(tr.[2])
 
-let getValues s =
-    match s with
+let getValues o =
+    match o |> Map.tryFind "values" with
+    | None -> []
+    | Some values ->
+    match values |> getString with
     | null | "" -> []
-    | _ ->
+    | s ->
         s |> trimAndSplit "[]," |> Seq.map (fun i ->
             i.Trim()
         ) |> List.ofSeq
+
+let getReturnType o =
+    o |> Map.tryFind "returnType" |> Option.map getString |> function Some t -> t | _ -> null
 
 let getConfig (j: Json) (members: HcConfig list) =
     let jo = j |> getObject
@@ -83,19 +82,24 @@ let getConfig (j: Json) (members: HcConfig list) =
         {
             Name    = jo |> Map.find "title" |> getString 
             RefName = jo |> Map.find "name" |> getString 
-            Type    = jo |> Map.find "returnType" |> getString
+            Type    = jo |> getReturnType
             Members = members
-            Desc    = jo |> Map.find "description" |> getStringOpt
-            Values  = jo |> Map.find "values" |> getString |> getValues
-            Extends = jo |> Map.find "extending" |> getStringOpt
+            Desc    = jo |> Map.tryFind "description" |> Option.bind getStringOpt
+            Values  = jo |> getValues
+            Extends = jo |> Map.tryFind "extending" |> Option.bind getStringOpt
         }
-    with _ -> failwithf "getConfig error on: %A" (jo |> Map.find "values" |> getString)
+    with e -> failwithf "getConfig error on: %A. Error: %A" (jo |> Map.find "fullname" |> getString) e
+
+let getParent c =
+    match c |> getObject |> Map.tryFind "parent" with
+    | Some p -> getString p
+    | _ -> null
 
 let getConfigs (j: Json) =
     let l = j |> getList
     let nestingMap =
         l |> Seq.filter (fun c -> c |> getObject |> hasTrue "deprecated" |> not)
-        |> Seq.map (fun c -> c |> getObject |> Map.find "parent" |> getString, c)
+        |> Seq.map (fun c -> c |> getParent, c)
         |> Seq.groupBy fst |> Seq.map (fun (k, vl) -> k, vl |> Seq.map snd |> List.ofSeq)
         |> Map.ofSeq
     let rec tr c = 
@@ -129,12 +133,17 @@ let getParam (s: string) =
     with _ ->
         failwithf "getParam error on \"%s\"" s
 
+let getParams o =
+    match o |> Map.tryFind "params" with
+    | Some ps -> ps |> getString |> getParam
+    | None -> []
+
 let getMethod (j: Json) =
     let jo = j |> getObject
     {
         Name       = jo |> Map.find "title" |> getString
-        ReturnType = jo |> Map.find "returnType" |> getString
-        Params     = jo |> Map.find "params" |> getString |> getParam
+        ReturnType = jo |> getReturnType
+        Params     = jo |> getParams
         Desc       = jo |> Map.find "description" |> getStringOpt
     }
 
@@ -142,7 +151,7 @@ let getProperty (j: Json) =
     let jo = j |> getObject
     {
         Name = jo |> Map.find "title" |> getString
-        Type = jo |> Map.find "returnType" |> getString
+        Type = jo |> getReturnType
         Desc = jo |> Map.find "description" |> getStringOpt
     } : HcProperty
 
@@ -158,7 +167,7 @@ let getMember (j: Json) =
 let getObjects (j: Json) =
     let l = j |> getList
     let memberMap =
-        l |> Seq.map (fun c -> c |> getObject |> Map.find "parent" |> getString, c)
+        l |> Seq.map (fun c -> c |> getParent, c)
         |> Seq.groupBy fst |> Seq.map (fun (k, vl) -> k, vl |> Seq.map snd |> List.ofSeq)
         |> Map.ofSeq
     memberMap |> Map.find null |> List.choose (fun o ->
