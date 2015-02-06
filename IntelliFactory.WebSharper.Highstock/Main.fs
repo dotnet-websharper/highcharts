@@ -15,7 +15,7 @@ let Assembly =
         let objects =  
             File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hsobjects.json")  
             |> Json.parse |> HcJson.getObjects
-        Definition.getAssembly Definition.Highcharts configs objects
+        Definition.getAssembly Definition.Highstock configs objects
     with exc ->
         printfn "%A" exc
         reraise()    
