@@ -10,10 +10,10 @@ let ( +/ ) a b = Path.Combine(a, b)
 let Assembly =
     try 
         let configs =
-            File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hsconfigs.json")  
+            File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hcconfigs.json")  
             |> Json.parse |> HcJson.getConfigs
         let objects =  
-            File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hsobjects.json")  
+            File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hcobjects.json")  
             |> Json.parse |> HcJson.getObjects
         Definition.getAssembly Definition.Highstock configs objects
     with exc ->
