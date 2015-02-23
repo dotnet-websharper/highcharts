@@ -2,7 +2,7 @@ module Main
 
 open System.IO
 
-open IntelliFactory.WebSharper.InterfaceGenerator
+open WebSharper.InterfaceGenerator
 open HighchartsGeneratorCommon
 
 let ( +/ ) a b = Path.Combine(a, b)
@@ -28,8 +28,8 @@ let Assembly =
             |> HcJson.getObjects
         let def = 
             Definition.Highmaps {
-                HighchartsRes = T<IntelliFactory.WebSharper.Highcharts.Resources.Highcharts>
-                HighstockRes = T<IntelliFactory.WebSharper.Highstock.Resources.Highstock>
+                HighchartsRes = T<WebSharper.Highcharts.Resources.Highcharts>
+                HighstockRes = T<WebSharper.Highstock.Resources.Highstock>
             }
         Definition.getAssembly def configs objects
     with exc ->
