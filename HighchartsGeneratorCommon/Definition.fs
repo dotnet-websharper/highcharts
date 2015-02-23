@@ -1,7 +1,7 @@
 ﻿module HighchartsGeneratorCommon.Definition
 
-open IntelliFactory.WebSharper
-open IntelliFactory.WebSharper.InterfaceGenerator
+open WebSharper
+open WebSharper.InterfaceGenerator
 
 open HcJson
 
@@ -178,7 +178,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                 | "Highcharts" -> 
                     [
                         "create" => 
-                            T<IntelliFactory.WebSharper.JQuery.JQuery>?container 
+                            T<WebSharper.JQuery.JQuery>?container 
                             * configCls?config 
                             ^-> getRawType "Chart" 
                             |> WithInline (
@@ -201,14 +201,14 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     | Highcharts ->
         let hcRes =
             Resource "Highcharts" "http://code.highcharts.com/highcharts.js"
-            |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+            |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
     
         Assembly [
-            Namespace "IntelliFactory.WebSharper.Highcharts" (
+            Namespace "WebSharper.Highcharts" (
                 !configsList @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
-            Namespace "IntelliFactory.WebSharper.Highcharts.Resources" [
+            Namespace "WebSharper.Highcharts.Resources" [
                 hcRes
 
                 Resource "ExportingModule" "http://code.highcharts.com/modules/exporting.js" 
@@ -224,14 +224,14 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     | Highstock -> 
         let hsRes =
             Resource "Highstock" "http://code.highcharts.com/stock/highstock.js"
-            |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+            |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
 
         Assembly [
-            Namespace "IntelliFactory.WebSharper.Highstock" (
+            Namespace "WebSharper.Highstock" (
                 !configsList @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
-            Namespace "IntelliFactory.WebSharper.Highstock.Resources" [
+            Namespace "WebSharper.Highstock.Resources" [
                 hsRes
 
                 Resource "ExportingModule" "http://code.highcharts.com/stock/modules/exporting.js" 
@@ -247,14 +247,14 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     | Highmaps p ->
     let hmRes =
         Resource "Highmaps" "http://code.highcharts.com/maps/highmaps.js"
-        |> RequiresExternal [ T<IntelliFactory.WebSharper.JQuery.Resources.JQuery> ]
+        |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
 
     Assembly [
-        Namespace "IntelliFactory.WebSharper.Highmaps" (
+        Namespace "WebSharper.Highmaps" (
             !configsList @
             (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
         ) 
-        Namespace "IntelliFactory.WebSharper.Highmaps.Resources" [
+        Namespace "WebSharper.Highmaps.Resources" [
             hmRes
 
             Resource "MapModuleForCharts" "http://code.highcharts.com/maps/modules/map.js" 

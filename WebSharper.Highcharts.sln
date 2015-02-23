@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "IntelliFactory.WebSharper.Highcharts", "IntelliFactory.WebSharper.Highcharts\IntelliFactory.WebSharper.Highcharts.fsproj", "{3603B788-DF1B-4FD7-ACB0-30F04D976FEB}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.Highcharts", "WebSharper.Highcharts\WebSharper.Highcharts.fsproj", "{3603B788-DF1B-4FD7-ACB0-30F04D976FEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A0C9872B-6A84-4EF4-8831-18C733D319F1}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ivy.xml = ivy.xml
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "IntelliFactory.WebSharper.Highstock", "IntelliFactory.WebSharper.Highstock\IntelliFactory.WebSharper.Highstock.fsproj", "{05623267-0679-4047-8444-3FEF91F7DEB7}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.Highstock", "WebSharper.Highstock\WebSharper.Highstock.fsproj", "{05623267-0679-4047-8444-3FEF91F7DEB7}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "IntelliFactory.WebSharper.Highmaps", "IntelliFactory.WebSharper.Highmaps\IntelliFactory.WebSharper.Highmaps.fsproj", "{149BBAA4-D392-48CE-9E6A-45B1F42D7777}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.Highmaps", "WebSharper.Highmaps\WebSharper.Highmaps.fsproj", "{149BBAA4-D392-48CE-9E6A-45B1F42D7777}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HighchartsGeneratorCommon", "HighchartsGeneratorCommon\HighchartsGeneratorCommon.fsproj", "{719A208A-3A73-415E-A173-C434AC503BFE}"
 EndProject

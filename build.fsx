@@ -44,17 +44,17 @@ let common =
         .References(fun r -> [r.NuGet("FParsec").Reference()])
 
 let hc =
-    bt.WebSharper.Extension("IntelliFactory.WebSharper.Highcharts")
+    bt.WebSharper.Extension("WebSharper.Highcharts")
         .SourcesFromProject()
         .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
 
 let hs =
-    bt.WebSharper.Extension("IntelliFactory.WebSharper.Highstock")
+    bt.WebSharper.Extension("WebSharper.Highstock")
         .SourcesFromProject()
         .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
 
 let hm =
-    bt.WebSharper.Extension("IntelliFactory.WebSharper.Highmaps")
+    bt.WebSharper.Extension("WebSharper.Highmaps")
         .SourcesFromProject()
         .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference(); r.Project hc; r.Project hs])
 

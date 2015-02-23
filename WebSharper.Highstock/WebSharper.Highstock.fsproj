@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{05623267-0679-4047-8444-3fef91f7deb7}</ProjectGuid>
-    <Name>IntelliFactory.WebSharper.Highstock</Name>
+    <Name>WebSharper.Highstock</Name>
     <WebSharperProject>InterfaceGenerator</WebSharperProject>
     <OutputPath>../build/net40</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
