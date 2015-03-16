@@ -24,6 +24,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         ref <| Map [
             "Object"             , T<obj>
             "(Object"            , T<obj>
+            "Mixed"              , T<obj>
             "object"             , T<obj>
             "String"             , T<string>
             "Number"             , T<float>
@@ -32,9 +33,11 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             "Color"              , T<string>
             "Colo"               , T<string>
             "CSSObject"          , T<obj>
+            "Array"              , T<obj[]>
             "Array&lt;Mixed&gt;" , T<obj[]>
             "null"               , T<unit>
             "undefined"          , T<unit>
+            "HTMLElement"        , T<JavaScript.Dom.Element>
         ]
 
     let warnTypeCreate = ref false
@@ -44,7 +47,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         | Some t -> t
         | None ->
             if !warnTypeCreate then printfn "Creating type: %s" n
-            let t = Type.New()
+            let t = (Class n).Type
             typeMap := !typeMap |> Map.add n t
             t
 
@@ -187,11 +190,14 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                                 | Highstock -> "$container.highcharts('StockChart', $config)" 
                                 | Highmaps _ -> "$container.highcharts('Map', $config)"
                             ) :> CodeModel.Member
-                        "setOptions" => optionsCls?options ^-> optionsCls :> CodeModel.Member
+                        "setOptions" => optionsCls?options ^-> optionsCls :> _
+                        "renderer" =? getRawType "Renderer" :> _
                     ]
                     @ (members |> List.filter (fun m -> m.Name <> "setOptions"))
                     |> Seq.cast |> List.ofSeq |> Static
-                | "Renderer" -> members |> Seq.cast |> List.ofSeq |> Static
+                | "Renderer" -> 
+                    Constructor (T<JavaScript.Dom.Element>?parentNode * T<int>?width * T<int>?height) :> CodeModel.Member
+                    :: members |> Seq.cast |> List.ofSeq |> Instance
                 | _ -> members |> Seq.cast |> List.ofSeq |> Instance
             )  
             |> WithOptComment o.Desc
