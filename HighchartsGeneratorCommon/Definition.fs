@@ -35,9 +35,15 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             "CSSObject"          , T<obj>
             "Array"              , T<obj[]>
             "Array&lt;Mixed&gt;" , T<obj[]>
+            "Array<Mixed"        , T<obj[]>
+            "Array<String>"      , T<string[]>
             "null"               , T<unit>
             "undefined"          , T<unit>
             "HTMLElement"        , T<JavaScript.Dom.Element>
+            "String|Number"      , T<string> + T<float>
+            "Text"               , T<string>
+            "#CCC"               , T<string>
+            "middle"             , T<string>
         ]
 
     let warnTypeCreate = ref false
