@@ -64,7 +64,7 @@ bt.Solution [
     hs
     hm
 
-    bt.PackageId("WebSharper.Highcharts", "3.0-alpha").NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highcharts", "3.0").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highcharts")
         .Add(hc)
         .Configure(fun c ->
@@ -77,7 +77,7 @@ bt.Solution [
                         dep.PackageId.Contains "FParsec" |> not
                     )
             })
-    bt.PackageId("WebSharper.Highstock", "3.0-alpha").NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highstock", "3.0").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highstock")
         .Add(hs)
         .Configure(fun c ->
@@ -90,7 +90,7 @@ bt.Solution [
                         dep.PackageId.Contains "FParsec" |> not
                     )
             })
-    bt.PackageId("WebSharper.Highmaps", "3.0-alpha").NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highmaps", "3.0").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highmaps")
         .Add(hm)
         .Configure(fun c ->
