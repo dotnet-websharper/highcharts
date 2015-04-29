@@ -40,7 +40,6 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             "null"               , T<unit>
             "undefined"          , T<unit>
             "HTMLElement"        , T<JavaScript.Dom.Element>
-            "String|Number"      , T<string> + T<float>
             "Text"               , T<string>
             "#CCC"               , T<string>
             "middle"             , T<string>
@@ -57,12 +56,12 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             typeMap := !typeMap |> Map.add n t
             t
 
-    let getType (n: string) =
+    let rec getType (n: string) =
         match n with
         | null | "" -> T<unit>
         | _ ->
         if n.StartsWith "Array<" then
-            getRawType (n.[6 ..].TrimEnd(';', '>')) |> Type.ArrayOf
+            getType (n.[6 ..].TrimEnd(';', '>')) |> Type.ArrayOf
         else
             let ts = n.Split '|'
             ts |> Array.map getRawType |> Array.reduce (+)
