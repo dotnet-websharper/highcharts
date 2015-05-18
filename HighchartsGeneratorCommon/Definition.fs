@@ -102,7 +102,14 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     configs |> List.iter addArrayConfigs
 
     let rec getConfig parentName (c: HcConfig) =
-        let name = parentName + capitalize c.Name
+        let seriesType =
+            if c.Name.StartsWith "series<" then
+                Some c.Name.[7 .. c.Name.Length - 2]
+            else None
+        let name = 
+            match seriesType with
+            | Some s -> capitalize s + "Series" 
+            | _ -> parentName + capitalize c.Name
         let pmem, cmem = c.Members |> List.partition (fun cc -> cc.Members = [] && cc.Extends = None)
         let cls =
             Class (name + "Cfg")
@@ -111,7 +118,12 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                 match c.Extends with                  
                 | Some t ->
                     cls |=> Inherits (getRawType t)
-                | _ -> cls
+                | _ -> 
+                match seriesType with
+                | Some s ->
+                    cls |=> Inherits (getRawType "series")
+                | _ ->
+                    cls
             |+> Instance (
                     (
                         pmem |> List.map (fun cc ->
@@ -127,7 +139,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                         )
                     )
                 )
-            |+> Static [ Constructor T<unit> |> WithInline "{}" ] 
+            |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: %s}" s | _ -> "{}") ] 
             |> WithOptComment c.Desc    
         configsList := upcast cls :: !configsList
         cls
