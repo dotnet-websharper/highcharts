@@ -158,7 +158,7 @@ let getProperty (j: Json) =
 let getMember (j: Json) =
     let jo = j |> getObject
     match jo |> Map.find "type" |> getString with
-    | "method" -> getMethod j |> HcMethod 
+    | "method" | "" -> getMethod j |> HcMethod 
     | "property" | "Number" -> getProperty j |> HcProperty
     | "Array<Object>" -> { getProperty j with Type = "Array<Object>" } |> HcProperty
     | "Object" -> { getProperty j with Type = "Object" } |> HcProperty
