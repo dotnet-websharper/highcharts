@@ -6,6 +6,7 @@ let ( +/ ) a b = Path.Combine(a, b)
 
 let bt = 
     BuildTool().VersionFrom("WebSharper")
+        .WithFSharpVersion(FSharpVersion.FSharp30)
         .WithFramework(fun fw -> fw.Net40)
 
 let tempDir = __SOURCE_DIRECTORY__ +/ ".temp"
