@@ -139,7 +139,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                         )
                     )
                 )
-            |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: %s}" s | _ -> "{}") ] 
+            |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: '%s'}" s | _ -> "{}") ] 
             |> WithOptComment c.Desc    
         configsList := upcast cls :: !configsList
         cls
