@@ -32,7 +32,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             "Function"           , T<JavaScript.Function>
             "Color"              , T<string>
             "Colo"               , T<string>
-            "CSSObject"          , T<obj>
+            "CSSObject"          , T<JavaScript.Object<string>>
             "Array"              , T<obj[]>
             "Array&lt;Mixed&gt;" , T<obj[]>
             "Array<Mixed"        , T<obj[]>
@@ -43,6 +43,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             "Text"               , T<string>
             "#CCC"               , T<string>
             "middle"             , T<string>
+            "CSS"                , T<JavaScript.Object<string>>
         ]
 
     let warnTypeCreate = ref false
