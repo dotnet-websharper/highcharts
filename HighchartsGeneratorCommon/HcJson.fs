@@ -162,7 +162,8 @@ let getMember (j: Json) =
     | "property" | "Number" -> getProperty j |> HcProperty
     | "Array<Object>" -> { getProperty j with Type = "Array<Object>" } |> HcProperty
     | "Object" -> { getProperty j with Type = "Object" } |> HcProperty
-    | t -> failwithf "getMember error: type not found: %s" t
+    | "Boolean" -> { getProperty j with Type = "Boolean" } |> HcProperty
+    | t -> failwithf "getMember error: member type not found: %s [should be method, property; if it looks like a value type, add a workaround]" t
 
 let getObjects (j: Json) =
     let l = j |> getList
