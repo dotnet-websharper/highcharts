@@ -189,7 +189,9 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                 | HcProperty p ->
                     p.Name =@ getType p.Type |> WithOptComment p.Desc :> CodeModel.Member  
                 | HcMethod m ->
-                    m.Name => getParams m.Params ^-> getType m.ReturnType :> CodeModel.Member
+                    let meth = m.Name => getParams m.Params ^-> getType m.ReturnType 
+                    if m.Name = "chart" || m.Name = "stockChart" then meth |> WithSourceName m.Name else meth
+                    :> CodeModel.Member
             )
         let cls = 
             Class o.Name
