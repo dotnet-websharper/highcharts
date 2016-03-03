@@ -79,15 +79,20 @@ let getReturnType o =
 let getConfig (j: Json) (members: HcConfig list) =
     let jo = j |> getObject
     try
-        {
-            Name    = jo |> Map.find "title" |> getString 
-            RefName = jo |> Map.find "name" |> getString 
-            Type    = jo |> getReturnType
-            Members = members
-            Desc    = jo |> Map.tryFind "description" |> Option.bind getStringOpt
-            Values  = jo |> getValues
-            Extends = jo |> Map.tryFind "extending" |> Option.bind getStringOpt
-        }
+        let conf =
+            {
+                Name    = jo |> Map.find "title" |> getString
+                RefName = jo |> Map.find "name" |> getString 
+                Type    = jo |> getReturnType
+                Members = members
+                Desc    = jo |> Map.tryFind "description" |> Option.bind getStringOpt
+                Values  = jo |> getValues
+                Extends = jo |> Map.tryFind "extending" |> Option.bind getStringOpt
+            }
+        if System.String.IsNullOrEmpty conf.Name then
+            printfn "Warning: config definition of '%s' ignored because of invalid name: %O" (jo |> Map.find "fullname" |> getString) j
+            None
+        else Some conf
     with e -> failwithf "getConfig error on: %A. Error: %A" (jo |> Map.find "fullname" |> getString) e
 
 let getParent c =
@@ -105,11 +110,11 @@ let getConfigs (j: Json) =
     let rec tr c = 
         let co = c |> getObject
         match nestingMap |> Map.tryFind (co |> Map.find "name" |> getString) with
-        | Some mem -> List.map tr mem
+        | Some mem -> List.choose tr mem
         | _ -> []
         |> getConfig c
     
-    nestingMap |> Map.find null |> List.map tr
+    nestingMap |> Map.find null |> List.choose tr
 
 let getParam (s: string) =
     try
@@ -155,15 +160,21 @@ let getProperty (j: Json) =
         Desc = jo |> Map.find "description" |> getStringOpt
     } : HcProperty
 
-let getMember (j: Json) =
+let getMember name (j: Json) =
     let jo = j |> getObject
-    match jo |> Map.find "type" |> getString with
-    | "method" | "" -> getMethod j |> HcMethod 
-    | "property" | "Number" -> getProperty j |> HcProperty
-    | "Array<Object>" -> { getProperty j with Type = "Array<Object>" } |> HcProperty
-    | "Object" -> { getProperty j with Type = "Object" } |> HcProperty
-    | "Boolean" -> { getProperty j with Type = "Boolean" } |> HcProperty
-    | t -> failwithf "getMember error: member type not found: %s [should be method, property; if it looks like a value type, add a workaround]" t
+    let mem =
+        match jo |> Map.find "type" |> getString with
+        | "method" | "" -> getMethod j |> HcMethod 
+        | "property" | "Number" -> getProperty j |> HcProperty
+        | "Array<Object>" -> { getProperty j with Type = "Array<Object>" } |> HcProperty
+        | "Object" -> { getProperty j with Type = "Object" } |> HcProperty
+        | "Boolean" -> { getProperty j with Type = "Boolean" } |> HcProperty
+        | t -> failwithf "getMember error: member type not found: %s [should be method, property; if it looks like a value type, add a workaround]" t
+    match mem with
+    | (HcMethod { Name = n } | HcProperty { Name = n }) when System.String.IsNullOrEmpty n ->
+        printfn "Warning: member of '%s' ignored because of invalid name: %O" name j
+        None
+    | _ -> Some mem
 
 let getObjects (j: Json) =
     let l = j |> getList
@@ -174,10 +185,13 @@ let getObjects (j: Json) =
     memberMap |> Map.find null |> List.choose (fun o ->
         let oo = o |> getObject
         let name = oo |> Map.find "title" |> getString
-        if name = null then None else
+        if System.String.IsNullOrEmpty name then 
+            printfn "Warning: object definition ignored because of invalid name: %O" j
+            None
+        else
         Some {
             Name    = name
             Desc    = oo |> Map.find "description" |> getStringOpt
-            Members = memberMap |> Map.find name |> List.map getMember
+            Members = memberMap |> Map.find name |> List.choose (getMember name)
         }
     )
