@@ -10,6 +10,15 @@ type Json =
     | JList   of Json list
     | JObject of Map<string, Json>
 
+    override this.ToString() =
+        match this with
+        | JNull     -> "null"
+        | JString s -> "'" + s + "'"
+        | JNumber n -> string n
+        | JBool   b -> string b
+        | JList   l -> "[" + (l |> Seq.map string |> String.concat ", ") + "]"
+        | JObject o -> "{" + (o |> Seq.map (fun (KeyValue (k, v)) -> k + ":" + string v) |> String.concat ", ") + "}"
+
 let parse =
     let str s = pstring s
     let ws = spaces
