@@ -111,7 +111,9 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             match seriesType with
             | Some s -> capitalize s + "Series" 
             | _ -> parentName + capitalize c.Name
-        let pmem, cmem = c.Members |> List.partition (fun cc -> cc.Members = [] && cc.Extends = None)
+        let pmem, cmem = 
+            c.Members |> Seq.distinctBy (fun m -> m.Name) |> List.ofSeq
+            |> List.partition (fun cc -> cc.Members = [] && cc.Extends = None)
         let cls =
             Class (name + "Cfg")
             |=> getRawType c.RefName
