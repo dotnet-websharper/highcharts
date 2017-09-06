@@ -1,11 +1,11 @@
-﻿#load "tools/includes.fsx"
+#load "tools/includes.fsx"
 open IntelliFactory.Build
 
 open System.IO
 let ( +/ ) a b = Path.Combine(a, b)
 
 let bt = 
-    BuildTool().VersionFrom("Zafir")
+    BuildTool().VersionFrom("WebSharper")
         .WithFSharpVersion(FSharpVersion.FSharp30)
         .WithFramework(fun fw -> fw.Net40)
 
@@ -40,22 +40,22 @@ do  use cl = new System.Net.WebClient()
     )
 
 let common =
-    bt.Zafir.Library("HighchartsGeneratorCommon")
+    bt.WebSharper4.Library("HighchartsGeneratorCommon")
         .SourcesFromProject()
         .References(fun r -> [r.NuGet("FParsec").Reference()])
 
 let hc =
-    bt.Zafir.Extension("WebSharper.Highcharts")
+    bt.WebSharper4.Extension("WebSharper.Highcharts")
         .SourcesFromProject()
         .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
 
 let hs =
-    bt.Zafir.Extension("WebSharper.Highstock")
+    bt.WebSharper4.Extension("WebSharper.Highstock")
         .SourcesFromProject()
         .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
 
 let hm =
-    bt.Zafir.Extension("WebSharper.Highmaps")
+    bt.WebSharper4.Extension("WebSharper.Highmaps")
         .SourcesFromProject()
         .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference(); r.Project hc; r.Project hs])
 
@@ -65,40 +65,40 @@ bt.Solution [
     hs
     hm
 
-    bt.PackageId("Zafir.Highcharts").NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highcharts").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highcharts")
         .Add(hc)
         .Configure(fun c ->
             { c with
                 Authors = ["IntelliFactory"]
-                Id = "Zafir.Highcharts"
-                Title = Some ("Zafir.Highcharts")
+                Id = "WebSharper.Highcharts"
+                Title = Some ("WebSharper.Highcharts")
                 NuGetReferences =
                     c.NuGetReferences |> List.filter (fun dep -> 
                         dep.PackageId.Contains "FParsec" |> not
                     )
             })
-    bt.PackageId("Zafir.Highstock").NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highstock").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highstock")
         .Add(hs)
         .Configure(fun c ->
             { c with
                 Authors = ["IntelliFactory"]
-                Id = "Zafir.Highstock"
-                Title = Some ("Zafir.Highstock")
+                Id = "WebSharper.Highstock"
+                Title = Some ("WebSharper.Highstock")
                 NuGetReferences =
                     c.NuGetReferences |> List.filter (fun dep -> 
                         dep.PackageId.Contains "FParsec" |> not
                     )
             })
-    bt.PackageId("Zafir.Highmaps").NuGet.CreatePackage()
+    bt.PackageId("WebSharper.Highmaps").NuGet.CreatePackage()
         .Description("WebSharper bindings to Highmaps")
         .Add(hm)
         .Configure(fun c ->
             { c with
                 Authors = ["IntelliFactory"]
-                Id = "Zafir.Highmaps"
-                Title = Some ("Zafir.Highmaps")
+                Id = "WebSharper.Highmaps"
+                Title = Some ("WebSharper.Highmaps")
                 NuGetReferences =
                     c.NuGetReferences |> List.filter (fun dep -> 
                         dep.PackageId.Contains "FParsec" |> not

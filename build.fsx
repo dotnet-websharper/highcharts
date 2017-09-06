@@ -1,11 +1,11 @@
-﻿#load "tools/includes.fsx"
+#load "tools/includes.fsx"
 open IntelliFactory.Build
 
 open System.IO
 let ( +/ ) a b = Path.Combine(a, b)
 
 let bt = 
-    BuildTool().VersionFrom("WebSharper")
+    BuildTool().VersionFrom("WebSharper", versionSpec = "(,4.0)")
         .WithFSharpVersion(FSharpVersion.FSharp30)
         .WithFramework(fun fw -> fw.Net40)
 
