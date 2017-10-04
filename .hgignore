@@ -2,4 +2,3 @@
 ^packages/
 ^tools/packages/
 \.suo$
-^.temp/
