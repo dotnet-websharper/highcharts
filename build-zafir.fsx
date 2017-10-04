@@ -11,33 +11,19 @@ let bt =
 
 let tempDir = __SOURCE_DIRECTORY__ +/ ".temp"
 
-Directory.CreateDirectory tempDir |> ignore
+//Directory.CreateDirectory tempDir |> ignore
 
-do  use cl = new System.Net.WebClient()
-    cl.DownloadFile(
-        "http://api.highcharts.com/highcharts/option/dump.json", 
-        tempDir +/ "hcconfigs.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highcharts/object/dump.json", 
-        tempDir +/ "hcobjects.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highstock/option/dump.json", 
-        tempDir +/ "hsconfigs.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highstock/object/dump.json", 
-        tempDir +/ "hsobjects.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highmaps/option/dump.json", 
-        tempDir +/ "hmconfigs.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highmaps/object/dump.json", 
-        tempDir +/ "hmobjects.json"
-    )
+//do  use cl = new System.Net.WebClient()
+//    let download (url: string) name =
+//        try cl.DownloadFile(url, tempDir +/ name)
+//        with _ -> failwithf "Failed to download %s" url 
+//
+//    download "http://api.highcharts.com/highcharts/option/dump.json" "hcconfigs.json"
+//    download "http://api.highcharts.com/highcharts/object/dump.json" "hcobjects.json"
+//    download "http://api.highcharts.com/highstock/option/dump.json" "hsconfigs.json"
+//    download "http://api.highcharts.com/highstock/object/dump.json" "hsobjects.json"
+//    download "http://api.highcharts.com/highmaps/option/dump.json" "hmconfigs.json"
+//    download "http://api.highcharts.com/highmaps/object/dump.json" "hmobjects.json"
 
 let common =
     bt.WebSharper4.Library("HighchartsGeneratorCommon")
