@@ -1,0 +1,18 @@
+type file
+id WebSharper.Highcharts
+authors
+    IntelliFactory
+owners
+    IntelliFactory
+
+
+description
+    WebSharper bindings to Highcharts
+tags
+    Web JavaScript F# C#
+files
+    ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.dll ==> lib/netstandard2.0
+    ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.xml ==> lib/netstandard2.0
+dependencies
+        WebSharper ~> LOCKEDVERSION/3
+        FParsec ~> LOCKEDVERSION/3
