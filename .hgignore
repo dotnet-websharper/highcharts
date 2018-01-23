@@ -1,4 +1,11 @@
-^build/
-^packages/
-^tools/packages/
-\.suo$
+syntax: glob
+
+build/
+packages/
+*.suo
+bin/
+obj/
+paket-files/
+.fake/
+nuget/*.paket.template
+WebSharper.Highcharts.Tests/Content/

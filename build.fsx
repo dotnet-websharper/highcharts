@@ -1,108 +1,17 @@
-#load "tools/includes.fsx"
-open IntelliFactory.Build
+#load "paket-files/build/intellifactory/websharper/tools/WebSharper.Fake.fsx"
+open Fake
+open WebSharper.Fake
 
-open System.IO
-let ( +/ ) a b = Path.Combine(a, b)
+let targets =
+    GetSemVerOf "WebSharper"
+    |> ComputeVersion
+    |> WSTargets.Default
+    |> MakeTargets
 
-let bt = 
-    BuildTool().VersionFrom("WebSharper", versionSpec = "(,4.0)")
-        .WithFSharpVersion(FSharpVersion.FSharp30)
-        .WithFramework(fun fw -> fw.Net40)
+Target "Build" DoNothing
+targets.BuildDebug ==> "Build"
 
-let tempDir = __SOURCE_DIRECTORY__ +/ ".temp"
+Target "CI-Release" DoNothing
+targets.CommitPublish ==> "CI-Release"
 
-Directory.CreateDirectory tempDir |> ignore
-
-do  use cl = new System.Net.WebClient()
-    cl.DownloadFile(
-        "http://api.highcharts.com/highcharts/option/dump.json", 
-        tempDir +/ "hcconfigs.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highcharts/object/dump.json", 
-        tempDir +/ "hcobjects.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highstock/option/dump.json", 
-        tempDir +/ "hsconfigs.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highstock/object/dump.json", 
-        tempDir +/ "hsobjects.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highmaps/option/dump.json", 
-        tempDir +/ "hmconfigs.json"
-    )
-    cl.DownloadFile(
-        "http://api.highcharts.com/highmaps/object/dump.json", 
-        tempDir +/ "hmobjects.json"
-    )
-
-let common =
-    bt.WebSharper.Library("HighchartsGeneratorCommon")
-        .SourcesFromProject()
-        .References(fun r -> [r.NuGet("FParsec").Reference()])
-
-let hc =
-    bt.WebSharper.Extension("WebSharper.Highcharts")
-        .SourcesFromProject()
-        .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
-
-let hs =
-    bt.WebSharper.Extension("WebSharper.Highstock")
-        .SourcesFromProject()
-        .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference()])
-
-let hm =
-    bt.WebSharper.Extension("WebSharper.Highmaps")
-        .SourcesFromProject()
-        .References(fun r -> [r.Project common; r.NuGet("FParsec").Reference(); r.Project hc; r.Project hs])
-
-bt.Solution [
-    common
-    hc
-    hs
-    hm
-
-    bt.PackageId("WebSharper.Highcharts").NuGet.CreatePackage()
-        .Description("WebSharper bindings to Highcharts")
-        .Add(hc)
-        .Configure(fun c ->
-            { c with
-                Authors = ["IntelliFactory"]
-                Id = "WebSharper.Highcharts"
-                Title = Some ("WebSharper.Highcharts")
-                NuGetReferences =
-                    c.NuGetReferences |> List.filter (fun dep -> 
-                        dep.PackageId.Contains "FParsec" |> not
-                    )
-            })
-    bt.PackageId("WebSharper.Highstock").NuGet.CreatePackage()
-        .Description("WebSharper bindings to Highstock")
-        .Add(hs)
-        .Configure(fun c ->
-            { c with
-                Authors = ["IntelliFactory"]
-                Id = "WebSharper.Highstock"
-                Title = Some ("WebSharper.Highstock")
-                NuGetReferences =
-                    c.NuGetReferences |> List.filter (fun dep -> 
-                        dep.PackageId.Contains "FParsec" |> not
-                    )
-            })
-    bt.PackageId("WebSharper.Highmaps").NuGet.CreatePackage()
-        .Description("WebSharper bindings to Highmaps")
-        .Add(hm)
-        .Configure(fun c ->
-            { c with
-                Authors = ["IntelliFactory"]
-                Id = "WebSharper.Highmaps"
-                Title = Some ("WebSharper.Highmaps")
-                NuGetReferences =
-                    c.NuGetReferences |> List.filter (fun dep -> 
-                        dep.PackageId.Contains "FParsec" |> not
-                    )
-            })
-]
-|> bt.Dispatch
+RunTargetOrDefault "Build"

@@ -1,20 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{719a208a-3a73-415e-a173-c434ac503bfe}</ProjectGuid>
-    <Name>HighchartsGeneratorCommon</Name>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <WebSharperProject>Library</WebSharperProject>
-    <OutputPath>../build/net40</OutputPath>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <OutputType>Library</OutputType>
-    <TargetFrameworkProfile />  </PropertyGroup>
-  <Import Project="../build/net40/$(Name).proj" />
-  <Import Project="../msbuild/FSharp.targets" />
-  <Target Name="Build" />
-  <Target Name="Clean" />
+    <WebSharperSourceMap>false</WebSharperSourceMap>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Json.fs" />
     <Compile Include="HcJson.fs" />
     <Compile Include="Definition.fs" />
   </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
