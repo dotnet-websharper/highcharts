@@ -11,8 +11,8 @@ description
 tags
     Web JavaScript F# C#
 files
-    ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.dll ==> lib/net461
-    ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.xml ==> lib/net461
+    ../WebSharper.Highcharts/bin/Release/net461/WebSharper.Highcharts.dll ==> lib/net461
+    ../WebSharper.Highcharts/bin/Release/net461/WebSharper.Highcharts.xml ==> lib/net461
     ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.dll ==> lib/netstandard2.0
     ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.xml ==> lib/netstandard2.0
 dependencies
