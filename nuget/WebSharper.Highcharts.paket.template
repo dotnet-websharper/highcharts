@@ -16,5 +16,5 @@ files
     ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.dll ==> lib/netstandard2.0
     ../WebSharper.Highcharts/bin/Release/netstandard2.0/WebSharper.Highcharts.xml ==> lib/netstandard2.0
 dependencies
-        WebSharper ~> LOCKEDVERSION/3
-        FParsec ~> LOCKEDVERSION/3
+        WebSharper ~> LOCKEDVERSION:[3]
+        FParsec ~> LOCKEDVERSION:[3]

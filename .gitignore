@@ -5,5 +5,4 @@ bin/
 obj/
 paket-files/
 .fake/
-nuget/*.paket.template
 WebSharper.Highcharts.Tests/Content/

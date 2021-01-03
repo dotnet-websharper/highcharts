@@ -16,5 +16,5 @@ files
     ../WebSharper.Highstock/bin/Release/netstandard2.0/WebSharper.Highstock.dll ==> lib/netstandard2.0
     ../WebSharper.Highstock/bin/Release/netstandard2.0/WebSharper.Highstock.xml ==> lib/netstandard2.0
 dependencies
-        WebSharper ~> LOCKEDVERSION/3
-        FParsec ~> LOCKEDVERSION/3
+        WebSharper ~> LOCKEDVERSION:[3]
+        FParsec ~> LOCKEDVERSION:[3]
