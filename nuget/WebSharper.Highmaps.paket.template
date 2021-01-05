@@ -11,10 +11,9 @@ description
 tags
     Web JavaScript F# C#
 files
-    ../WebSharper.Highmaps/bin/Release/net461/WebSharper.Highmaps.dll ==> lib/net461
-    ../WebSharper.Highmaps/bin/Release/net461/WebSharper.Highmaps.xml ==> lib/net461
     ../WebSharper.Highmaps/bin/Release/netstandard2.0/WebSharper.Highmaps.dll ==> lib/netstandard2.0
     ../WebSharper.Highmaps/bin/Release/netstandard2.0/WebSharper.Highmaps.xml ==> lib/netstandard2.0
 dependencies
-        WebSharper ~> LOCKEDVERSION:[3]
-        FParsec ~> LOCKEDVERSION:[3]
+    framework: netstandard2.0
+            WebSharper ~> LOCKEDVERSION:[3]
+            FParsec ~> LOCKEDVERSION:[3]
