@@ -1,20 +1,20 @@
 type file
 id WebSharper.Highstock
-authors
-    IntelliFactory
-owners
-    IntelliFactory
-
-
+authors IntelliFactory
+owners IntelliFactory
+projectUrl https://websharper.com/
+repositoryType git
+repositoryUrl https://github.com/dotnet-websharper/highcharts/
+licenseUrl https://github.com/dotnet-websharper/highcharts/blob/master/LICENSE.md
+iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
 description
     WebSharper bindings to Highstock
 tags
     Web JavaScript F# C#
 files
-    ../WebSharper.Highstock/bin/Release/net461/WebSharper.Highstock.dll ==> lib/net461
-    ../WebSharper.Highstock/bin/Release/net461/WebSharper.Highstock.xml ==> lib/net461
     ../WebSharper.Highstock/bin/Release/netstandard2.0/WebSharper.Highstock.dll ==> lib/netstandard2.0
     ../WebSharper.Highstock/bin/Release/netstandard2.0/WebSharper.Highstock.xml ==> lib/netstandard2.0
 dependencies
+    framework: netstandard2.0
         WebSharper ~> LOCKEDVERSION:[3]
         FParsec ~> LOCKEDVERSION:[3]

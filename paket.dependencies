@@ -1,18 +1,16 @@
 source https://api.nuget.org/v3/index.json
 source https://daily.websharper.com/nuget
 
-framework: net461, netstandard2.0
+framework: net5.0, netstandard2.0
 strategy: min
 storage: none
 
+nuget FSharp.Core 5.0.0
+nuget FParsec
 nuget WebSharper prerelease
 nuget WebSharper.FSharp prerelease
-nuget FParsec 
 nuget WebSharper.UI prerelease
-nuget HtmlAgilityPack 1.11.0
-nuget System.Net.Http 4.3.2
-nuget Microsoft.NETCore.Platforms 1.1.0
-nuget FSharp.Core ~> 4.2.0
+nuget WebSharper.JQuery prerelease
 
 group wsbuild
-    git https://github.com/dotnet-websharper/build-script dotnettool
+    git https://github.com/dotnet-websharper/build-script websharper50

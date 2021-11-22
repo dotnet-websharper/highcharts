@@ -6,3 +6,4 @@ obj/
 paket-files/
 .fake/
 WebSharper.Highcharts.Tests/Content/
+.vs/
