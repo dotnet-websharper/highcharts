@@ -20,15 +20,14 @@ nuget Paket.Core //"
 #endif
 
 #load "paket-files/wsbuild/github.com/dotnet-websharper/build-script/WebSharper.Fake.fsx"
-open Fake.Core
-open Fake.Core.TargetOperators
-open Fake.DotNet
-open Fake.IO
-open Fake.IO.FileSystemOperators
 open WebSharper.Fake
 
-let targets =
-    WSTargets.Default (fun () -> GetSemVerOf "WebSharper" |> ComputeVersion)
-    |> MakeTargets
+let WithProjects projects args =
+    { args with BuildAction = Projects projects }
 
-Target.runOrDefault "Build"
+LazyVersionFrom "WebSharper" |> WSTargets.Default
+|> WithProjects [
+    "WebSharper.Highcharts.sln"
+]
+|> MakeTargets
+|> RunTargets
