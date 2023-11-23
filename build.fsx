@@ -22,11 +22,22 @@ nuget Paket.Core prerelease //"
 
 #load "paket-files/wsbuild/github.com/dotnet-websharper/build-script/WebSharper.Fake.fsx"
 open WebSharper.Fake
+open Fake.DotNet
 
 let WithProjects projects args =
     { args with BuildAction = Projects projects }
 
 LazyVersionFrom "WebSharper" |> WSTargets.Default
+|> fun args ->
+    { args with
+        Attributes =
+                [
+                    AssemblyInfo.Company "IntelliFactory"
+                    AssemblyInfo.Copyright "(c) IntelliFactory 2023"
+                    AssemblyInfo.Title "https://github.com/dotnet-websharper/highcharts"
+                    AssemblyInfo.Product "WebSharper Highcharts"
+                ]
+    }
 |> WithProjects [
     "WebSharper.Highcharts.sln"
 ]
