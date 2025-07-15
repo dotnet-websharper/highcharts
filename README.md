@@ -28,26 +28,13 @@ Sometimes a config property can accept multiple types, for example an array inst
 function to cast it to the required type. As this cast is erased from the
 resulting JavaScript code, the library works as intended.
 
-## Resources
+## Npm setup
 
-If you want to use Highcharts only, use this line on your `JavaScript` annotated code or `Web.Config` class. 
+Include the `highcharts` npm package in your web project.
 
-```
-open IntelliFactory.WebSharper.Highcharts
+## Licensing
 
-[<Require(typeof<Resources.Highcharts>)>]
-```
-
-Highstock contains Highcharts, so just add `Resources.Highstock` instead and this will
-enable using the Highcharts functions too.
-
-Highmaps is available as an extension to either Highcharts or Highstock.
-Use one of these lines to get the correct extension module:
-
-```
-[<Require(typeof<Resources.MapModuleForCharts>)>]
-[<Require(typeof<Resources.MapModuleForStock>)>]
-```
+For using Highcharts for any public product, aquire a license from https://shop.highcharts.com/ or for non-profits apply for a Educational/Personal license https://www.highcharts.com/blog/education/ 
 
 [hc]: http://www.highcharts.com/
 [hcapi]: http://api.highcharts.com/highcharts
