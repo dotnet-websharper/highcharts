@@ -116,6 +116,218 @@ let getType name (types: string list) =
 let isInProduct product (info: CfgInfo) =
     info.Products |> List.isEmpty || info.Products |> List.exists (fun p -> p = product)
 
+let axis = Class "Axis"
+let chart = Class "Chart"
+let legend = Class "Legend"
+let point = Class "Point"   
+let series = Class "Series"
+
+do
+    axis
+    |+> Instance [
+        "categories" =? T<string []>
+        "chart" =@ chart
+        "coll" =@ T<string>
+        "crosshair" =@ (T<bool> + T<obj>)
+        "horiz" =@ !? T<bool>
+        "isXAxis" =@ !? T<bool>
+        "len" =@ T<float>
+        "max" =@ !? T<float>
+        "min" =@ !? T<float>
+        "minorTicks" =@ T<obj>
+        "options" =@ T<obj>
+        "pos" =@ T<float>
+        "reversed" =@ T<bool>
+        "series" =@ !| series
+        "side" =@ T<float>
+        "tickPositions" =@ !? T<float []>
+        "ticks" =@ T<obj>
+        "userOptions" =@ T<obj>
+        "addPlotBand" => T<obj> ^-> !? T<obj>
+        "addPlotLine" => T<obj> ^-> !? T<obj>
+        "addTitle" => !? T<bool> ^-> T<unit>
+        "defaultLabelFormatter" => !? T<obj> ^-> T<string>
+        "drawCrosshair" => !? T<obj> * !? point ^-> T<unit>
+        "drilldownCategory" => T<float> * !? T<obj> ^-> T<unit>
+        "getExtremes" => T<unit> ^-> T<obj>
+        "getLinePath" => T<float> ^-> T<obj>
+        "getLinearTickPositions" => T<float> * T<float> * T<float> ^-> T<float []>
+        "getMinorTickInterval" => T<unit> ^-> (T<float> + T<string> + T<unit>)
+        "getMinorTickPositions" => T<unit> ^-> T<float []>
+        "getPlotBandPath" => T<float> * T<float> * T<obj> ^-> T<obj>
+        "getPlotLinePath" => T<obj> ^-> !? T<obj>
+        "getThreshold" => T<float> ^-> T<float>
+        "hasData" => T<unit> ^-> T<bool>
+        "hideCrosshair" => T<unit> ^-> T<unit>
+        "init" => chart * T<obj> ^-> T<unit>
+        "remove" => !? T<bool> ^-> T<unit>
+        "removePlotBand" => T<string> ^-> T<unit>
+        "removePlotLine" => T<string> ^-> T<unit>
+        "renderLine" => T<unit> ^-> T<unit>
+        "renderMinorTick" => T<float> * T<bool> ^-> T<unit>
+        "renderTick" => T<float> * T<float> * T<bool> ^-> T<unit>
+        "setCategories" => T<string []> * !? T<bool> ^-> T<unit>
+        "setExtremes" => !? (T<float> + T<string>) * !? (T<float> + T<string>) * !? T<bool> * !? (T<bool> + T<obj>) * !? T<obj> ^-> T<unit>
+        "setTitle" => T<obj> * !? T<bool> ^-> T<unit>
+        "toPixels" => (T<float> + T<string>) * !? T<bool> ^-> T<float>
+        "toValue" => T<float> * !? T<bool> ^-> T<float>
+        "update" => T<obj> * !? T<bool> ^-> T<unit>
+    ] |> ignore
+
+    chart
+    |+> Instance [
+        "axes" =@ !| axis
+        "chartHeight" =@ T<float>
+        "chartWidth" =@ T<float>
+        "container" =@ T<obj>
+        "credits" =@ T<obj>
+        "data" =@ !? T<obj>
+        "exporting" =@ T<obj>
+        "hoverPoint" =@ (point + T<obj>)
+        "hoverPoints" =@ (!| point + T<obj>)
+        "hoverSeries" =@ (series + T<obj>)
+        "index" =? T<float>
+        "inverted" =@ !? T<bool>
+        "legend" =@ legend
+        "numberFormatter" =@ T<obj>
+        "options" =@ T<obj>
+        "plotHeight" =@ T<float>
+        "plotLeft" =@ T<float>
+        "plotTop" =@ T<float>
+        "plotWidth" =@ T<float>
+        "pointer" =@ T<obj>
+        "renderer" =@ T<obj>
+        "series" =@ !| series
+        "sonification" =@ !? T<obj>
+        "styledMode" =@ T<bool>
+        "subtitle" =@ T<obj>
+        "time" =@ T<obj>
+        "title" =@ T<obj>
+        "tooltip" =@ T<obj>
+        "userOptions" =@ T<obj>
+        "xAxis" =@ !| axis
+        "yAxis" =@ !| axis
+        "addAnnotation" => T<obj> * !? T<bool> ^-> T<obj>
+        "addAxis" => T<obj> * !? T<bool> * !? T<bool> * !? (T<bool> + T<obj>) ^-> axis
+        "addColorAxis" => T<obj> * !? T<bool> * !? (T<bool> + T<obj>) ^-> axis
+        "addCredits" => !? T<obj> ^-> T<unit>
+        "addSeries" => T<obj> * !? T<bool> * !? (T<bool> + T<obj>) ^-> series
+        "addSeriesAsDrilldown" => point * T<obj> ^-> T<unit>
+        "destroy" => T<unit> ^-> T<unit>
+        "drillUp" => T<unit> ^-> T<unit>
+        "fromLatLonToPoint" => T<obj> ^-> T<obj>
+        "fromPointToLatLon" => (point + T<obj>) ^-> !? T<obj>
+        "get" => T<string> ^-> !? (axis + series + point)
+        "getOptions" => T<unit> ^-> T<obj>
+        "getSelectedPoints" => T<unit> ^-> !| point
+        "getSelectedSeries" => T<unit> ^-> !| series
+        "init" => T<obj> * !? T<obj> ^-> T<unit>
+        "isInsidePlot" => T<float> * T<float> * !? T<obj> ^-> T<bool>
+        "langFormat" => T<string> * T<obj> ^-> T<string>
+        "mapZoom" => !? T<float> * !? T<float> * !? T<float> * !? T<float> * !? T<float> ^-> T<unit>
+        "redraw" => !? (T<bool> + T<obj>) ^-> T<unit>
+        "reflow" => !? T<obj> ^-> T<unit>
+        "removeAnnotation" => (T<float> + T<string> + T<obj>) ^-> T<unit>
+        "setCaption" => T<obj> ^-> T<unit>
+        "setClassName" => !? T<string> ^-> T<unit>
+        "setSize" => !? T<float> * !? T<float> * !? (T<bool> + T<obj>) ^-> T<unit>
+    ] |> ignore
+
+    legend
+    |+> Instance [
+        "allItems" =? !|(point + series)
+        "box" =? T<obj>
+        "chart" =? chart
+        "group" =? T<obj>
+        "options" =? T<obj>
+        "title" =? T<obj>
+        "setText" => (point + series) ^-> T<unit>
+        "update" => T<obj> * !? T<bool> ^-> T<unit>
+    ] |> ignore
+
+    point
+    |+> Instance [
+        "category" =@ (T<float> + T<string>)
+        "colorIndex" =@ !? T<float>
+        "dataGroup" =@ !? T<obj>
+        "graphic" =@ !? T<obj>
+        "graphics" =@ !? (T<obj []>)
+        "high" =@ !? T<float>
+        "index" =? T<float>
+        "key" =@ (T<float> + T<string>)
+        "low" =@ !? T<float>
+        "name" =@ T<string>
+        "options" =@ T<obj>
+        "percentage" =@ !? T<float>
+        "plotX" =@ !? T<float>
+        "plotY" =@ !? T<float>
+        "points" =@ !? (!|TSelf)
+        "properties" =@ T<obj>
+        "selected" =@ T<bool>
+        "series" =@ series
+        "total" =@ !? T<float>
+        "tooltipPoints" =@ !? (!|TSelf)
+        "visible" =@ T<bool>
+        "x" =@ T<float>
+        "y" =@ !? T<float>
+        "firePointEvent" => T<string> * !? T<obj> * !? T<obj> ^-> T<unit>
+        "haloPath" => T<float> ^-> T<obj>
+        "remove" => !? T<bool> * !? (T<bool> + T<obj>) ^-> T<unit>
+        "select" => !? T<bool> * !? T<bool> ^-> T<unit>
+        "update" => (T<float> + T<string> + T<float []> + T<obj>) * !? T<bool> * !? (T<bool> + T<obj>) ^-> T<unit>
+    ] |> ignore
+
+    series 
+    |+> Static [
+        "registerType" => T<string> * T<obj> ^-> T<unit>
+        "types" =? T<obj>
+    ]
+    |+> Instance [
+        "center" =? T<float []>
+        "chart" =? chart
+        "color" =@ !? T<obj>
+        "data" =? !| point
+        "dataMax" =? !? T<float>
+        "dataMin" =? !? T<float>
+        "index" =? T<float>
+        "legendItem" =@ !? T<obj>
+        "linkedParent" =? TSelf
+        "linkedSeries" =? !|TSelf
+        "name" =@ T<string>
+        "options" =? T<obj>
+        "points" =? !| point
+        "selected" =? T<bool>
+        "type" =? T<string>
+        "userOptions" =@ T<obj>
+        "visible" =? T<bool>
+        "xAxis" =? axis
+        "yAxis" =? axis
+        "addPoint" => T<obj> * !? T<bool> * !? T<bool> * !? (T<bool> + T<obj>) * !? T<bool> ^-> T<unit>
+        "animate" => !? T<bool> ^-> T<unit>
+        "drawPoints" => T<unit> ^-> T<unit>
+        "getName" => T<unit> ^-> T<string>
+        "getPlotBox" => T<unit> ^-> T<obj>
+        "getValidPoints" => !? !| point * !? T<bool> * !? T<bool> ^-> !| point
+        "groupData" => T<obj> * T<float []> * !? (T<string> + T<obj>) ^-> T<unit>
+        "hide" => T<unit> ^-> T<unit>
+        "is" => T<string> ^-> T<bool>
+        "markerAttribs" => point * !? T<string> ^-> T<obj>
+        "onMouseOut" => T<unit> ^-> T<unit>
+        "onMouseOver" => T<unit> ^-> T<unit>
+        "remove" => !? T<bool> * !? (T<bool> + T<obj>) * !? T<bool> ^-> T<unit>
+        "removePoint" => T<float> * !? T<bool> * !? (T<bool> + T<obj>) ^-> T<unit>
+        "render" => T<unit> ^-> T<unit>
+        "searchPoint" => T<obj> * !? T<bool> ^-> !? point
+        "select" => !? T<bool> ^-> T<unit>
+        "setData" => T<obj []> * !? T<bool> * !? (T<bool> + T<obj>) * !? T<bool> ^-> T<unit>
+        "setState" => !? T<string> * !? T<bool> ^-> T<unit>
+        "setVisible" => !? T<bool> * !? T<bool> ^-> T<unit>
+        "show" => T<unit> ^-> T<unit>
+        "sonify" => !? T<obj> ^-> T<unit>
+        "translate" => T<unit> ^-> T<unit>
+        "update" => T<obj> * !? T<bool> ^-> T<unit>
+    ] |> ignore
+
 let rec getConfig product parentName (info: CfgInfo) =
     let n = info.Name
     let name, seriesType =
@@ -127,19 +339,18 @@ let rec getConfig product parentName (info: CfgInfo) =
         getClass (name + "Cfg")
         |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: '%s'}" s | _ -> "{}") ] 
         |> WithOptComment info.Description
-    match info.Extends with
-    | Some extends ->
-        let baseName = extends.Split('.') |> Array.map capitalize |> String.concat ""
-        cls |=> Inherits (getClass (baseName + "Cfg")) |> ignore
+    match seriesType with
+    | Some _ ->
+        cls |=> Inherits series |> ignore
     | _ ->
-        match seriesType with
-        | Some s ->
-            cls |=> Inherits (getClass "SeriesCfg") |> ignore
+        match info.Extends with
+        | Some extends ->
+            let baseName = extends.Split('.') |> Array.map capitalize |> String.concat ""
+            cls |=> Inherits (getClass (baseName + "Cfg")) |> ignore
         | _ ->
             ()
     for cc in info.Children do
         if cc |> isInProduct product then
-            
             if List.isEmpty cc.Children && Option.isNone cc.Extends then
                 cls |+> Instance [
                     cc.Name =@ getType (name + capitalize cc.Name) cc.Types |> WithOptComment cc.Description
@@ -149,6 +360,10 @@ let rec getConfig product parentName (info: CfgInfo) =
                 cls |+> Instance [
                     cc.Name =@ (getConfig product name cc |> if isArray then Type.ArrayOf else id) |> WithOptComment cc.Description
                 ] |> ignore
+    if name = "Series" then
+        cls |+> Instance [
+            "Data" =@ T<obj[]>
+        ] |> ignore
     cls.Type
 
 let getConfigs product =    
@@ -189,7 +404,18 @@ let getConfigs product =
             "setOptions" => optionsCls?options ^-> optionsCls
         ]
 
-    classMap.Values |> Seq.append extraTypes |> Seq.append [ configCls; optionsCls; highcharts ]
+    classMap.Values 
+    |> Seq.append extraTypes 
+    |> Seq.append [
+        axis
+        chart 
+        legend
+        point 
+        series
+        configCls
+        optionsCls
+        highcharts
+    ]
 
 let getAssembly lib =
 
