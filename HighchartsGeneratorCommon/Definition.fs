@@ -143,35 +143,35 @@ do
         "tickPositions" =@ !? T<float []>
         "ticks" =@ T<obj>
         "userOptions" =@ T<obj>
-        "addPlotBand" => T<obj> ^-> !? T<obj>
-        "addPlotLine" => T<obj> ^-> !? T<obj>
-        "addTitle" => !? T<bool> ^-> T<unit>
-        "defaultLabelFormatter" => !? T<obj> ^-> T<string>
-        "drawCrosshair" => !? T<obj> * !? point ^-> T<unit>
-        "drilldownCategory" => T<float> * !? T<obj> ^-> T<unit>
+        "addPlotBand" => T<obj>?options ^-> !? T<obj>
+        "addPlotLine" => T<obj>?options ^-> !? T<obj>
+        "addTitle" => !? T<bool>?display ^-> T<unit>
+        "defaultLabelFormatter" => !? T<obj>?ctx ^-> T<string>
+        "drawCrosshair" => !? T<obj>?e * !? point?point ^-> T<unit>
+        "drilldownCategory" => T<float>?x * !? T<obj>?originalEvent ^-> T<unit>
         "getExtremes" => T<unit> ^-> T<obj>
-        "getLinePath" => T<float> ^-> T<obj>
-        "getLinearTickPositions" => T<float> * T<float> * T<float> ^-> T<float []>
+        "getLinePath" => T<float>?lineWidth ^-> T<obj>
+        "getLinearTickPositions" => T<float>?tickInterval * T<float>?min * T<float>?max ^-> T<float []>
         "getMinorTickInterval" => T<unit> ^-> (T<float> + T<string> + T<unit>)
         "getMinorTickPositions" => T<unit> ^-> T<float []>
-        "getPlotBandPath" => T<float> * T<float> * T<obj> ^-> T<obj>
-        "getPlotLinePath" => T<obj> ^-> !? T<obj>
-        "getThreshold" => T<float> ^-> T<float>
+        "getPlotBandPath" => T<float>?from * T<float>?``to`` * T<obj>?options ^-> T<obj>
+        "getPlotLinePath" => T<obj>?options ^-> !? T<obj>
+        "getThreshold" => T<float>?threshold ^-> T<float>
         "hasData" => T<unit> ^-> T<bool>
         "hideCrosshair" => T<unit> ^-> T<unit>
-        "init" => chart * T<obj> ^-> T<unit>
-        "remove" => !? T<bool> ^-> T<unit>
-        "removePlotBand" => T<string> ^-> T<unit>
-        "removePlotLine" => T<string> ^-> T<unit>
+        "init" => chart?chart * T<obj>?userOptions ^-> T<unit>
+        "remove" => !? T<bool>?redraw ^-> T<unit>
+        "removePlotBand" => T<string>?id ^-> T<unit>
+        "removePlotLine" => T<string>?id ^-> T<unit>
         "renderLine" => T<unit> ^-> T<unit>
-        "renderMinorTick" => T<float> * T<bool> ^-> T<unit>
-        "renderTick" => T<float> * T<float> * T<bool> ^-> T<unit>
-        "setCategories" => T<string []> * !? T<bool> ^-> T<unit>
-        "setExtremes" => !? (T<float> + T<string>) * !? (T<float> + T<string>) * !? T<bool> * !? (T<bool> + T<obj>) * !? T<obj> ^-> T<unit>
-        "setTitle" => T<obj> * !? T<bool> ^-> T<unit>
-        "toPixels" => (T<float> + T<string>) * !? T<bool> ^-> T<float>
-        "toValue" => T<float> * !? T<bool> ^-> T<float>
-        "update" => T<obj> * !? T<bool> ^-> T<unit>
+        "renderMinorTick" => T<float>?pos * T<bool>?slideIn ^-> T<unit>
+        "renderTick" => T<float>?pos * T<float>?i * T<bool>?slideIn ^-> T<unit>
+        "setCategories" => T<string []>?categories * !? T<bool>?redraw ^-> T<unit>
+        "setExtremes" => !? (T<float> + T<string>)?newMin * !? (T<float> + T<string>)?newMax * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation * !? T<obj>?eventArguments ^-> T<unit>
+        "setTitle" => T<obj>?titleOptions * !? T<bool>?redraw ^-> T<unit>
+        "toPixels" => (T<float> + T<string>)?value * !? T<bool>?paneCoordinates ^-> T<float>
+        "toValue" => T<float>?pixel * !? T<bool>?paneCoordinates ^-> T<float>
+        "update" => T<obj>?options * !? T<bool>?redraw ^-> T<unit>
     ] |> ignore
 
     chart
@@ -207,30 +207,30 @@ do
         "userOptions" =@ T<obj>
         "xAxis" =@ !| axis
         "yAxis" =@ !| axis
-        "addAnnotation" => T<obj> * !? T<bool> ^-> T<obj>
-        "addAxis" => T<obj> * !? T<bool> * !? T<bool> * !? (T<bool> + T<obj>) ^-> axis
-        "addColorAxis" => T<obj> * !? T<bool> * !? (T<bool> + T<obj>) ^-> axis
-        "addCredits" => !? T<obj> ^-> T<unit>
-        "addSeries" => T<obj> * !? T<bool> * !? (T<bool> + T<obj>) ^-> series
-        "addSeriesAsDrilldown" => point * T<obj> ^-> T<unit>
+        "addAnnotation" => T<obj>?options * !? T<bool>?redraw ^-> T<obj>
+        "addAxis" => T<obj>?options * !? T<bool>?isX * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation ^-> axis
+        "addColorAxis" => T<obj>?options * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation ^-> axis
+        "addCredits" => !? T<obj>?credits ^-> T<unit>
+        "addSeries" => T<obj>?options * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation ^-> series
+        "addSeriesAsDrilldown" => point?point * T<obj>?options ^-> T<unit>
         "destroy" => T<unit> ^-> T<unit>
         "drillUp" => T<unit> ^-> T<unit>
-        "fromLatLonToPoint" => T<obj> ^-> T<obj>
-        "fromPointToLatLon" => (point + T<obj>) ^-> !? T<obj>
-        "get" => T<string> ^-> !? (axis + series + point)
+        "fromLatLonToPoint" => T<obj>?lonLat ^-> T<obj>
+        "fromPointToLatLon" => (point + T<obj>)?point ^-> !? T<obj>
+        "get" => T<string>?id ^-> !? (axis + series + point)
         "getOptions" => T<unit> ^-> T<obj>
         "getSelectedPoints" => T<unit> ^-> !| point
         "getSelectedSeries" => T<unit> ^-> !| series
-        "init" => T<obj> * !? T<obj> ^-> T<unit>
-        "isInsidePlot" => T<float> * T<float> * !? T<obj> ^-> T<bool>
-        "langFormat" => T<string> * T<obj> ^-> T<string>
-        "mapZoom" => !? T<float> * !? T<float> * !? T<float> * !? T<float> * !? T<float> ^-> T<unit>
-        "redraw" => !? (T<bool> + T<obj>) ^-> T<unit>
-        "reflow" => !? T<obj> ^-> T<unit>
-        "removeAnnotation" => (T<float> + T<string> + T<obj>) ^-> T<unit>
-        "setCaption" => T<obj> ^-> T<unit>
-        "setClassName" => !? T<string> ^-> T<unit>
-        "setSize" => !? T<float> * !? T<float> * !? (T<bool> + T<obj>) ^-> T<unit>
+        "init" => T<obj>?userOptions * !? T<obj>?callback ^-> T<unit>
+        "isInsidePlot" => T<float>?plotX * T<float>?plotY * !? T<obj>?options ^-> T<bool>
+        "langFormat" => T<string>?langKey * T<obj>?context ^-> T<string>
+        "mapZoom" => !? T<float>?howMuch * !? T<float>?xProjected * !? T<float>?yProjected * !? T<float>?chartX * !? T<float>?chartY ^-> T<unit>
+        "redraw" => !? (T<bool> + T<obj>)?animation ^-> T<unit>
+        "reflow" => !? T<obj>?e ^-> T<unit>
+        "removeAnnotation" => (T<float> + T<string> + T<obj>)?idOrAnnotation ^-> T<unit>
+        "setCaption" => T<obj>?options ^-> T<unit>
+        "setClassName" => !? T<string>?className ^-> T<unit>
+        "setSize" => !? T<float>?width * !? T<float>?height * !? (T<bool> + T<obj>)?animation ^-> T<unit>
     ] |> ignore
 
     legend
@@ -241,8 +241,8 @@ do
         "group" =? T<obj>
         "options" =? T<obj>
         "title" =? T<obj>
-        "setText" => (point + series) ^-> T<unit>
-        "update" => T<obj> * !? T<bool> ^-> T<unit>
+        "setText" => (point + series)?item ^-> T<unit>
+        "update" => T<obj>?options * !? T<bool>?redraw ^-> T<unit>
     ] |> ignore
 
     point
@@ -270,11 +270,11 @@ do
         "visible" =@ T<bool>
         "x" =@ T<float>
         "y" =@ !? T<float>
-        "firePointEvent" => T<string> * !? T<obj> * !? T<obj> ^-> T<unit>
-        "haloPath" => T<float> ^-> T<obj>
-        "remove" => !? T<bool> * !? (T<bool> + T<obj>) ^-> T<unit>
-        "select" => !? T<bool> * !? T<bool> ^-> T<unit>
-        "update" => (T<float> + T<string> + T<float []> + T<obj>) * !? T<bool> * !? (T<bool> + T<obj>) ^-> T<unit>
+        "firePointEvent" => T<string>?eventType * !? T<obj>?eventArgs * !? T<obj>?defaultFunction ^-> T<unit>
+        "haloPath" => T<float>?size ^-> T<obj>
+        "remove" => !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation ^-> T<unit>
+        "select" => !? T<bool>?selected * !? T<bool>?accumulate ^-> T<unit>
+        "update" => (T<float> + T<string> + T<float []> + T<obj>)?options * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation ^-> T<unit>
     ] |> ignore
 
     series 
@@ -302,30 +302,30 @@ do
         "visible" =? T<bool>
         "xAxis" =? axis
         "yAxis" =? axis
-        "addPoint" => T<obj> * !? T<bool> * !? T<bool> * !? (T<bool> + T<obj>) * !? T<bool> ^-> T<unit>
-        "animate" => !? T<bool> ^-> T<unit>
+        "addPoint" => T<obj>?options * !? T<bool>?redraw * !? T<bool>?shift * !? (T<bool> + T<obj>)?animation * !? T<bool>?withEvent ^-> T<unit>
+        "animate" => !? T<bool>?init ^-> T<unit>
         "drawPoints" => T<unit> ^-> T<unit>
         "getName" => T<unit> ^-> T<string>
         "getPlotBox" => T<unit> ^-> T<obj>
-        "getValidPoints" => !? !| point * !? T<bool> * !? T<bool> ^-> !| point
-        "groupData" => T<obj> * T<float []> * !? (T<string> + T<obj>) ^-> T<unit>
+        "getValidPoints" => !? (!| point)?points * !? T<bool>?insideOnly * !? T<bool>?allowNull ^-> !| point
+        "groupData" => T<obj>?table * T<float []>?groupPositions * !? (T<string> + T<obj>)?approximation ^-> T<unit>
         "hide" => T<unit> ^-> T<unit>
-        "is" => T<string> ^-> T<bool>
-        "markerAttribs" => point * !? T<string> ^-> T<obj>
+        "is" => T<string>?``type`` ^-> T<bool>
+        "markerAttribs" => point?point * !? T<string>?state ^-> T<obj>
         "onMouseOut" => T<unit> ^-> T<unit>
         "onMouseOver" => T<unit> ^-> T<unit>
-        "remove" => !? T<bool> * !? (T<bool> + T<obj>) * !? T<bool> ^-> T<unit>
-        "removePoint" => T<float> * !? T<bool> * !? (T<bool> + T<obj>) ^-> T<unit>
+        "remove" => !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation * !? T<bool>?withEvent ^-> T<unit>
+        "removePoint" => T<float>?i * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation ^-> T<unit>
         "render" => T<unit> ^-> T<unit>
-        "searchPoint" => T<obj> * !? T<bool> ^-> !? point
-        "select" => !? T<bool> ^-> T<unit>
-        "setData" => T<obj []> * !? T<bool> * !? (T<bool> + T<obj>) * !? T<bool> ^-> T<unit>
-        "setState" => !? T<string> * !? T<bool> ^-> T<unit>
-        "setVisible" => !? T<bool> * !? T<bool> ^-> T<unit>
+        "searchPoint" => T<obj>?e * !? T<bool>?compareX ^-> !? point
+        "select" => !? T<bool>?selected ^-> T<unit>
+        "setData" => T<obj []>?data * !? T<bool>?redraw * !? (T<bool> + T<obj>)?animation * !? T<bool>?updatePoints ^-> T<unit>
+        "setState" => !? T<string>?state * !? T<bool>?``inherit`` ^-> T<unit>
+        "setVisible" => !? T<bool>?vis * !? T<bool>?redraw ^-> T<unit>
         "show" => T<unit> ^-> T<unit>
-        "sonify" => !? T<obj> ^-> T<unit>
+        "sonify" => !? T<obj>?onEnd ^-> T<unit>
         "translate" => T<unit> ^-> T<unit>
-        "update" => T<obj> * !? T<bool> ^-> T<unit>
+        "update" => T<obj>?options * !? T<bool>?redraw ^-> T<unit>
     ] |> ignore
 
 let rec getConfig product parentName (info: CfgInfo) =
