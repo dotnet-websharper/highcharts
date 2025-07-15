@@ -362,7 +362,7 @@ let rec getConfig product parentName (info: CfgInfo) =
                 ] |> ignore
     if name = "Series" then
         cls |+> Instance [
-            "Data" =@ T<obj[]>
+            "data" =@ T<obj[]>
         ] |> ignore
     cls.Type
 
@@ -398,7 +398,7 @@ let getConfigs product =
 
     let highcharts = 
         Class "Highcharts"
-        |> Import "Highcharts" "highcharts"
+        |> ImportDefault "highcharts"
         |+> Static [
             "chart" => !?(T<string> + T<WebSharper.JavaScript.Dom.Element>)?container * configCls?config * !?(T<WebSharper.JavaScript.Function>)?callback ^-> T<unit> //getClass "Chart" 
             "setOptions" => optionsCls?options ^-> optionsCls

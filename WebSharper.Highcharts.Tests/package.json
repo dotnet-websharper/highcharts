@@ -1,4 +1,7 @@
 {
+  "devDependencies": {
+    "esbuild": "^0.19.9"
+  },
   "dependencies": {
     "highcharts": "^12.3.0"
   }
