@@ -17,4 +17,3 @@ files
 dependencies
     framework: netstandard2.0
         WebSharper ~> LOCKEDVERSION:[3]
-        FParsec ~> LOCKEDVERSION:[3]

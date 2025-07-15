@@ -3,8 +3,6 @@ STRATEGY: MIN
 RESTRICTION: || (== net5.0) (== netstandard2.0)
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    FParsec (1.1.1)
-      FSharp.Core (>= 4.3.4)
     FSharp.Core (6.0)
     HtmlAgilityPack (1.11)
       System.Net.Http (>= 4.3.2)
@@ -367,8 +365,6 @@ NUGET
       System.Reflection.Emit.Lightweight (>= 4.7)
     WebSharper.FSharp (9.1.4.586)
       WebSharper (9.1.4.586)
-    WebSharper.JQuery (9.1.0.554)
-      WebSharper (>= 9.1 < 9.2)
     WebSharper.UI (9.1.4.586)
       HtmlAgilityPack (>= 1.11)
       WebSharper (>= 9.1.4.586 < 9.1.5)

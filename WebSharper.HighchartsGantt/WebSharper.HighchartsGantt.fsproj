@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <WebSharperProject>Extension</WebSharperProject>
+    <WebSharperSourceMap>false</WebSharperSourceMap>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Main.fs" />
+    <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../HighchartsGeneratorCommon\HighchartsGeneratorCommon.fsproj" />
+    <ProjectReference Include="../WebSharper.Highcharts\WebSharper.Highcharts.fsproj" />
+    <ProjectReference Include="../WebSharper.Highstock\WebSharper.Highstock.fsproj" />
+  </ItemGroup>
+  <Import Project="..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets" Condition="Exists('..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets')" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

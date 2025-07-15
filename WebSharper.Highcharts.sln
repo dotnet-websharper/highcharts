@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36212.18 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.Highcharts", "WebSharper.Highcharts\WebSharper.Highcharts.fsproj", "{3603B788-DF1B-4FD7-ACB0-30F04D976FEB}"
 EndProject
@@ -8,6 +8,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
 		ivy.xml = ivy.xml
+		nuget\WebSharper.Highcharts.paket.template = nuget\WebSharper.Highcharts.paket.template
+		nuget\WebSharper.HighchartsGantt.paket.template = nuget\WebSharper.HighchartsGantt.paket.template
+		nuget\WebSharper.Highmaps.paket.template = nuget\WebSharper.Highmaps.paket.template
+		nuget\WebSharper.Highstock.paket.template = nuget\WebSharper.Highstock.paket.template
 	EndProjectSection
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.Highstock", "WebSharper.Highstock\WebSharper.Highstock.fsproj", "{05623267-0679-4047-8444-3FEF91F7DEB7}"
@@ -17,6 +21,8 @@ EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "HighchartsGeneratorCommon", "HighchartsGeneratorCommon\HighchartsGeneratorCommon.fsproj", "{719A208A-3A73-415E-A173-C434AC503BFE}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.Highcharts.Tests", "WebSharper.Highcharts.Tests\WebSharper.Highcharts.Tests.fsproj", "{D0B1FAE8-875E-42AF-BB3D-AE54050BD6D3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.HighchartsGantt", "WebSharper.HighchartsGantt\WebSharper.HighchartsGantt.fsproj", "{DE658AEF-33B6-FA2D-16ED-67B088169B7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +50,10 @@ Global
 		{D0B1FAE8-875E-42AF-BB3D-AE54050BD6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0B1FAE8-875E-42AF-BB3D-AE54050BD6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0B1FAE8-875E-42AF-BB3D-AE54050BD6D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE658AEF-33B6-FA2D-16ED-67B088169B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE658AEF-33B6-FA2D-16ED-67B088169B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE658AEF-33B6-FA2D-16ED-67B088169B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE658AEF-33B6-FA2D-16ED-67B088169B7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

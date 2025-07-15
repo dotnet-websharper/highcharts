@@ -26,16 +26,11 @@ open WebSharper.InterfaceGenerator
 
 open HcJson
 
-type HighmapsParams =
-    {
-        HighchartsRes : Type.Type
-        HighstockRes : Type.Type
-    }
-
 type HcLib =
     | Highcharts
     | Highstock
-    | Highmaps of HighmapsParams
+    | Highmaps
+    | HighchartsGantt
 
 let capitalize (s: string) = s.[0 .. 0].ToUpper() + s.[1 ..]
 
@@ -462,30 +457,36 @@ let getAssembly lib =
             //    |> Requires [ hsRes ]
             //]
         ]
-    | Highmaps p ->
-    let hmRes =
-        Resource "Highmaps" "https://code.highcharts.com/maps/highmaps.js"
+    | Highmaps ->
+        let hmRes =
+            Resource "Highmaps" "https://code.highcharts.com/maps/highmaps.js"
 
-    Assembly [
-        Namespace "WebSharper.Highmaps" (
-            getConfigs "highmaps" |> Seq.cast |> List.ofSeq
-        ) 
-        //Namespace "WebSharper.Highmaps.Resources" [
-        //    hmRes
+        Assembly [
+            Namespace "WebSharper.Highmaps" (
+                getConfigs "highmaps" |> Seq.cast |> List.ofSeq
+            ) 
+            //Namespace "WebSharper.Highmaps.Resources" [
+            //    hmRes
 
-        //    Resource "MapModuleForCharts" "https://code.highcharts.com/maps/modules/map.js" 
-        //    |> RequiresExternal [ p.HighchartsRes ]
+            //    Resource "MapModuleForCharts" "https://code.highcharts.com/maps/modules/map.js" 
+            //    |> RequiresExternal [ p.HighchartsRes ]
             
-        //    Resource "MapModuleForStock" "https://code.highcharts.com/maps/modules/map.js" 
-        //    |> RequiresExternal [ p.HighstockRes ]
+            //    Resource "MapModuleForStock" "https://code.highcharts.com/maps/modules/map.js" 
+            //    |> RequiresExternal [ p.HighstockRes ]
 
-        //    Resource "ExportingModule" "https://code.highcharts.com/maps/modules/exporting.js" 
-        //    |> Requires [ hmRes ]
+            //    Resource "ExportingModule" "https://code.highcharts.com/maps/modules/exporting.js" 
+            //    |> Requires [ hmRes ]
             
-        //    Resource "MooToolsAdapter" "https://code.highcharts.com/maps/adapters/mootools-adapter.js" 
-        //    |> Requires [ hmRes ]
+            //    Resource "MooToolsAdapter" "https://code.highcharts.com/maps/adapters/mootools-adapter.js" 
+            //    |> Requires [ hmRes ]
 
-        //    Resource "PrototypeAdapter" "https://code.highcharts.com/maps/adapters/prototype-adapter.js" 
-        //    |> Requires [ hmRes ]
-        //]
-    ]
+            //    Resource "PrototypeAdapter" "https://code.highcharts.com/maps/adapters/prototype-adapter.js" 
+            //    |> Requires [ hmRes ]
+            //]
+        ]
+    | HighchartsGantt ->
+        Assembly [
+            Namespace "WebSharper.HighchartsGantt" (
+                getConfigs "gantt" |> Seq.cast |> List.ofSeq
+            ) 
+        ]
