@@ -4,9 +4,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Json.fs" />
     <Compile Include="HcJson.fs" />
     <Compile Include="Definition.fs" />
+    <None Include="paket.references" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

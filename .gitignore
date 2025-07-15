@@ -8,3 +8,5 @@ paket-files/
 WebSharper.Highcharts.Tests/Content/
 .vs/
 websharper.log
+/WebSharper.Highcharts.Tests/node_modules
+/.temp/tree.json

@@ -5,6 +5,11 @@
     <WebSharperSourceMap>false</WebSharperSourceMap>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <NpmDependencies>
+      <NpmPackage Name="highcharts" ResolutionStrategy="Max" />
+    </NpmDependencies>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.fs" />
   </ItemGroup>

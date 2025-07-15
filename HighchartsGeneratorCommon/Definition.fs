@@ -19,6 +19,8 @@
 // $end{copyright}
 module HighchartsGeneratorCommon.Definition
 
+open System.Collections.Generic
+
 open WebSharper
 open WebSharper.InterfaceGenerator
 
@@ -35,288 +37,229 @@ type HcLib =
     | Highstock
     | Highmaps of HighmapsParams
 
-let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
-    
-    /// Key: Type name as in documentation
-    /// Value: Type.Type records
-    let typeMap =
-        ref <| Map [
-            "Object"             , T<obj>
-            "(Object"            , T<obj>
-            "Mixed"              , T<obj>
-            "object"             , T<obj>
-            "String"             , T<string>
-            "Number"             , T<float>
-            "Boolean"            , T<bool>
-            "Function"           , T<JavaScript.Function>
-            "Color"              , T<string>
-            "Colo"               , T<string>
-            "CSSObject"          , T<JavaScript.Object<string>>
-            "Array"              , T<obj[]>
-            "Array&lt;Mixed&gt;" , T<obj[]>
-            "Array<Mixed"        , T<obj[]>
-            "Array<String>"      , T<string[]>
-            "null"               , T<unit>
-            "undefined"          , T<unit>
-            "HTMLElement"        , T<JavaScript.Dom.Element>
-            "Text"               , T<string>
-            "#CCC"               , T<string>
-            "middle"             , T<string>
-            "CSS"                , T<JavaScript.Object<string>>
-        ]
+let capitalize (s: string) = s.[0 .. 0].ToUpper() + s.[1 ..]
 
-    let warnTypeCreate = ref false
+let classMap = Dictionary<string, CodeModel.Class>()
+let extraTypes = ResizeArray<CodeModel.Class>()
 
-    let getRawType (n: string) = 
-        match !typeMap |> Map.tryFind n with
-        | Some t -> t
-        | None ->
-            if !warnTypeCreate then printfn "Creating type: %s" n
-            let t = (Class n).Type
-            typeMap := !typeMap |> Map.add n t
-            t
+let getClass name =
+    match classMap.TryGetValue(name) with
+    | true, c -> c
+    | _ ->
+        let c = Class name
+        classMap[name] <- c
+        c
 
-    let rec getType (n: string) =
-        match n with
-        | null | "" -> T<unit>
-        | _ ->
-        if n.StartsWith "Array<" then
-            getType (n.[6 ..].TrimEnd(';', '>')) |> Type.ArrayOf
+let product = "highcharts"
+
+let WithOptComment c e =
+    match c with
+    | None -> e
+    | Some s -> e |> WithComment s
+
+let knownTypes =
+    dict [
+        "boolean", T<bool>
+        "number", T<float>
+        "string", T<string>
+        "function", T<JavaScript.Function>
+    ]
+
+let rec getSingleType (typ: string) =
+    match knownTypes.TryGetValue(typ) with
+    | true, t -> t
+    | _ ->
+        if typ.StartsWith("Array.<") && typ.EndsWith(">") then
+            let innerType = typ.[7 .. typ.Length - 2]
+            Type.ArrayOf (getSingleType innerType)
         else
-            let ts = n.Split '|'
-            ts |> Array.map getRawType |> Array.reduce (+)
+            T<obj> // Fallback to obj for unknown types
 
-    let getParams (pl: HcParam list) =
-        {
-            This  = None
-            Arguments =
-                pl |> List.map (fun p ->
-                    {
-                        Name     = Some p.Name
-                        Optional = p.Optional
-                        Type     = getType p.Type
-                    } : Type.Parameter
-                )
-            Variable = None
-        } : Type.Parameters
+let getType name (types: string list) =
+    let isNull, notNull = types |> List.partition (fun t -> t = "undefined" || t = "null")
+    let enumValues, rest = notNull |> List.partition (fun t -> t.StartsWith("\"")) 
+    let e =         
+        match enumValues with 
+        | [] -> None
+        | _ -> 
+            let transformEnumValueName n =
+                match n with
+                | ">" -> "GreaterThan"
+                | "<" -> "LessThan"
+                | ">=" -> "GreaterThanOrEqual"
+                | "<=" -> "LessThanOrEqual"
+                | "==" -> "Equal"
+                | "===" -> "StrictEqual"
+                | "!=" -> "NotEqual"
+                | "!==" -> "StrictNotEqual"
+                | _ -> n
+            let e = Pattern.EnumStrings (name + "Value") (enumValues |> List.map (fun t -> t.Trim('"') |> transformEnumValueName) |> List.distinct)
+            extraTypes.Add e
+            Some e.Type
+    let t =
+        match rest with
+        | [] -> 
+            match e with 
+            | Some e -> e 
+            | _ -> T<unit>
+        | [ t ] -> 
+            match e with
+            | Some e -> e + getSingleType t
+            | None -> getSingleType t
+        | _ -> 
+            (e |> Option.toList) @ (notNull |> List.map getSingleType) |> List.reduce (+)
+    if isNull.Length > 0 then
+        !? t
+    else
+        t
 
-    let WithOptComment c cls =
-        match c with
-        | None -> cls
-        | Some s -> cls |> WithComment s
+let isInProduct product (info: CfgInfo) =
+    info.Products |> List.isEmpty || info.Products |> List.exists (fun p -> p = product)
 
-    let configsList = ref ([] : CodeModel.NamespaceEntity list)
+let rec getConfig product parentName (info: CfgInfo) =
+    let n = info.Name
+    let name, seriesType =
+        if parentName = "Series" then 
+            capitalize n + "Series", Some n
+        else
+            parentName + capitalize n, None
+    let cls = 
+        getClass (name + "Cfg")
+        |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: '%s'}" s | _ -> "{}") ] 
+        |> WithOptComment info.Description
+    match info.Extends with
+    | Some extends ->
+        let baseName = extends.Split('.') |> Array.map capitalize |> String.concat ""
+        cls |=> Inherits (getClass (baseName + "Cfg")) |> ignore
+    | _ ->
+        match seriesType with
+        | Some s ->
+            cls |=> Inherits (getClass "SeriesCfg") |> ignore
+        | _ ->
+            ()
+    for cc in info.Children do
+        if cc |> isInProduct product then
+            
+            if List.isEmpty cc.Children && Option.isNone cc.Extends then
+                cls |+> Instance [
+                    cc.Name =@ getType (name + capitalize cc.Name) cc.Types |> WithOptComment cc.Description
+                ] |> ignore
+            else
+                let isArray = cc.Types |> List.contains "Array.<*>"
+                cls |+> Instance [
+                    cc.Name =@ (getConfig product name cc |> if isArray then Type.ArrayOf else id) |> WithOptComment cc.Description
+                ] |> ignore
+    cls.Type
 
-    let capitalize (s: string) = s.[0 .. 0].ToUpper() + s.[1 ..]
-
-    let arrayConfigs = ref Set.empty
-   
-    let isArray (s: string) = s <> null && s.StartsWith "Array<"
-
-    let rec addArrayConfigs (c: HcConfig) =
-        if c.Members |> List.isEmpty |> not then
-            if isArray c.Type then
-                arrayConfigs := !arrayConfigs |> Set.add c.RefName
-            c.Members |> List.iter addArrayConfigs
-
-    configs |> List.iter addArrayConfigs
-
-    let rec getConfig parentName (c: HcConfig) =
-        let seriesType =
-            if c.Name.StartsWith "series<" then
-                Some c.Name.[7 .. c.Name.Length - 2]
-            else None
-        let name = 
-            match seriesType with
-            | Some s -> capitalize s + "Series" 
-            | _ -> parentName + capitalize c.Name
-        let pmem, cmem = 
-            c.Members |> Seq.distinctBy (fun m -> m.Name) |> List.ofSeq
-            |> List.partition (fun cc -> cc.Members = [] && cc.Extends = None)
-        let cls =
-            Class (name + "Cfg")
-            |=> getRawType c.RefName
-            |> fun cls ->
-                match c.Extends with                  
-                | Some t ->
-                    cls |=> Inherits (getRawType t)
-                | _ -> 
-                match seriesType with
-                | Some s ->
-                    cls |=> Inherits (getRawType "series")
-                | _ ->
-                    cls
-            |+> Instance (
-                    (
-                        pmem |> List.map (fun cc ->
-                            cc.Name =@ getType cc.Type |> WithOptComment cc.Desc :> _
-                        )
-                    ) @ (
-                        cmem |> List.map (fun cc ->
-                            let cls = getConfig name cc
-                            if isArray cc.Type || (cc.Extends |> Option.exists (fun t -> !arrayConfigs |> Set.contains t)) then
-                                cc.Name =@ Type.ArrayOf cls :> _
-                            else
-                                cc.Name =@ cls :> _
-                        )
-                    )
-                )
-            |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: '%s'}" s | _ -> "{}") ] 
-            |> WithOptComment c.Desc    
-        configsList := upcast cls :: !configsList
-        cls
+let getConfigs product =    
 
     let optConfigs, hcConfigs =
-        configs |> List.partition (fun c -> c.RefName = "global" || c.RefName = "lang")
+        tree |> List.partition (fun c -> c.Name = "global" || c.Name = "lang")
 
-    let configCls =
+    let configCls = 
         Class (
-            match lib with 
-            | Highcharts -> "HighchartsCfg" 
-            | Highstock -> "HighstockCfg" 
-            | Highmaps _ -> "HighmapsCfg"
+            capitalize product + "Cfg"
         ) 
         |+> Instance (
-            hcConfigs |> List.map (fun c -> 
-                let cls = getConfig "" c
-                if isArray c.Type then
-                    c.Name =@ Type.ArrayOf cls :> _
+            hcConfigs |> List.choose (fun cc -> 
+                if cc |> isInProduct product && cc.Name <> "global" && cc.Name <> "lang" then
+                    let isArray = cc.Types |> List.contains "Array.<*>"
+                    Some (cc.Name =@ (getConfig product "" cc |> if isArray then Type.ArrayOf else id) |> WithOptComment cc.Description :> _)
                 else
-                    c.Name =@ cls :> _
+                    None
             )
         )
         |+> Static [ Constructor T<unit> |> WithInline "{}" ] 
-
-    configsList := upcast configCls :: !configsList
 
     let optionsCls =
         Class "OptionsCfg"
         |+> Instance (
             optConfigs |> List.map (fun c -> 
-                let cls = getConfig "" c
+                let cls = getConfig product "" c
                 c.Name =@ cls :> _
             )
         )
         |+> Static [ Constructor T<unit> |> WithInline "{}" ] 
 
-    configsList := upcast optionsCls :: !configsList
+    let highcharts = 
+        Class "Highcharts"
+        |> Import "Highcharts" "highcharts"
+        |+> Static [
+            "chart" => !?(T<string> + T<WebSharper.JavaScript.Dom.Element>)?container * configCls?config * !?(T<WebSharper.JavaScript.Function>)?callback ^-> T<unit> //getClass "Chart" 
+            "setOptions" => optionsCls?options ^-> optionsCls
+        ]
 
-    warnTypeCreate := true
+    classMap.Values |> Seq.append extraTypes |> Seq.append [ configCls; optionsCls; highcharts ]
 
-    let getClass (o: HcObject) =
-        let members =
-            o.Members |> List.map (
-                function
-                | HcProperty p ->
-                    p.Name =@ getType p.Type |> WithOptComment p.Desc :> CodeModel.Member  
-                | HcMethod m ->
-                    let meth = m.Name => getParams m.Params ^-> getType m.ReturnType 
-                    if m.Name = "chart" || m.Name = "stockChart" then meth |> WithSourceName m.Name else meth
-                    :> CodeModel.Member
-            )
-        let cls = 
-            Class o.Name
-            |=> getRawType o.Name
-            |+> (
-                match o.Name with
-                | "Highcharts" -> 
-                    [
-                        "create" => 
-                            T<WebSharper.JQuery.JQuery>?container 
-                            * configCls?config 
-                            ^-> getRawType "Chart" 
-                            |> WithInline (
-                                match lib with
-                                | Highcharts -> "$container.highcharts($config)" 
-                                | Highstock -> "$container.highcharts('StockChart', $config)" 
-                                | Highmaps _ -> "$container.highcharts('Map', $config)"
-                            ) :> CodeModel.Member
-                        "setOptions" => optionsCls?options ^-> optionsCls :> _
-                        "renderer" =? getRawType "Renderer" :> _
-                    ]
-                    @ (members |> List.filter (fun m -> m.Name <> "setOptions"))
-                    |> Seq.cast |> List.ofSeq |> Static
-                | "Renderer" -> 
-                    Constructor (T<JavaScript.Dom.Element>?parentNode * T<int>?width * T<int>?height) :> CodeModel.Member
-                    :: members |> Seq.cast |> List.ofSeq |> Instance
-                | _ -> members |> Seq.cast |> List.ofSeq |> Instance
-            )  
-            |> WithOptComment o.Desc
-        cls
+let getAssembly lib =
 
     match lib with
     | Highcharts ->
         let hcRes =
             Resource "Highcharts" "https://code.highcharts.com/highcharts.js"
-            |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
     
         Assembly [
             Namespace "WebSharper.Highcharts" (
-                !configsList @
-                (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
+                getConfigs "highcharts" |> Seq.cast |> List.ofSeq
             ) 
-            Namespace "WebSharper.Highcharts.Resources" [
-                hcRes
+            //Namespace "WebSharper.Highcharts.Resources" [
+            //    hcRes
 
-                Resource "ExportingModule" "https://code.highcharts.com/modules/exporting.js" 
-                |> Requires [ hcRes ]
+            //    Resource "ExportingModule" "https://code.highcharts.com/modules/exporting.js" 
+            //    |> Requires [ hcRes ]
             
-                Resource "MooToolsAdapter" "https://code.highcharts.com/adapters/mootools-adapter.js" 
-                |> Requires [ hcRes ]
+            //    Resource "MooToolsAdapter" "https://code.highcharts.com/adapters/mootools-adapter.js" 
+            //    |> Requires [ hcRes ]
 
-                Resource "PrototypeAdapter" "https://code.highcharts.com/adapters/prototype-adapter.js" 
-                |> Requires [ hcRes ]
-            ]
+            //    Resource "PrototypeAdapter" "https://code.highcharts.com/adapters/prototype-adapter.js" 
+            //    |> Requires [ hcRes ]
+            //]
         ]
     | Highstock -> 
         let hsRes =
             Resource "Highstock" "https://code.highcharts.com/stock/highstock.js"
-            |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
 
         Assembly [
             Namespace "WebSharper.Highstock" (
-                !configsList @
-                (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
+                getConfigs "highstock" |> Seq.cast |> List.ofSeq
             ) 
-            Namespace "WebSharper.Highstock.Resources" [
-                hsRes
+            //Namespace "WebSharper.Highstock.Resources" [
+            //    hsRes
 
-                Resource "ExportingModule" "https://code.highcharts.com/stock/modules/exporting.js" 
-                |> Requires [ hsRes ]
+            //    Resource "ExportingModule" "https://code.highcharts.com/stock/modules/exporting.js" 
+            //    |> Requires [ hsRes ]
             
-                Resource "MooToolsAdapter" "https://code.highcharts.com/stock/adapters/mootools-adapter.js" 
-                |> Requires [ hsRes ]
+            //    Resource "MooToolsAdapter" "https://code.highcharts.com/stock/adapters/mootools-adapter.js" 
+            //    |> Requires [ hsRes ]
 
-                Resource "PrototypeAdapter" "https://code.highcharts.com/stock/adapters/prototype-adapter.js" 
-                |> Requires [ hsRes ]
-            ]
+            //    Resource "PrototypeAdapter" "https://code.highcharts.com/stock/adapters/prototype-adapter.js" 
+            //    |> Requires [ hsRes ]
+            //]
         ]
     | Highmaps p ->
     let hmRes =
         Resource "Highmaps" "https://code.highcharts.com/maps/highmaps.js"
-        |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
 
     Assembly [
         Namespace "WebSharper.Highmaps" (
-            !configsList @
-            (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
+            getConfigs "highmaps" |> Seq.cast |> List.ofSeq
         ) 
-        Namespace "WebSharper.Highmaps.Resources" [
-            hmRes
+        //Namespace "WebSharper.Highmaps.Resources" [
+        //    hmRes
 
-            Resource "MapModuleForCharts" "https://code.highcharts.com/maps/modules/map.js" 
-            |> RequiresExternal [ p.HighchartsRes ]
+        //    Resource "MapModuleForCharts" "https://code.highcharts.com/maps/modules/map.js" 
+        //    |> RequiresExternal [ p.HighchartsRes ]
             
-            Resource "MapModuleForStock" "https://code.highcharts.com/maps/modules/map.js" 
-            |> RequiresExternal [ p.HighstockRes ]
+        //    Resource "MapModuleForStock" "https://code.highcharts.com/maps/modules/map.js" 
+        //    |> RequiresExternal [ p.HighstockRes ]
 
-            Resource "ExportingModule" "https://code.highcharts.com/maps/modules/exporting.js" 
-            |> Requires [ hmRes ]
+        //    Resource "ExportingModule" "https://code.highcharts.com/maps/modules/exporting.js" 
+        //    |> Requires [ hmRes ]
             
-            Resource "MooToolsAdapter" "https://code.highcharts.com/maps/adapters/mootools-adapter.js" 
-            |> Requires [ hmRes ]
+        //    Resource "MooToolsAdapter" "https://code.highcharts.com/maps/adapters/mootools-adapter.js" 
+        //    |> Requires [ hmRes ]
 
-            Resource "PrototypeAdapter" "https://code.highcharts.com/maps/adapters/prototype-adapter.js" 
-            |> Requires [ hmRes ]
-        ]
+        //    Resource "PrototypeAdapter" "https://code.highcharts.com/maps/adapters/prototype-adapter.js" 
+        //    |> Requires [ hmRes ]
+        //]
     ]

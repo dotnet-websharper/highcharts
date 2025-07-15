@@ -28,13 +28,7 @@ let ( +/ ) a b = Path.Combine(a, b)
 
 let Assembly =
     try 
-        let configs =
-            File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hsconfigs.json")  
-            |> Json.parse |> HcJson.getConfigs
-        let objects =  
-            File.ReadAllText(__SOURCE_DIRECTORY__ +/ "../.temp/hsobjects.json")  
-            |> Json.parse |> HcJson.getObjects
-        Definition.getAssembly Definition.Highstock configs objects
+        Definition.getAssembly Definition.Highstock
     with exc ->
         printfn "%A" exc
         reraise()    

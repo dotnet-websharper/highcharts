@@ -20,23 +20,40 @@ System.Environment.GetCommandLineArgs()
 #load "paket-files/wsbuild/github.com/dotnet-websharper/build-script/WebSharper.Fake.fsx"
 open WebSharper.Fake
 open Fake.DotNet
+open Fake.IO
+open Fake.IO.FileSystemOperators
 
 let WithProjects projects args =
     { args with BuildAction = Projects projects }
 
-LazyVersionFrom "WebSharper" |> WSTargets.Default
-|> fun args ->
-    { args with
-        Attributes =
-                [
-                    AssemblyInfo.Company "IntelliFactory"
-                    AssemblyInfo.Copyright "(c) IntelliFactory 2023"
-                    AssemblyInfo.Title "https://github.com/dotnet-websharper/highcharts"
-                    AssemblyInfo.Product "WebSharper Highcharts"
-                ]
-    }
-|> WithProjects [
-    "WebSharper.Highcharts.sln"
-]
-|> MakeTargets
-|> RunTargets
+Target.create "DownloadAPIJSONs" <| fun _ ->
+    let tempDir = __SOURCE_DIRECTORY__ </> ".temp"
+    Directory.create tempDir
+    
+    use cl = new System.Net.WebClient()
+    let download (url: string) name =
+        try cl.DownloadFile(url, tempDir </> name)
+        with _ -> failwithf "Failed to download %s" url 
+    
+    download "https://api.highcharts.com/highcharts/tree.json" "tree.json"
+
+let targets =
+    LazyVersionFrom "WebSharper" |> WSTargets.Default
+    |> fun args ->
+        { args with
+            Attributes =
+                    [
+                        AssemblyInfo.Company "IntelliFactory"
+                        AssemblyInfo.Copyright "(c) IntelliFactory 2023"
+                        AssemblyInfo.Title "https://github.com/dotnet-websharper/highcharts"
+                        AssemblyInfo.Product "WebSharper Highcharts"
+                    ]
+        }
+    |> WithProjects [
+        "WebSharper.Highcharts.sln"
+    ]
+    |> MakeTargets
+
+targets.AddPrebuild "DownloadAPIJSONs"
+
+targets |> RunTargets

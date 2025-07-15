@@ -21,19 +21,19 @@ module WebSharper.Highcharts.Tests
 
 open WebSharper
 open WebSharper.JavaScript
-open WebSharper.JQuery
+//open WebSharper.JQuery
 open WebSharper.Highcharts
 open WebSharper.UI
 open WebSharper.UI.Client
 open WebSharper.UI.Html
 
-[<Require(typeof<Resources.Highcharts>)>]
+//[<Require(typeof<Resources.Highcharts>)>]
 [<JavaScript>]
 [<SPAEntryPoint>]
 let Main() =
     div [
         on.afterRender (fun el ->
-            Highcharts.Create(JQuery.Of el,
+            Highcharts.Chart(el,
                 HighchartsCfg(
                     Title = TitleCfg(
                         Text = "Monthly Average Temperature",
