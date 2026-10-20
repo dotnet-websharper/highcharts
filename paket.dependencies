@@ -7,10 +7,10 @@ strategy: min
 storage: none
 
 nuget FParsec
-nuget WebSharper prerelease
-nuget WebSharper.FSharp prerelease
-nuget WebSharper.UI prerelease
-nuget WebSharper.JQuery prerelease
+nuget WebSharper ~> 10.0
+nuget WebSharper.FSharp ~> 10.0
+nuget WebSharper.UI ~> 10.0
+nuget WebSharper.JQuery ~> 10.0
 
 group wsbuild
     git https://github.com/dotnet-websharper/build-script websharper80
