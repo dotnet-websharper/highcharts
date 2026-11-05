@@ -247,7 +247,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     match lib with
     | Highcharts ->
         let hcRes =
-            Resource "Highcharts" "https://code.highcharts.com/highcharts.js"
+            Resource "Highcharts" "https://cdn.jsdelivr.net/npm/highcharts/highcharts.js"
             |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
     
         Assembly [
@@ -258,19 +258,13 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             Namespace "WebSharper.Highcharts.Resources" [
                 hcRes
 
-                Resource "ExportingModule" "https://code.highcharts.com/modules/exporting.js" 
-                |> Requires [ hcRes ]
-            
-                Resource "MooToolsAdapter" "https://code.highcharts.com/adapters/mootools-adapter.js" 
-                |> Requires [ hcRes ]
-
-                Resource "PrototypeAdapter" "https://code.highcharts.com/adapters/prototype-adapter.js" 
+                Resource "ExportingModule" "https://cdn.jsdelivr.net/npm/highcharts/modules/exporting.js" 
                 |> Requires [ hcRes ]
             ]
         ]
     | Highstock -> 
         let hsRes =
-            Resource "Highstock" "https://code.highcharts.com/stock/highstock.js"
+            Resource "Highstock" "https://cdn.jsdelivr.net/npm/highcharts/highstock.js"
             |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
 
         Assembly [
@@ -281,19 +275,13 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             Namespace "WebSharper.Highstock.Resources" [
                 hsRes
 
-                Resource "ExportingModule" "https://code.highcharts.com/stock/modules/exporting.js" 
-                |> Requires [ hsRes ]
-            
-                Resource "MooToolsAdapter" "https://code.highcharts.com/stock/adapters/mootools-adapter.js" 
-                |> Requires [ hsRes ]
-
-                Resource "PrototypeAdapter" "https://code.highcharts.com/stock/adapters/prototype-adapter.js" 
+                Resource "ExportingModule" "https://cdn.jsdelivr.net/npm/highcharts/modules/exporting.js" 
                 |> Requires [ hsRes ]
             ]
         ]
     | Highmaps p ->
     let hmRes =
-        Resource "Highmaps" "https://code.highcharts.com/maps/highmaps.js"
+        Resource "Highmaps" "https://cdn.jsdelivr.net/npm/highcharts/highmaps.js"
         |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
 
     Assembly [
@@ -304,19 +292,13 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         Namespace "WebSharper.Highmaps.Resources" [
             hmRes
 
-            Resource "MapModuleForCharts" "https://code.highcharts.com/maps/modules/map.js" 
+            Resource "MapModuleForCharts" "https://cdn.jsdelivr.net/npm/highcharts/modules/map.js" 
             |> RequiresExternal [ p.HighchartsRes ]
             
-            Resource "MapModuleForStock" "https://code.highcharts.com/maps/modules/map.js" 
+            Resource "MapModuleForStock" "https://cdn.jsdelivr.net/npm/highcharts/modules/map.js" 
             |> RequiresExternal [ p.HighstockRes ]
 
-            Resource "ExportingModule" "https://code.highcharts.com/maps/modules/exporting.js" 
-            |> Requires [ hmRes ]
-            
-            Resource "MooToolsAdapter" "https://code.highcharts.com/maps/adapters/mootools-adapter.js" 
-            |> Requires [ hmRes ]
-
-            Resource "PrototypeAdapter" "https://code.highcharts.com/maps/adapters/prototype-adapter.js" 
+            Resource "ExportingModule" "https://cdn.jsdelivr.net/npm/highcharts/modules/exporting.js" 
             |> Requires [ hmRes ]
         ]
     ]

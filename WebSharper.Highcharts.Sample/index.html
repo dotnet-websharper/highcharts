@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSharper.Highcharts — sample</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <!-- The binding links jQuery and Highcharts here. -->
+    <!-- ws-head -->
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-titles">
+            <h1>WebSharper.Highcharts</h1>
+            <p>Highcharts bindings for F# — with <a href="https://websharper.com">WebSharper</a></p>
+        </div>
+        <a class="app-source" href="https://github.com/dotnet-websharper/highcharts">Source</a>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <header class="card-header">
+                <h2>${Title}</h2>
+                <p>
+                    A <code>HighchartsCfg</code> built in F#, rendered through
+                    <code>Highcharts.Create(JQuery.Of el, cfg)</code>. jQuery and
+                    Highcharts load from code.jquery.com and jsDelivr, which do not
+                    gate on a <code>Referer</code>.
+                </p>
+            </header>
+            <div class="card-body">
+                <div id="chart"></div>
+            </div>
+        </section>
+    </main>
+
+    <script type="text/javascript" src="Scripts/WebSharper.Highcharts.Sample.min.js"></script>
+</body>
+</html>
