@@ -106,6 +106,29 @@ cast is erased from the generated JavaScript.
 - The full config object is strongly typed: `HighchartsCfg`, `TitleCfg`,
   `XAxisCfg`, `SeriesCfg`, ... are generated from the official API.
 - Event handlers, formatters and other callbacks map to F# functions.
+- Series types are separate config classes (`LineSeriesCfg`, `AreaSeriesCfg`,
+  ...). They are flat: each one repeats the options of the series type it is
+  derived from, so `LineSeriesCfg()` accepts every `plotOptions.series` option
+  plus the line-specific ones.
+- Types that the docs share between config objects are exposed once and reused:
+  `YAxisCfg.Title` is an `XAxisTitleCfg`, `LineSeriesCfg.Marker` is a
+  `PlotOptionsSeriesMarkerCfg`, and so on.
+
+## Regenerating the API model
+
+`.temp/*.json` is generated from the Highcharts documentation for the release
+the bindings target (they are pinned to `highcharts` 13.x on npm):
+
+```bash
+python3 tools/api-gen/gen_configs.py   # options: *configs.json
+python3 tools/api-gen/gen_objects.py   # runtime classes: *objects.json
+```
+
+Both scripts fetch from `api.highcharts.com` and write into `.temp/`; see
+[`tools/api-gen/README.md`](tools/api-gen/README.md) for details. The bindings
+are compiled from these files, so re-run a build afterwards (an *incremental*
+build will not notice the change — touch `WebSharper.Highcharts/Main.fs` first,
+or rebuild the binding projects).
 
 ## Running the test case
 
@@ -168,6 +191,7 @@ WebSharper.Highmaps/              # Highmaps binding
 HighchartsGeneratorCommon/        # shared binding generator
   Definition.fs                   # npm module names + codegen
 .temp/                            # API definition consumed by the generator
+tools/api-gen/                    # regenerates .temp/ from the Highcharts docs
 WebSharper.Highcharts.Sample/     # SPA sample
   Client.fs
   index.html                      # template (ws-head injection point)
