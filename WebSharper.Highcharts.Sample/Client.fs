@@ -13,6 +13,21 @@ module Client =
 
     type IndexTemplate = Template<"index.html", ClientLoad.FromDocument>
 
+    // Theme: light is the default; the choice is persisted in localStorage.
+    // The storage key is shared with the bootstrap script in index.html.
+    let themeStorageKey = "websharper-highcharts-theme"
+    let theme = Var.Create "light"
+    let themeLabel = Var.Create "🌙 Dark mode"
+
+    let applyTheme () =
+        JS.Document.DocumentElement.SetAttribute("data-theme", theme.Value)
+        themeLabel.Value <- if theme.Value = "dark" then "☀️ Light mode" else "🌙 Dark mode"
+
+    let toggleTheme () =
+        theme.Value <- (if theme.Value = "dark" then "light" else "dark")
+        try JS.Window.LocalStorage.SetItem(themeStorageKey, theme.Value) with _ -> ()
+        applyTheme ()
+
     let private config () =
         HighchartsCfg(
             Title = TitleCfg(Text = "Monthly Average Temperature"),
@@ -61,11 +76,24 @@ module Client =
             |]
         )
 
-    [<Require(typeof<Resources.Highcharts>)>]
+    // The binding is npm-based: Highcharts is imported from the `highcharts`
+    // package and bundled by esbuild. The only script resource left is the
+    // global jQuery that the `create` (jQuery plugin) helper uses.
+    [<Require(typeof<WebSharper.JQuery.Resources.JQuery>)>]
     [<SPAEntryPoint>]
     let Main () =
+        // Restore a previously stored theme before the first paint.
+        try
+            let stored = JS.Window.LocalStorage.GetItem(themeStorageKey)
+            if not (isNull stored) && (stored = "light" || stored = "dark") then
+                theme.Value <- stored
+        with _ -> ()
+        applyTheme ()
+
         IndexTemplate()
             .Title("Monthly Average Temperature")
+            .themeLabel(themeLabel.View)
+            .ToggleTheme(fun _ -> toggleTheme ())
             .Bind()
 
         let el = JS.Document.GetElementById("chart")

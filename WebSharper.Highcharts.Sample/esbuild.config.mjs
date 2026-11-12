@@ -18,8 +18,9 @@ await build({
 mkdirSync('../dist/css', { recursive: true })
 copyFileSync('./css/index.css', '../dist/css/index.css')
 
-// Inject the WebSharper head: the jQuery and Highcharts <script> tags linked by
-// the binding's resources (jQuery from code.jquery.com, Highcharts from jsDelivr).
+// Inject the WebSharper head: the jQuery <script> tag linked by the
+// WebSharper.JQuery resource. Highcharts is bundled from npm, so no
+// <script> tag is generated for it.
 const head = readFileSync(`./build/${name}.head.html`, 'utf8')
 const html = readFileSync('./index.html', 'utf8').replace('<!-- ws-head -->', head)
 writeFileSync('../dist/index.html', html)
