@@ -78,15 +78,32 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             typeMap := !typeMap |> Map.add n t
             t
 
+    /// Split on `sep`, ignoring separators nested inside `<>`, `()` or `[]`.
+    let splitTop (sep: char) (s: string) =
+        let parts = ResizeArray<string>()
+        let sb = System.Text.StringBuilder()
+        let mutable depth = 0
+        for ch in s do
+            match ch with
+            | '<' | '(' | '[' -> depth <- depth + 1; sb.Append ch |> ignore
+            | '>' | ')' | ']' -> depth <- depth - 1; sb.Append ch |> ignore
+            | c when c = sep && depth = 0 -> parts.Add(sb.ToString()); sb.Clear() |> ignore
+            | c -> sb.Append c |> ignore
+        parts.Add(sb.ToString())
+        List.ofSeq parts
+
     let rec getType (n: string) =
         match n with
         | null | "" -> T<unit>
         | _ ->
-        if n.StartsWith "Array<" then
-            getType (n.[6 ..].TrimEnd(';', '>')) |> Type.ArrayOf
-        else
-            let ts = n.Split '|'
-            ts |> Array.map getRawType |> Array.reduce (+)
+        let n = n.Trim().TrimEnd(';')
+        match splitTop '|' n with
+        | [ single ] ->
+            if single.StartsWith "Array<" && single.EndsWith ">" then
+                getType (single.Substring(6, single.Length - 7)) |> Type.ArrayOf
+            else
+                getRawType single
+        | parts -> parts |> List.map getType |> List.reduce (+)
 
     let getParams (pl: HcParam list) =
         {
@@ -111,9 +128,10 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
 
     let capitalize (s: string) = s.[0 .. 0].ToUpper() + s.[1 ..]
 
+
     let arrayConfigs = ref Set.empty
    
-    let isArray (s: string) = s <> null && s.StartsWith "Array<"
+    let isArray (s: string) = s <> null && s.Contains "Array<"
 
     let rec addArrayConfigs (c: HcConfig) =
         if c.Members |> List.isEmpty |> not then
@@ -123,50 +141,85 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
 
     configs |> List.iter addArrayConfigs
 
-    let rec getConfig parentName (c: HcConfig) =
-        let seriesType =
-            if c.Name.StartsWith "series<" then
-                Some c.Name.[7 .. c.Name.Length - 2]
-            else None
-        let name = 
-            match seriesType with
-            | Some s -> capitalize s + "Series" 
+    // Class name and node for every config, so that `Extends` targets can be
+    // resolved regardless of the order in which the dumps are walked.
+    let cfgNodes = System.Collections.Generic.Dictionary<string, HcConfig>()
+    let cfgNames = System.Collections.Generic.Dictionary<string, string>()
+
+    let seriesTypeOf (c: HcConfig) =
+        if c.Name.StartsWith "series<" then
+            Some c.Name.[7 .. c.Name.Length - 2]
+        else None
+
+    let rec plan parentName (c: HcConfig) =
+        let name =
+            match seriesTypeOf c with
+            | Some s -> capitalize s + "Series"
             | _ -> parentName + capitalize c.Name
-        let pmem, cmem = 
-            c.Members |> Seq.distinctBy (fun m -> m.Name) |> List.ofSeq
-            |> List.partition (fun cc -> cc.Members = [] && cc.Extends = None)
-        let cls =
-            Class (name + "Cfg")
-            |=> getRawType c.RefName
-            |> fun cls ->
-                match c.Extends with                  
-                | Some t ->
-                    cls |=> Inherits (getRawType t)
-                | _ -> 
-                match seriesType with
-                | Some s ->
-                    cls |=> Inherits (getRawType "series")
-                | _ ->
-                    cls
-            |+> Instance (
-                    (
-                        pmem |> List.map (fun cc ->
-                            cc.Name =@ getType cc.Type |> WithOptComment cc.Desc :> _
-                        )
-                    ) @ (
-                        cmem |> List.map (fun cc ->
-                            let cls = getConfig name cc
-                            if isArray cc.Type || (cc.Extends |> Option.exists (fun t -> !arrayConfigs |> Set.contains t)) then
-                                cc.Name =@ Type.ArrayOf cls :> _
-                            else
-                                cc.Name =@ cls :> _
-                        )
-                    )
-                )
-            |+> Static [ Constructor T<unit> |> WithInline (match seriesType with | Some s -> sprintf "{type: '%s'}" s | _ -> "{}") ] 
-            |> WithOptComment c.Desc    
-        configsList := upcast cls :: !configsList
-        cls
+        if not (cfgNodes.ContainsKey c.RefName) then
+            cfgNodes.[c.RefName] <- c
+            cfgNames.[c.RefName] <- name
+            c.Members |> List.iter (plan name)
+
+    configs |> List.iter (plan "")
+
+    // Members of each generated config, so that a config with `Extends` can
+    // repeat its base's members. WIG inheritance would be the obvious choice,
+    // but it drops the .NET constructor of the derived proxy class, which the
+    // config builders need.
+    let cfgProps = System.Collections.Generic.Dictionary<string, (string * Type.Type) list>()
+    let cfgClasses = System.Collections.Generic.Dictionary<string, CodeModel.Class>()
+    let inProgress = System.Collections.Generic.HashSet<string>()
+
+    let rec getConfigProps (c: HcConfig) : (string * Type.Type) list =
+        match cfgProps.TryGetValue c.RefName with
+        | true, props -> props
+        | _ when inProgress.Contains c.RefName -> []
+        | _ ->
+            inProgress.Add c.RefName |> ignore
+            let name = cfgNames.[c.RefName]
+            let pmem, cmem =
+                c.Members |> Seq.distinctBy (fun m -> m.Name) |> List.ofSeq
+                |> List.partition (fun cc -> cc.Members = [] && cc.Extends = None)
+            let inherited =
+                match c.Extends with
+                | Some t when cfgNodes.ContainsKey t -> getConfigProps cfgNodes.[t]
+                | _ -> []
+            let props =
+                inherited @
+                (pmem |> List.map (fun cc -> cc.Name, getType cc.Type)) @
+                (cmem |> List.map (fun cc ->
+                    let cls = getConfig cc
+                    let ty =
+                        if isArray cc.Type || (cc.Extends |> Option.exists (fun t -> !arrayConfigs |> Set.contains t)) then
+                            Type.ArrayOf cls
+                        else
+                            cls.Type
+                    cc.Name, ty
+                ))
+                |> List.distinctBy fst
+            inProgress.Remove c.RefName |> ignore
+            cfgProps.[c.RefName] <- props
+            props
+
+    and getConfig (c: HcConfig) : CodeModel.Class =
+        match cfgClasses.TryGetValue c.RefName with
+        | true, cls -> cls
+        | _ ->
+            let name = cfgNames.[c.RefName]
+            let props = getConfigProps c
+            let cls =
+                Class (name + "Cfg")
+                |=> getRawType c.RefName
+                |+> Instance (props |> List.map (fun (n, t) -> n =@ t :> _))
+                |+> Static [
+                    Constructor T<unit>
+                    |> WithInline (match seriesTypeOf c with Some s -> sprintf "{type: '%s'}" s | _ -> "{}")
+                ]
+                |> WithOptComment c.Desc
+            cfgClasses.[c.RefName] <- cls
+            configsList := upcast cls :: !configsList
+            cls
 
     let optConfigs, hcConfigs =
         configs |> List.partition (fun c -> c.RefName = "global" || c.RefName = "lang")
@@ -180,7 +233,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         ) 
         |+> Instance (
             hcConfigs |> List.map (fun c -> 
-                let cls = getConfig "" c
+                let cls = getConfig c
                 if isArray c.Type then
                     c.Name =@ Type.ArrayOf cls :> _
                 else
@@ -195,7 +248,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         Class "OptionsCfg"
         |+> Instance (
             optConfigs |> List.map (fun c -> 
-                let cls = getConfig "" c
+                let cls = getConfig c
                 c.Name =@ cls :> _
             )
         )
@@ -210,9 +263,9 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             o.Members |> List.map (
                 function
                 | HcProperty p ->
-                    p.Name =@ getType p.Type |> WithOptComment p.Desc :> CodeModel.Member  
+                    (p.Name =@ getType p.Type |> WithOptComment p.Desc) :> CodeModel.Member
                 | HcMethod m ->
-                    let meth = m.Name => getParams m.Params ^-> getType m.ReturnType 
+                    let meth = m.Name => getParams m.Params ^-> getType m.ReturnType
                     if m.Name = "chart" || m.Name = "stockChart" then meth |> WithSourceName m.Name else meth
                     :> CodeModel.Member
             )
