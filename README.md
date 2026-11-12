@@ -19,40 +19,36 @@ This repository contains:
 | `WebSharper.Highstock` | The binding for Highstock. |
 | `WebSharper.Highmaps` | The binding for Highmaps. |
 | `HighchartsGeneratorCommon` | Generates the bindings from the API definition in `.temp/`. |
-| `WebSharper.Highcharts.Sample` | A runnable WebSharper 10 SPA rendering a chart. |
+| `WebSharper.Highcharts.Sample` | A runnable WebSharper SPA rendering a chart. |
 
 Each binding ships in its own NuGet package.
 
 ## Live demos
 
-- **Binding sample (this repo):** https://dotnet-websharper.github.io/highcharts/
+**Try it live:** [Open the sample in your browser](https://dotnet-websharper.github.io/highcharts/)
+
+![Highcharts sample](docs/sample.png)
+
+The sample doubles as the binding's [test case](#running-the-test-case): it renders
+a multi-series monthly temperature chart, and the header's theme switch toggles
+the light/dark palette and persists the choice in `localStorage`.
+
 - **Sample in the WebSharper samples gallery:** https://websharper-samples.github.io/HighCharts/
 - **Sample source in the gallery:** https://github.com/websharper-samples/HighCharts
 - **WebSharper:** https://websharper.com
 
-![WebSharper.Highcharts sample](docs/highcharts.png)
-
 ## Loading Highcharts
 
-The bindings declare the Highcharts scripts as resources (`Resources.Highcharts`,
-`Resources.Highstock`, `Resources.Highmaps`) which are linked automatically when
-you reference the corresponding types. They load from **[jsDelivr][jsd]** —
-`https://cdn.jsdelivr.net/npm/highcharts/...` — which does **not** gate on a
-`Referer` header. (The previous `code.highcharts.com` URLs returned `403
-Missing Referer` when no referer was sent, e.g. in headless browsers or under a
-`Referrer-Policy: no-referrer`, and browsers then blocked the response.)
+The bindings are **npm-based**: each imports the Highcharts library from its npm
+package (`highcharts`, `highcharts/highstock`, `highcharts/highmaps`) and the
+sample bundles it with esbuild. The `create` helper compiles to
+`Highcharts.chart(container, config)` (Highcharts), `Highcharts.stockChart(...)`
+(Highstock) or `Highcharts.mapChart(...)` (Highmaps).
 
-Highcharts integrates with jQuery, so `Resources.Highcharts` also requires the
-global jQuery that `WebSharper.JQuery` loads. There is a **single** jQuery
-instance: `JQuery.Of(...)` and Highcharts' `$.fn.highcharts` plugin use the same
-object, so `Highcharts.Create(JQuery.Of el, cfg)` works.
-
-> If you are on a `WebSharper.JQuery` release older than the fix in
-> [dotnet-websharper/jquery#14](https://github.com/dotnet-websharper/jquery/issues/14),
-> the binding still `import`s the npm `jquery` module while the resource loads the
-> global one, giving two instances. The sample works around this by aliasing the
-> `jquery` import to the global (see `WebSharper.Highcharts.Sample/jquery-shim.js`);
-> once the fixed `WebSharper.JQuery` is released the shim is simply unused.
+The sample still uses the jQuery plugin's `WebSharper.JQuery` global instance
+(`JQuery.Of`) to pass the container, so the `WebSharper.JQuery` resource is
+loaded from the CDN. Highcharts itself is bundled from the npm package, so no
+`<script>` tag is emitted for it.
 
 ## Install
 
@@ -67,7 +63,7 @@ Or with Paket:
 nuget WebSharper.Highcharts
 ```
 
-The packages target `netstandard2.0` and work with any WebSharper 10 project.
+The packages target `netstandard2.0` and work with any WebSharper project.
 
 ## Usage
 
@@ -79,7 +75,6 @@ open WebSharper.Highcharts
 open WebSharper.UI
 open WebSharper.UI.Html
 
-[<Require(typeof<Resources.Highcharts>)>]
 [<JavaScript>]
 let Main () =
     div [
@@ -105,18 +100,38 @@ cast is erased from the generated JavaScript.
 
 ## Notes on the API
 
-- `Highcharts.Create(container, config)` compiles to `$(container).highcharts(config)`;
-  the Highstock/Highmaps equivalents call `highcharts('StockChart', ...)` and
-  `highcharts('Map', ...)`.
+- `Highcharts.Create(container, config)` compiles to
+  `Highcharts.chart(container, config)`; the Highstock/Highmaps equivalents call
+  `Highcharts.stockChart(...)` and `Highcharts.mapChart(...)`.
 - The full config object is strongly typed: `HighchartsCfg`, `TitleCfg`,
   `XAxisCfg`, `SeriesCfg`, ... are generated from the official API.
 - Event handlers, formatters and other callbacks map to F# functions.
+
+## Running the test case
+
+The sample is a static WebSharper SPA. Build it in Release to produce the
+self-contained site in `dist/`:
+
+```bash
+cd WebSharper.Highcharts.Sample
+dotnet build -c Release
+```
+
+Then serve it with [`dotnet-serve`](https://github.com/dotnet-serve/dotnet-serve)
+(install it once with `dotnet tool install -g dotnet-serve`):
+
+```bash
+dotnet serve -d ../dist -p 8080
+```
+
+Open http://localhost:8080/ to see the chart. The header's theme switch toggles
+the light/dark palette.
 
 ## Build from source
 
 ### Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) 9.0 or later.
+- [.NET SDK](https://dotnet.microsoft.com/download) 10.0 or later.
 - [Node.js](https://nodejs.org/) (LTS) for the esbuild bundle step.
 - [Paket](https://fsprojects.github.io/Paket/) as a local dotnet tool (already
   configured in `.config/dotnet-tools.json`).
@@ -125,7 +140,7 @@ cast is erased from the generated JavaScript.
 
 ```bash
 dotnet tool restore
-dotnet tool run paket restore
+dotnet paket restore
 dotnet build WebSharper.Highcharts.sln -c Release
 ```
 
@@ -133,24 +148,10 @@ The bindings are generated at build time: `WebSharper.Highcharts/Main.fs` reads
 the API definition from `.temp/` and builds the assembly through
 `HighchartsGeneratorCommon`.
 
-### Run the sample
-
-The sample is a static WebSharper 10 SPA. Building it in Release produces the
-self-contained site in `dist/`:
-
-```bash
-cd WebSharper.Highcharts.Sample
-dotnet build -c Release
-# then serve the generated site, e.g.
-npx serve ../dist
-```
-
 ### Pack the NuGet packages
 
-After a Release build:
-
 ```bash
-dotnet tool run paket pack ./out
+dotnet paket pack ./out
 ```
 
 ### Deployment
@@ -165,9 +166,9 @@ WebSharper.Highcharts/            # Highcharts binding (generated at build)
 WebSharper.Highstock/             # Highstock binding
 WebSharper.Highmaps/              # Highmaps binding
 HighchartsGeneratorCommon/        # shared binding generator
-  Definition.fs                   # resource (CDN) definitions + codegen
+  Definition.fs                   # npm module names + codegen
 .temp/                            # API definition consumed by the generator
-WebSharper.Highcharts.Sample/     # WS10 SPA sample
+WebSharper.Highcharts.Sample/     # SPA sample
   Client.fs
   index.html                      # template (ws-head injection point)
   esbuild.config.mjs
@@ -188,4 +189,3 @@ The bindings themselves are Apache 2.0 — see [LICENSE.md](LICENSE.md).
 [hcapi]: https://api.highcharts.com/highcharts
 [hsapi]: https://api.highcharts.com/highstock
 [hmapi]: https://api.highcharts.com/highmaps
-[jsd]: https://www.jsdelivr.com/

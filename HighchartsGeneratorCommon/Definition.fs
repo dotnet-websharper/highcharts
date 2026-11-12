@@ -24,19 +24,21 @@ open WebSharper.InterfaceGenerator
 
 open HcJson
 
-type HighmapsParams =
-    {
-        HighchartsRes : Type.Type
-        HighstockRes : Type.Type
-    }
-
 type HcLib =
     | Highcharts
     | Highstock
-    | Highmaps of HighmapsParams
+    | Highmaps
 
 let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
-    
+
+    /// Highcharts ships a single npm package with three UMD entry points, so
+    /// the three bindings import the same package but different modules.
+    let moduleName =
+        match lib with
+        | Highcharts -> "highcharts"
+        | Highstock -> "highcharts/highstock"
+        | Highmaps -> "highcharts/highmaps"
+
     /// Key: Type name as in documentation
     /// Value: Type.Type records
     let typeMap =
@@ -174,7 +176,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             match lib with 
             | Highcharts -> "HighchartsCfg" 
             | Highstock -> "HighstockCfg" 
-            | Highmaps _ -> "HighmapsCfg"
+            | Highmaps -> "HighmapsCfg"
         ) 
         |+> Instance (
             hcConfigs |> List.map (fun c -> 
@@ -215,8 +217,14 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                     :> CodeModel.Member
             )
         let cls = 
-            Class o.Name
-            |=> getRawType o.Name
+            let baseClass =
+                Class o.Name
+                |=> getRawType o.Name
+            let cls =
+                match o.Name with
+                | "Highcharts" -> baseClass |> ImportDefault moduleName
+                | _ -> baseClass
+            cls
             |+> (
                 match o.Name with
                 | "Highcharts" -> 
@@ -227,9 +235,9 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                             ^-> getRawType "Chart" 
                             |> WithInline (
                                 match lib with
-                                | Highcharts -> "$container.highcharts($config)" 
-                                | Highstock -> "$container.highcharts('StockChart', $config)" 
-                                | Highmaps _ -> "$container.highcharts('Map', $config)"
+                                | Highcharts -> "$import.chart($container[0], $config)"
+                                | Highstock -> "$import.stockChart($container[0], $config)"
+                                | Highmaps -> "$import.mapChart($container[0], $config)"
                             ) :> CodeModel.Member
                         "setOptions" => optionsCls?options ^-> optionsCls :> _
                         "renderer" =? getRawType "Renderer" :> _
@@ -246,59 +254,23 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
 
     match lib with
     | Highcharts ->
-        let hcRes =
-            Resource "Highcharts" "https://cdn.jsdelivr.net/npm/highcharts/highcharts.js"
-            |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
-    
         Assembly [
             Namespace "WebSharper.Highcharts" (
                 !configsList @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
-            Namespace "WebSharper.Highcharts.Resources" [
-                hcRes
-
-                Resource "ExportingModule" "https://cdn.jsdelivr.net/npm/highcharts/modules/exporting.js" 
-                |> Requires [ hcRes ]
-            ]
         ]
     | Highstock -> 
-        let hsRes =
-            Resource "Highstock" "https://cdn.jsdelivr.net/npm/highcharts/highstock.js"
-            |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
-
         Assembly [
             Namespace "WebSharper.Highstock" (
                 !configsList @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
-            Namespace "WebSharper.Highstock.Resources" [
-                hsRes
-
-                Resource "ExportingModule" "https://cdn.jsdelivr.net/npm/highcharts/modules/exporting.js" 
-                |> Requires [ hsRes ]
-            ]
         ]
-    | Highmaps p ->
-    let hmRes =
-        Resource "Highmaps" "https://cdn.jsdelivr.net/npm/highcharts/highmaps.js"
-        |> RequiresExternal [ T<WebSharper.JQuery.Resources.JQuery> ]
-
-    Assembly [
-        Namespace "WebSharper.Highmaps" (
-            !configsList @
-            (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
-        ) 
-        Namespace "WebSharper.Highmaps.Resources" [
-            hmRes
-
-            Resource "MapModuleForCharts" "https://cdn.jsdelivr.net/npm/highcharts/modules/map.js" 
-            |> RequiresExternal [ p.HighchartsRes ]
-            
-            Resource "MapModuleForStock" "https://cdn.jsdelivr.net/npm/highcharts/modules/map.js" 
-            |> RequiresExternal [ p.HighstockRes ]
-
-            Resource "ExportingModule" "https://cdn.jsdelivr.net/npm/highcharts/modules/exporting.js" 
-            |> Requires [ hmRes ]
+    | Highmaps ->
+        Assembly [
+            Namespace "WebSharper.Highmaps" (
+                !configsList @
+                (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
+            ) 
         ]
-    ]

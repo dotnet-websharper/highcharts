@@ -45,12 +45,7 @@ let Assembly =
                     )
                 | _ -> failwith "json not a list" 
             |> HcJson.getObjects
-        let def = 
-            Definition.Highmaps {
-                HighchartsRes = T<WebSharper.Highcharts.Resources.Highcharts>
-                HighstockRes = T<WebSharper.Highstock.Resources.Highstock>
-            }
-        Definition.getAssembly def configs objects
+        Definition.getAssembly Definition.Highmaps configs objects
     with exc ->
         printfn "%A" exc
         reraise()    
