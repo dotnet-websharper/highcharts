@@ -23,6 +23,14 @@ This repository contains:
 
 Each binding ships in its own NuGet package.
 
+> **These bindings are Apache 2.0, the libraries are not.** Highcharts,
+> Highstock and Highmaps are commercial products of Highsoft AS; the packages
+> here contain only the F# bindings and do **not** grant a license for them.
+> Commercial use is governed by the [Highsoft Standard License
+> Agreement](https://www.highcharts.com/license), non-commercial use by the
+> [Highsoft EULA](https://www.highcharts.com/license-eula) — see
+> [Licensing](#licensing).
+
 ## Live demos
 
 **Try it live:** [Open the sample in your browser](https://dotnet-websharper.github.io/highcharts/)
@@ -70,7 +78,8 @@ the modules the option model references (57 for Highcharts, 84 for Highstock,
 The sample still uses the jQuery plugin's `WebSharper.JQuery` global instance
 (`JQuery.Of`) to pass the container, so the `WebSharper.JQuery` resource is
 loaded from the CDN. Highcharts itself is bundled from the npm package, so no
-`<script>` tag is emitted for it.
+`<script>` tag is emitted for it. Note that pulling in the npm package means
+accepting Highsoft's license terms — see [Licensing](#licensing).
 
 ## Install
 
@@ -229,11 +238,26 @@ nuget/                            # Paket pack templates
 
 ## Licensing
 
-For using Highcharts in any public product, acquire a license from
-https://shop.highcharts.com/ or, for non-profits, apply for an
-Educational/Personal license at https://www.highcharts.com/blog/education/.
+**Highcharts, Highstock and Highmaps are commercial libraries and are not free
+for every use.** They are the property of Highsoft AS, and any application that
+renders one of their charts is subject to Highsoft's terms:
 
-The bindings themselves are Apache 2.0 — see [LICENSE.md](LICENSE.md).
+| Use | Licence |
+|---|---|
+| Commercial | [Highsoft Standard License Agreement](https://www.highcharts.com/license) — buy at https://shop.highcharts.com/ |
+| Non-commercial | [Highsoft End-User License Agreement (EULA)](https://www.highcharts.com/license-eula) |
+| Education / non-profit | apply for an Educational or Personal license at https://www.highcharts.com/blog/education/ |
+
+The authoritative text is the one that ships with the library
+(`node_modules/highcharts/LICENSE.txt`) and on
+https://www.highcharts.com/license; the links above are the license pages
+themselves.
+
+The NuGet packages in this repository contain **only the WebSharper bindings**.
+They are Apache 2.0 — see [LICENSE.md](LICENSE.md) — and they do not bundle or
+sublicense Highcharts: the sample (and your application) pulls the library from
+the `highcharts` npm package, so the terms above apply to *that* dependency, not
+to the bindings.
 
 [hc]: https://www.highcharts.com/
 [hcapi]: https://api.highcharts.com/highcharts
