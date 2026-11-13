@@ -39,11 +39,33 @@ the light/dark palette and persists the choice in `localStorage`.
 
 ## Loading Highcharts
 
-The bindings are **npm-based**: each imports the Highcharts library from its npm
-package (`highcharts`, `highcharts/highstock`, `highcharts/highmaps`) and the
-sample bundles it with esbuild. The `create` helper compiles to
-`Highcharts.chart(container, config)` (Highcharts), `Highcharts.stockChart(...)`
-(Highstock) or `Highcharts.mapChart(...)` (Highmaps).
+The bindings are **npm-based**: each imports the ES module build of the npm
+package — `highcharts/esm/highcharts.js`, `highcharts/esm/highstock.js`,
+`highcharts/esm/highmaps.js` — and the sample bundles it with esbuild. The
+`create` helper compiles to `Highcharts.chart(container, config)` (Highcharts),
+`Highcharts.stockChart(...)` (Highstock) or `Highcharts.mapChart(...)`
+(Highmaps).
+
+### Modules
+
+Most series types (and some option groups, such as the export menu) live in
+Highcharts modules that patch the core library and have to be imported for
+their side effect. Each binding exposes them through a generated `Modules`
+class, and the config classes that need one say so in their documentation:
+
+```fsharp
+open WebSharper.Highcharts
+
+// SankeySeriesCfg requires this one; so does the arc-diagram series.
+Modules.Sankey()
+Modules.Exporting()
+
+Highcharts.Create(container, config) |> ignore
+```
+
+The list is generated from the docs, so `Modules.<Name>()` exists exactly for
+the modules the option model references (57 for Highcharts, 84 for Highstock,
+24 for Highmaps), each backed by an `import "highcharts/esm/modules/…"`.
 
 The sample still uses the jQuery plugin's `WebSharper.JQuery` global instance
 (`JQuery.Of`) to pass the container, so the `WebSharper.JQuery` resource is
@@ -113,6 +135,11 @@ cast is erased from the generated JavaScript.
 - Types that the docs share between config objects are exposed once and reused:
   `YAxisCfg.Title` is an `XAxisTitleCfg`, `LineSeriesCfg.Marker` is a
   `PlotOptionsSeriesMarkerCfg`, and so on.
+- The runtime classes are bound too: `Highcharts.Create` returns a `Chart` with
+  its `Series`, `Axes`, `Renderer`, ... as well as the `Highcharts` namespace
+  functions (`Merge`, `CorrectFloat`, `DateFormat`, ...).
+- A config that needs a Highcharts module says so in its doc comment and names
+  the `Modules` member to call — see [Modules](#modules).
 
 ## Regenerating the API model
 
@@ -129,7 +156,6 @@ Both scripts fetch from `api.highcharts.com` and write into `.temp/`; see
 are compiled from these files, so re-run a build afterwards (an *incremental*
 build will not notice the change — touch `WebSharper.Highcharts/Main.fs` first,
 or rebuild the binding projects).
-
 ## Running the test case
 
 The sample is a static WebSharper SPA. Build it in Release to produce the

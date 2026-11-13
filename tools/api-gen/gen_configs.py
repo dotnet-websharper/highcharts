@@ -185,6 +185,38 @@ def extends_of(node):
     return [p.strip() for p in str(ex).split(",") if p.strip()]
 
 
+# The docs name the modules of a product slightly differently from the npm
+# package layout: indicators and stock-only modules live at the package root.
+MODULE_ALIASES = (
+    ("stock/indicators/", "indicators/"),
+    ("stock/modules/", "modules/"),
+)
+
+
+def npm_modules(node):
+    """The npm subpath imports a config needs, e.g. `highcharts/esm/modules/sankey`.
+
+    The bindings use the ES module build (`esm/`): its modules can be imported
+    for their side effect from within a bundle, which the UMD files cannot.
+    Unbound products (Gantt) are left out.
+    """
+    out = []
+    for req in doclet(node).get("requires") or []:
+        if not req.startswith("module:"):
+            continue
+        spec = req[len("module:"):]
+        if spec.startswith("highcharts-gantt"):
+            continue
+        for old, new in MODULE_ALIASES:
+            if spec.startswith(old):
+                spec = new + spec[len(old):]
+                break
+        full = "highcharts/esm/%s.js" % spec
+        if full not in out:
+            out.append(full)
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Inheritance flattening (only used with --flatten)
 # ---------------------------------------------------------------------------
@@ -264,6 +296,7 @@ class Builder:
             "values": "",
             "extending": "",
             "products": sorted(own_products(node) or []),
+            "requires": npm_modules(node),
         }
 
     def inlines(self, node):
