@@ -63,6 +63,13 @@ What the script does:
   do not survive the round trip between the generated .NET proxy and the JS
   metadata.
 - **Deprecated options** are dropped together with their subtree.
+- **Modules.** `doclet.requires` becomes the dump's `requires` field, rewritten
+  to the npm subpath that actually ships the module: the docs say
+  `stock/indicators/acceleration-bands`, npm has
+  `highcharts/esm/indicators/acceleration-bands.js`. `Definition` turns those
+  into the binding's `Modules` class, where each member is an
+  `Import` + `$importFile` side-effect import, and appends the "call
+  `Modules.X()`" note to the docs of every config that needs it.
 
 ## Runtime classes (`gen_objects.py`)
 
@@ -80,10 +87,25 @@ promoted to required: WIG expands trailing optional parameters into overloads
 including a parameterless one, so two same-named all-optional methods would
 otherwise produce identical .NET signatures.
 
-## Caveat
+## Version match
 
-The generated *option* model is used through object initializers and is fully
-covered by the sample. The runtime *class* tier is emitted with the correct .NET
-shape, but calling individual members from JavaScript compilation depends on WIG
-property/method metadata and does not work for every member. Plain option-based
-charts do not need it.
+The scripts read `https://api.highcharts.com/...`, which currently serves the
+**13.1.0** docs, while the bindings pin `highcharts` **13.1.1** on npm. Diffing
+the two npm releases shows the public API is identical: no file was added or
+removed, no `.d.ts` changed at all, and the 17 changed files are the bundles
+(+13 bytes each: the version string) plus one fix in
+`es-modules/Core/Renderer/HTML/AST.js` (`xlink:href` added to the attributes
+validated against `allowedReferences`). So the dumps are accurate for 13.1.1;
+re-check on the next minor.
+
+## Regenerating while developing
+
+The WebSharper compiler server (`wsfscservice`) caches the WebSharper metadata of
+referenced assemblies. After regenerating `.temp/` and rebuilding a binding, a
+sample that references it can keep compiling against the *old* metadata — the
+symptoms look like missing members on the runtime classes. Kill the server
+before rebuilding:
+
+```bash
+pkill -f wsfscservice
+```

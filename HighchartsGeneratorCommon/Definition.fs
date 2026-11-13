@@ -31,13 +31,15 @@ type HcLib =
 
 let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
 
-    /// Highcharts ships a single npm package with three UMD entry points, so
-    /// the three bindings import the same package but different modules.
+    /// Highcharts ships a single npm package with three UMD entry points plus an
+    /// ES module build. The bindings use the ESM build: its modules have to be
+    /// importable for their side effect (`Modules.*`), which the UMD files
+    /// cannot do inside a bundle.
     let moduleName =
         match lib with
-        | Highcharts -> "highcharts"
-        | Highstock -> "highcharts/highstock"
-        | Highmaps -> "highcharts/highmaps"
+        | Highcharts -> "highcharts/esm/highcharts.js"
+        | Highstock -> "highcharts/esm/highstock.js"
+        | Highmaps -> "highcharts/esm/highmaps.js"
 
     /// Key: Type name as in documentation
     /// Value: Type.Type records
@@ -128,6 +130,59 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
 
     let capitalize (s: string) = s.[0 .. 0].ToUpper() + s.[1 ..]
 
+    // ------------------------------------------------------------------
+    // npm modules
+    //
+    // Most series types (and some option groups) live in Highcharts modules
+    // that have to be imported for their side effect before a chart uses them.
+    // The docs name them per option node; `Modules.<Name>()` below wraps each
+    // one as an npm subpath import.
+    // ------------------------------------------------------------------
+    let requiredModules =
+        let all = System.Collections.Generic.HashSet<string>()
+        let rec walk (c: HcConfig) =
+            c.Requires |> List.iter (all.Add >> ignore)
+            c.Members |> List.iter walk
+        configs |> List.iter walk
+        List.ofSeq all |> List.sort
+
+    let pascalCase (s: string) =
+        s.Split('-', '_') |> Array.map capitalize |> String.concat ""
+
+    /// `highcharts/esm/modules/export-data.js` -> `ExportData`.
+    let moduleBaseName (spec: string) =
+        spec.Split('/') |> Array.last |> fun s -> s.Replace(".js", "") |> pascalCase
+
+    /// Module specifier -> the name of its `Modules` member.
+    let moduleMembers =
+        let used = System.Collections.Generic.Dictionary<string, int>()
+        requiredModules
+        |> List.map (fun spec ->
+            let baseName = moduleBaseName spec
+            let name =
+                match used.TryGetValue baseName with
+                | true, n ->
+                    used.[baseName] <- n + 1
+                    baseName + string (n + 1)
+                | _ ->
+                    used.[baseName] <- 1
+                    baseName
+            spec, name)
+
+    let moduleMemberOf (spec: string) =
+        moduleMembers |> List.pick (fun (s, n) -> if s = spec then Some n else None)
+
+    /// Notes that a config needs a module, and how to load it.
+    let requiresNote (requires: string list) =
+        match requires with
+        | [] -> None
+        | mods ->
+            Some (
+                "\n\nRequires " + String.concat ", " mods + ": call " +
+                (mods |> List.map (fun m -> "`Modules." + moduleMemberOf m + "()`") |> String.concat " and ") +
+                " before creating the chart."
+            )
+
 
     let arrayConfigs = ref Set.empty
    
@@ -216,10 +271,32 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                     Constructor T<unit>
                     |> WithInline (match seriesTypeOf c with Some s -> sprintf "{type: '%s'}" s | _ -> "{}")
                 ]
-                |> WithOptComment c.Desc
+                |> WithOptComment (
+                    match c.Desc, requiresNote c.Requires with
+                    | Some d, Some r -> Some (d + r)
+                    | d, Some r -> Some (r.TrimStart())
+                    | d, None -> d
+                )
             cfgClasses.[c.RefName] <- cls
             configsList := upcast cls :: !configsList
             cls
+
+    /// Loads the Highcharts modules the option model needs. Highcharts modules
+    /// patch the core library, so call these before creating a chart.
+    let modulesCls =
+        Class "Modules"
+        |+> Static (
+            moduleMembers |> List.map (fun (spec, memberName) ->
+                memberName => T<unit> ^-> T<unit>
+                |> WithInline "$importFile"
+                |> ImportDefault spec
+                |> WithComment (
+                    sprintf "Imports `%s`, which registers the options that need it." spec
+                ) :> CodeModel.IClassMember
+            )
+        )
+
+    configsList := upcast modulesCls :: !configsList
 
     let optConfigs, hcConfigs =
         configs |> List.partition (fun c -> c.RefName = "global" || c.RefName = "lang")

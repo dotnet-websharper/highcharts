@@ -38,12 +38,15 @@
                 <p>
                     A <code>HighchartsCfg</code> built in F#, rendered through
                     <code>Highcharts.Create(JQuery.Of el, cfg)</code>. Highcharts is
-                    bundled from the npm package; jQuery is the global instance that
-                    the jQuery plugin uses.
+                    bundled from the npm package, and
+                    <code>Highcharts.Modules.Exporting()</code> imports the
+                    <code>exporting</code> module (hence the export menu) for its
+                    side effect.
                 </p>
             </header>
             <div class="card-body">
                 <div id="chart"></div>
+                <p class="chart-note">${ChartSummary}</p>
             </div>
         </section>
     </main>

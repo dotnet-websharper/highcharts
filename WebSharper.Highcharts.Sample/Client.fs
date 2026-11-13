@@ -90,11 +90,25 @@ module Client =
         with _ -> ()
         applyTheme ()
 
+        let summary = Var.Create "Rendering…"
+
         IndexTemplate()
             .Title("Monthly Average Temperature")
             .themeLabel(themeLabel.View)
             .ToggleTheme(fun _ -> toggleTheme ())
+            .ChartSummary(summary.View)
             .Bind()
 
+        // Highcharts modules are opt-in: this imports
+        // "highcharts/modules/exporting", which adds the export menu.
+        Highcharts.Modules.Exporting()
+
         let el = JS.Document.GetElementById("chart")
-        Highcharts.Create(JQuery.Of el, config ()) |> ignore
+        let chart = Highcharts.Create(JQuery.Of el, config ())
+
+        // The runtime `Chart` object is bound as well, so the plot area can be
+        // read back; `Highcharts` exposes the namespace functions too.
+        summary.Value <-
+            sprintf "Plot area %.0f × %.0f px · CorrectFloat(0.1 + 0.2) = %s"
+                chart.PlotWidth chart.PlotHeight
+                (string (Highcharts.CorrectFloat(0.1 + 0.2, 2.)))
