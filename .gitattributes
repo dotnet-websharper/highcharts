@@ -1,0 +1,25 @@
+# Store every text file with LF line endings in the repository, and let each
+# platform check out its native endings (core.autocrlf). This keeps the
+# WebSharper metadata and the sample bundles identical everywhere, and stops the
+# CRLF/LF drift that used to turn one-line edits into whole-file diffs.
+* text=auto
+
+# Windows scripts must stay CRLF: cmd.exe is unhappy with LF-only batch files.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Shell scripts must stay LF.
+*.sh text eol=lf
+
+# Files git cannot detect as binary on its own.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.dll binary
+*.pdb binary
+*.nupkg binary
+*.snk binary
+*.websharper binary
