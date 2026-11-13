@@ -2,7 +2,7 @@
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -28,6 +28,8 @@ type HcConfig =
         Desc    : string option
         Values  : string list
         Extends : string option
+        /// npm subpath imports the options need, e.g. "highcharts/modules/sankey"
+        Requires : string list
     }
 
 type HcProperty =
@@ -95,6 +97,11 @@ let getValues o =
 let getReturnType o =
     o |> Map.tryFind "returnType" |> Option.map getString |> function Some t -> t | _ -> null
 
+let getRequires o =
+    match o |> Map.tryFind "requires" with
+    | Some (JList l) -> l |> List.choose (fun j -> match j with JString s when s <> "" -> Some s | _ -> None)
+    | _ -> []
+
 let getConfig (j: Json) (members: HcConfig list) =
     let jo = j |> getObject
     try
@@ -107,6 +114,7 @@ let getConfig (j: Json) (members: HcConfig list) =
                 Desc    = jo |> Map.tryFind "description" |> Option.bind getStringOpt
                 Values  = jo |> getValues
                 Extends = jo |> Map.tryFind "extending" |> Option.bind getStringOpt
+                Requires = jo |> getRequires
             }
         if System.String.IsNullOrEmpty conf.Name then
             printfn "Warning: config definition of '%s' ignored because of invalid name: %O" (jo |> Map.find "fullname" |> getString) j

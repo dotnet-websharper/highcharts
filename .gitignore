@@ -5,6 +5,7 @@ bin/
 obj/
 paket-files/
 .fake/
-WebSharper.Highcharts.Tests/Content/
 .vs/
 websharper.log
+*/node_modules/
+dist/

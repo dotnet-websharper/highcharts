@@ -1,1 +1,3080 @@
-[{"name":"Axis","returnType":"","since":"","description":"<p>A chart can have from 0 axes to multiples. In a normal, single series cartesian chart, there is one X axis and one Y axis.</p><p>The X axis or axes are referenced by <code>chart.xAxis</code>, which is an array of Axis objects. If there is only one axis, it can be referenced through <code>chart.xAxis[0]</code>, and multiple axes have increasing indices. The same pattern goes for Y axes.</p><p>If you need to get the axes from a series object, use the <code>series.xAxis</code> and <code>series.yAxis</code> properties. These are not arrays, as one series can only be associated to one X and one Y axis.</p><p>A third way to reference the axis programmatically is by id. Add an id in the axis configuration options, and get the axis by <code>chart.get(id)</code>.</p> <p>Configuration options for the axes are given in <a class=\"internal\" href=\"#xAxis\">options.xAxis</a> and <a class=\"internal\" href=\"#yAxis\">options.yAxis</a>.</p>","demo":"","deprecated":false,"fullname":"Axis","title":"Axis","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Axis--setCompare","returnType":"","since":"1.3","description":"Set the <a href=\"#plotOptions.series.compare\">compare</a> mode on all series belonging to an Y axis after render time. ","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/axis-setcompare/\" target=\"_blank\">Set compare</a>","deprecated":false,"fullname":"Axis.setCompare","title":"setCompare","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(String compare, [Boolean redraw])","paramsDescription":"compare: String<br>\r\nThe compare mode, can be one of <code>null</code>, <code>\"value\"</code> or <code>\"percent\"</code>.||\r\n\r\nredraw: Boolean<br>\r\nWhether to redraw the chart or wait for a later call to Chart.redraw()."},{"name":"Axis--setExtremes","returnType":"","since":"","description":"Set the minimum and maximum of the axes after render time. If the <code>startOnTick</code> and <code>endOnTick</code> options are true, the minimum and maximum values are rounded off to the nearest tick. To prevent this, these options can be set to false before calling setExtremes. Also, <code>setExtremes</code> will not allow a range lower than the <a href=\"#xAxis.minRange\">minRange</a> option, which by default is the range of five points.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/axis-setextremes/\" target=\"_blank\">Set extremes from button</a>","deprecated":false,"fullname":"Axis.setExtremes","title":"setExtremes","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(Number min, Number max, [Boolean redraw], [Mixed animation])","paramsDescription":"min: Number<br>The new minimum value||max: Number<br>The new maximum value||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart or wait for an explicit call to <code>chart.redraw()</code>.||animation: Mixed<br>Defaults to true. When true, the resize will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Axis--toPixels","returnType":"Number","since":"1.3","description":"Translates a value in terms of axis units in to pixels within the chart.","demo":"","deprecated":false,"fullname":"Axis.toPixels","title":"toPixels","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(Number value, [Boolean paneCoordinates])","paramsDescription":"value: Number<br>\r\nA value in terms of axis units.||\r\n\r\npaneCoordinates: Boolean<br>\r\nWhether to return the pixel coordinate relative to the chart or just the axis/pane itself."},{"name":"Axis--toValue","returnType":"Number","since":"1.3","description":"Translate a pixel position along the axis to a value in terms of axis units.","demo":"","deprecated":false,"fullname":"Axis.toValue","title":"toValue","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(Number pixel, [Boolean paneCoordinates])","paramsDescription":"pixel: Number<br>\r\nA pixel position along the axis.||\r\n\r\npaneCoordinates: Boolean<br>\r\nWhether the input pixel position is relative to the chart or just the axis/pane itself."},{"name":"Axis--update","returnType":"","since":"3.0","description":"Update an axis object with a new set of options. The options are merged with the existing options, so only new or altered options need to be specified.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/axis-update/\" target=\"_blank\">Axis update demo</a>","deprecated":false,"fullname":"Axis.update","title":"update","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(Object options, [Boolean redraw])","paramsDescription":"options: Object<br>\r\nThe new options that will be merged in with existing options on the axis.||\r\n\r\nredraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart after the new options are set. "},{"name":"Chart","returnType":"","since":"","description":"<p>The chart object is the JavaScript object representing a single chart in the web page.The pointer to your chart object is returned when a chart is created using the <code>Highcharts.Chart()</code> constructor:</p><pre>var chart1 = new Highcharts.Chart(options);</pre>","demo":"","deprecated":false,"fullname":"Chart","title":"Chart","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Chart--exportChart","returnType":"","since":"","description":"Exporting module required. Submit an SVG version of the chart to a server along with some parameters for conversion.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/chart-exportchart/\" target=\"_blank\">Export chart</a>","deprecated":false,"fullname":"Chart.exportChart","title":"exportChart","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Object options, Object chartOptions)","paramsDescription":"options: Object<br>Exporting options. Out of the <a class=\"internal\" href=\"#exporting\">exporting</a> options, the following options can be given as parameters to the exportChart method. All options default to the values given in the exporting config options. \r\n<code>filename</code>: the filename for the export without extension, \r\n<code>url</code>: the URL for the server module to do the conversion, \r\n<code>width</code>: the width of the PNG or JPEG image generated on the server, \r\n<code>type</code>: the MIME type of the converted image, \r\n<code>sourceWidth</code>: the width of the source (in-page) chart, \r\n<code>sourceHeight</code>: the height of the source chart.||\r\n\r\nchartOptions: Object<br>Additional chart options for the exported chart. For example a different background color can be added here."},{"name":"Chart--getSVG","returnType":"String","since":"","description":"Exporting module required. Get an SVG string representing the chart.","demo":"","deprecated":false,"fullname":"Chart.getSVG","title":"getSVG","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Object additionalOptions)","paramsDescription":"additionalOptions: Object<br>Chart options to add to the exported chart in addition to the options given for the original chart. For example if series.lineWidth should be greater in the exported chart than in the original, or the chart should have a different background color, this is added here."},{"name":"Chart--destroy","returnType":"","since":"","description":"Removes the chart and purges memory. This method should be called before writing a new chart into the same container. It is called internally on window unload to prevent leaks.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/chart-destroy/\" target=\"_blank\">Destroy the chart from a button</a>","deprecated":false,"fullname":"Chart.destroy","title":"destroy","parent":"Chart","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":""},{"name":"Point--category","returnType":"String|Number","since":"","description":"For categorized axes this property holds the category name for the point. For other axis it holds the x value.","demo":"","deprecated":false,"fullname":"Point.category","title":"category","parent":"Point","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Axis--addPlotLine","returnType":"","since":"","description":"Add a plot line after render time.","demo":"","deprecated":false,"fullname":"Axis.addPlotLine","title":"addPlotLine","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(Object options)","paramsDescription":"options: Object<br>A configuration object consisting of the same members as <a class=\"internal\" href=\"#xAxis.plotLines\">options.xAxis.plotLines</a>"},{"name":"Chart--xAxis","returnType":"Array<Axis>","since":"","description":"An array of the chart's x axes. If only one x axis, it is referenced by <code>chart.xAxis[0]</code>.","demo":"","deprecated":false,"fullname":"Chart.xAxis","title":"xAxis","parent":"Chart","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Chart--yAxis","returnType":"Array<Axis>","since":"","description":"An array of the chart's y axes. If only one y axis, it is referenced by <code>chart.yAxis[0]</code>.","demo":"","deprecated":false,"fullname":"Chart.yAxis","title":"yAxis","parent":"Chart","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Chart--container","returnType":"Object","since":"","description":"A reference to the containing HTML element, dynamically inserted into the element given in <code>chart.renderTo</code>.","demo":"","deprecated":false,"fullname":"Chart.container","title":"container","parent":"Chart","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Chart--getSelectedPoints","returnType":"Array<Point>","since":"","description":"Returns an array of all currently selected points in the chart. Points can be selected either programmatically by the <code>point.select()</code> method or by clicking.","demo":"","deprecated":false,"fullname":"Chart.getSelectedPoints","title":"getSelectedPoints","parent":"Chart","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":"An array of the selected points."},{"name":"Point--series","returnType":"Series","since":"","description":"The series object associated with the point.","demo":"","deprecated":false,"fullname":"Point.series","title":"series","parent":"Point","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Series--chart","returnType":"Chart","since":"","description":"Read only. The chart that the series belongs to.","demo":"","deprecated":false,"fullname":"Series.chart","title":"chart","parent":"Series","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Series--data","returnType":"Array<Point>","since":"","description":"Read only. An array with the series' data point objects. In case the series data length exceeds the cropThreshold, or if the data is grouped, series.data doesn't contain all the points. It only contains the points that have been created on demand. In these cases, all original X and Y values can be read from <code>series.xData</code> and <code>series.yData</code>. Additionally, <code>series.options.data</code> contains all configuration objects for the points, whether they be numbers, arrays or objects.","demo":"","deprecated":false,"fullname":"Series.data","title":"data","parent":"Series","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Series--xAxis","returnType":"Axis","since":"","description":"Read only. The unique xAxis object associated with the series.","demo":"","deprecated":false,"fullname":"Series.xAxis","title":"xAxis","parent":"Series","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Axis--setDataGrouping","returnType":"","since":"2.1.6","description":"Set the data grouping and optionally redraw all series belonging to this axis.","demo":"","deprecated":false,"fullname":"Axis.setDataGrouping","title":"setDataGrouping","parent":"Axis","isParent":false,"products":[],"type":"","params":"(Object dataGrouping, [Boolean redraw])","paramsDescription":"dataGrouping: Object<br>\r\nA dataGrouping configuration like shown at <a href=\"#plotOptions.series.dataGrouping\">series.dataGrouping</a>. Use <code>false</code> to disable data grouping dynamically.||\r\n\r\nredraw: Boolean<br>\r\nWhether to redraw the chart or wait for a later call to Chart.redraw()."},{"name":"Highcharts--chart","returnType":"Chart","since":"4.2.0","description":"As <code>Highcharts.Chart</code>, but without need for the <code>new</code> keyword.","demo":"","deprecated":false,"fullname":"Highcharts.chart","title":"chart","parent":"Highcharts","isParent":false,"products":[],"type":"","params":"([String|Object renderTo], Object options, Function callback)","paramsDescription":""},{"name":"Highcharts--stockChart","returnType":"Chart","since":"4.2.0","description":"As <code>Highcharts.StockChart</code>, but without need for the <code>new</code> keyword.","demo":"","deprecated":false,"fullname":"Highcharts.stockChart","title":"stockChart","parent":"Highcharts","isParent":false,"products":[],"type":"","params":"([String|Object renderTo], Object options, Function callback)","paramsDescription":""},{"name":"Renderer--text","returnType":"Element","since":"","description":"Draw text. The text can contain a subset of HTML, like spans and anchors and some basic text styling of these. For more advanced features like border and background, use <a href=\"#Renderer.label\">label</a> instead. To update the text after render, run <code>Element.attr({ text: 'New text' })</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-text-on-chart/\" target=\"_blank\">Annotate the chart freely</a>; <a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-on-chart/\" target=\"_blank\">annotate with a border and in response to the data</a>; <a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-text/\" target=\"_blank\">formatted text</a>.","deprecated":false,"fullname":"Renderer.text","title":"text","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(String str, Number x, Number y)","paramsDescription":"str: String<br>The text or HTML to draw||x: Number<br>The x position of the text's lower left corner.||y: Number<br>The y position of the text's lower left corner."},{"name":"Chart--subtitle","returnType":"","since":"","description":"","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/title-update/\" target=\"_blank\">Updating titles</a>.","deprecated":false,"fullname":"Chart.subtitle","title":"subtitle","parent":"Chart","isParent":false,"products":[],"type":"","params":"","paramsDescription":"The chart subtitle. The subtitle has an <code>update</code> method that allows modifying the options."},{"name":"Element","returnType":"","since":"","description":"<p>The Element class is a JavaScript wrapper for SVG elements used in the rendering layer of Highchart. Combined with the Renderer object, these elements allows freeform annotation in the charts or even in your HTML pages without creating a chart at all.</p>","demo":"","deprecated":false,"fullname":"Element","title":"Element","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Highcharts","returnType":"","since":"","description":"<p>The namespace under which all other Highcharts variables are assembled is called <code>Highcharts</code>. </p><pre>var chart1 = new Highcharts.Chart(options);</pre>","demo":"","deprecated":false,"fullname":"Highcharts","title":"Highcharts","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Highcharts--charts","returnType":"Array<Chart>","since":"2.3.4","description":"An array containing the current chart objects in the page. A chart's position in the array is preserved throughout the page's lifetime. When a chart is destroyed, the array item becomes <code>undefined</code>.","demo":"","deprecated":false,"fullname":"Highcharts.charts","title":"charts","parent":"Highcharts","isParent":false,"products":[],"type":"Array<Object>","params":"","paramsDescription":""},{"name":"Highcharts--dateFormat","returnType":"String","description":"Formats a JavaScript date timestamp (milliseconds since Jan 1st 1970) into a human readable date string. The format is a subset of the formats for <a href=\"http://php.net/manual/en/function.strftime.php\">PHP's strftime function</a>.","fullname":"Highcharts.dateFormat","title":"dateFormat","parent":"Highcharts","isParent":false,"products":[],"type":"method","params":"(String format, [Number time], [Boolean capitalize])","paramsDescription":"format: String<br>A string containing some of the formats above.||time: Number<br>The JavaScript time to format.||capitalize: Boolean<br>Whether to capitalize words in the return string."},{"name":"Highcharts--setOptions","returnType":"Object","description":"Sets the options globally for all charts created after this has been called. Takes an options JavaScript object structure as the argument. These options are merged with the default options and the result is returned.","fullname":"Highcharts.setOptions","title":"setOptions","parent":"Highcharts","isParent":false,"products":[],"type":"method","params":"(Object options)","paramsDescription":"options: Object<br>The chart configuration object."},{"name":"Point","returnType":"","since":"","description":"<p>The Point object is the JavaScript representation of each data point</p><p>The object can be accessed in a number of ways. In all point event handlers the point object is <code>this</code>. In the <code>series</code> object all the point sare accessed by the <code>series.data</code> array.</p><p>Another way to reference the point programmatically is by id. Add an id in the point configuration options, and get the point object by <code>chart.get(id)</code>.</p>","demo":"","deprecated":false,"fullname":"Point","title":"Point","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Point--percentage","returnType":"Number","description":"The percentage for points in a stacked series.","fullname":"Point.percentage","title":"percentage","parent":"Point","isParent":false,"products":[],"type":"property"},{"name":"Point--selected","returnType":"Boolean","description":"Whether the point is selected or not.","fullname":"Point.selected","title":"selected","parent":"Point","isParent":false,"products":[],"type":"property"},{"name":"Point--x","returnType":"Number","description":"The x value for the point.","fullname":"Point.x","title":"x","parent":"Point","isParent":false,"products":[],"type":"property"},{"name":"Point--y","returnType":"Number","description":"The y value for the point.","fullname":"Point.y","title":"y","parent":"Point","isParent":false,"products":[],"type":"property"},{"name":"Series","returnType":"","since":"","description":"<p>The Series object is the JavaScript representation of each line, area series, pie etc.</p><p>The object can be accessed in a number of ways. All series and point event handlers give a reference to the series object. The <code>chart</code> object has a <code>series</code> property that is a collection of all the chart's series. The <code>point</code> objects also have the same reference.</p><p>Another way to reference the series programmatically is by id. Add an id in the series configuration options, and get the series object by <code>chart.get(id)</code>.</p><p>Configuration options for the series are given in three levels. Options for all series in a chart are given in the <a class=\"internal\" href=\"#plotOptions.series\">plotOptions.series</a> object. Then options for all series of a specific type are given in the plotOptions of that type, for example plotOptions.line. Next, options for one single series are given in <a class=\"internal\" href=\"#series\">the series array</a>.</p>","demo":"","deprecated":false,"fullname":"Series","title":"Series","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Series--addPoint","returnType":"","since":"","description":"Add a point to the series after render time. The point can be added at the end, or by giving it an X value, to the start or in the middle of the series.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/series-addpoint/\" target=\"_blank\">Append 100 points</a>,<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/series-addpoint-shift/\" target=\"_blank\">append and shift</a>","deprecated":false,"fullname":"Series.addPoint","title":"addPoint","parent":"Series","isParent":false,"products":[],"type":"method","params":"(Object options, [Boolean redraw], [Boolean shift], [Mixed animation])","paramsDescription":"options: Number|Array|Object<br>The point options. If options is a single number, a point with that y value is appended to the series. If it is an array, it will be interpreted as x and y values respectively, or in the case of OHLC or candlestick, as <code>[x, open, high, low, close]</code>. If it is an object, advanced options as outlined under <a class=\"internal\" href=\"#series.data\">series.data</a> are applied.||\r\nredraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is added. When adding more than one point, it is highly recommended that the <code>redraw</code> option be set to false, and instead <code>chart.redraw()</code> is explicitly called after the adding of points is finished.||shift: Boolean<br>Defaults to <code>false</code>. When shift is true, one point is shifted off the start of the series as one is appended to the end. Use this option for live charts monitoring a value over time.||animation: Mixed<br>Defaults to true. When true, the graph will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Series--name","returnType":"String","description":"The series' name as given in the options.","fullname":"Series.name","title":"name","parent":"Series","isParent":false,"products":[],"type":"property"},{"name":"Series--options","returnType":"Object","description":"Read only. The series' options.","fullname":"Series.options","title":"options","parent":"Series","isParent":false,"products":[],"type":"property"},{"name":"Series--selected","returnType":"Boolean","description":"Read only. The series' selected state as set by <code>series.select()</code>.","fullname":"Series.selected","title":"selected","parent":"Series","isParent":false,"products":[],"type":"property"},{"name":"Series--setCompare","returnType":"","since":"1.3","description":"Set the <a href=\"#plotOptions.series.compare\">compare</a> mode of the series after render time. In most cases it is more useful running <a href=\"#Axis.setCompare\">Axis.setCompare</a> on the X axis to update all its series.","demo":"","deprecated":false,"fullname":"Series.setCompare","title":"setCompare","parent":"Series","isParent":false,"products":[],"type":"method","params":"(String compare)","paramsDescription":"compare: String<br>\r\nCan be one of <code>null</code>, <code>\"percent\"</code> or <code>\"value\"</code>."},{"name":"Series--setVisible","returnType":"","since":"","description":"A utility function to show or hide the series with an optional redraw.","demo":"","deprecated":false,"fullname":"Series.setVisible","title":"setVisible","parent":"Series","isParent":false,"products":[],"type":"method","params":"(Boolean visible, [Boolean redraw])","paramsDescription":"visible: Boolean<br>Whether to show or hide the series. If undefined, the visibility is toggled.||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the series is altered.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after."},{"name":"Series--show","description":"Shows the series if hidden.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/series-show-hide/\" target=\"_blank\">Toggle visibility from a button</a>","fullname":"Series.show","title":"show","parent":"Series","isParent":false,"products":[],"type":"method","params":"()"},{"name":"Series--type","returnType":"String","description":"Read only. The series' type, like \"line\", \"area\" etc.","fullname":"Series.type","title":"type","parent":"Series","isParent":false,"products":[],"type":"property"},{"name":"Series--update","returnType":"","since":"1.3","description":"Update the series with a new set of options. For a clean and precise handling of new options, all methods and elements from the series are removed, and it is initiated from scratch. Therefore, this method is more performance expensive than some other utility methods like <code>setData</code> or <code>setVisible</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/series-update/\" target=\"_blank\">Updating series options</a>","deprecated":false,"fullname":"Series.update","title":"update","parent":"Series","isParent":false,"products":[],"type":"method","params":"(Object options, [Boolean redraw])","paramsDescription":"options: Boolean<br>\r\nNew options that will be merged into the series' existing options.\r\n\r\n||\r\n\r\nredraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart after the series is altered. If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after."},{"name":"Series--visible","returnType":"Boolean","description":"Read only. The series' visibility state as set by <code>series.show()</code>, <code>series.hide()</code>, or the initial configuration.","fullname":"Series.visible","title":"visible","parent":"Series","isParent":false,"products":[],"type":"property"},{"name":"Chart--setTitle","returnType":"","since":"","description":"Set a new title or subtitle for the chart.","demo":"","deprecated":false,"fullname":"Chart.setTitle","title":"setTitle","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Object title, object subtitle, Boolean redraw)","paramsDescription":"title: Object<br>A configuration object for the new title as defined at <a class=\"internal\" href=\"#title\">#title</a>.||\r\nsubtitle: Object<br>A configuration object for the new subtitle as defined at <a class=\"internal\" href=\"#subtitle\">#subtitle</a>.||\r\nredraw: Boolean<br>Whether to redraw the chart. Defaults to true."},{"name":"Renderer--image","returnType":"Element","since":"","description":"Add an image from an external resource.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-image-on-chart/\" target=\"_blank\">Add an image in a chart</a>,<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-image/\" target=\"_blank\">add an image independent from chart</a>","deprecated":false,"fullname":"Renderer.image","title":"image","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(String source, Number x, Number y, Number width, Number height)","paramsDescription":"source: String<br>The URL of the image.||x: String<br>The x position of the image's upper left corner.||y: String<br>The y position of the image's upper left corner.||width: String<br>The width of the image.||height: String<br>The height of the image."},{"name":"Element--getBBox","returnType":"Object","since":"","description":"Get the bounding box of the element","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-on-chart/\" target=\"_blank\">Draw a rectangle based on a text's bounding box</a>.","deprecated":false,"fullname":"Element.getBBox","title":"getBBox","parent":"Element","isParent":false,"products":[],"type":"method","params":"","paramsDescription":"A hash object containing x, y, width and height values for the element."},{"name":"Renderer--arc","returnType":"Element","since":"","description":"Draw an arc on the renderer canvas.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-arc/\" target=\"_blank\">Drawing an arc</a>","deprecated":false,"fullname":"Renderer.arc","title":"arc","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(Number centerX, Number centerY, Number outerRadius, Number innerRadius, Number start, Number end)","paramsDescription":"centerX: Number<br>The x position of the arc's center in the SVG element.||centerY: Number<br>The y position of the arc's center in the SVG element.||outerRadius: Number<br>The outer radius of the arc.||innerRadius: Number<br>The inner radius of the arc.||start: Number<br>The starting angle of the arc in radians, where 0 is to the right and -Math.PI/2 is up.||end: Number<br>The ending angle of the arc in radians, where 0 is to the right and -Math.PI/2 is up."},{"name":"Renderer--rect","returnType":"Element","since":"","description":"Add a rectangle.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-rect-on-chart/\" target=\"_blank\">Draw a rectangle in a chart</a>,<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-rect/\" target=\"_blank\">draw a rectangle independent from a chart</a>","deprecated":false,"fullname":"Renderer.rect","title":"rect","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(Number x, Number y, Number width, Number height, Number cornerRadius)","paramsDescription":"x: Number<br>The x position of the rectangle's upper left corner.||y: Number<br>The y position of the rectangle's upper left corner.||width: Number<br>The width of the rectangle.||height: Number<br>The height of the rectangle.||cornerRadius: Number<br>The corner radius of all the rectangle's corners."},{"name":"Element--on","returnType":"Element","since":"","description":"Apply an event handler to the element","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/element-on/\" target=\"_blank\">A clickable rectangle</a>.","deprecated":false,"fullname":"Element.on","title":"on","parent":"Element","isParent":false,"products":[],"type":"method","params":"(String eventType, Function handler)","paramsDescription":"eventType: String<br>The event type to attach, for example 'click', 'mouseover', 'touch'.||handler: Function<br>The event handler function."},{"name":"Renderer--path","returnType":"Element","since":"","description":"Add a path based on <a href=\"http://www.w3.org/TR/SVG/paths.html\">SVG's path commands</a>. In SVG capable browsers all path commands are supported, but in VML only a subset is supported: absolute moveTo (M), absolute lineTo (L), absolute curveTo (C) and close (Z).","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-path-on-chart/\" target=\"_blank\">Draw a path in a chart</a>,<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-path/\" target=\"_blank\">draw a path independent from a chart</a>","deprecated":false,"fullname":"Renderer.path","title":"path","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(Array path)","paramsDescription":"path: Array<br>An SVG path split up in array form."},{"name":"Renderer","returnType":"","since":"","description":"<p>Allows direct access to the Highcharts rendering layer in order to draw primitive shapes like circles, rectangles,paths or text directly on a chart, or independent from any chart. The Renderer represents a wrapper object for SVGin modern browsers and VML in IE &lt; 8.</p><p>An existing chart's renderer can be accessed through <code>chart.renderer</code>. To create a renderer independent from a chart, use <code>var renderer = new Highcharts.Renderer(parentNode, width, height);</code> where parentNode is the HTML element where you want to add it.</p><p>The Renderer's methods are chained wherever possible, so you can initiate an element then call for example <code>attr</code> and <code>css</code> and <code>add</code> on that element in one statement.</p><div class=\"demo\"><a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-on-chart/\">Annotating a chart programmatically</a>, <a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-basic/\">independent SVG/VML drawing</a></div>","demo":"","deprecated":false,"fullname":"Renderer","title":"Renderer","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Element--toFront","returnType":"Element","since":"","description":"Bring the element to the front. Alternatively, a zIndex attribute can be given.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/element-tofront/\" target=\"_blank\">Click an element to bring it to front</a>.","deprecated":false,"fullname":"Element.toFront","title":"toFront","parent":"Element","isParent":false,"products":[],"type":"method","params":"","paramsDescription":"The element object"},{"name":"Renderer--circle","returnType":"Element","since":"","description":"Draw circle on the renderer canvas.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-circle/\" target=\"_blank\">Drawing a circle</a>","deprecated":false,"fullname":"Renderer.circle","title":"circle","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(Number centerX, Number centerY, Number radius)","paramsDescription":"centerX: Number<br>The x position of the circle's center in the SVG element.||centerY: Number<br>The y position of the circle's center in the SVG element.||radius: Number<br>The radius of the circle."},{"name":"Element--attr","returnType":"Element","since":"","description":"<p>Apply attributes to the SVG/VML elements. These attributes for the most parts correspond to SVG, but some are specific to Highcharts, like <code>zIndex</code> and <code>rotation</code>.</p>\r\n\r\n<p>In order to set the rotation center for <code>rotation</code>, set x and y to 0 and use <code>translateX</code> and <code>translateY</code> attributes to position the element instead.</p>\r\n\r\n<p>Attributes frequently used in Highcharts are <code>fill</code>, <code>stroke</code>, <code>stroke-width</code>.</p>","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-rect/\" target=\"_blank\">Setting some attributes</a>","deprecated":false,"fullname":"Element.attr","title":"attr","parent":"Element","isParent":false,"products":[],"type":"method","params":"Object hash","paramsDescription":"hash: Object<br>A set of attributes to apply."},{"name":"Element--css","returnType":"Element","since":"","description":"Apply some CSS properties to the element","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-text-on-chart/\" target=\"_blank\">Styled text</a>","deprecated":false,"fullname":"Element.css","title":"css","parent":"Element","isParent":false,"products":[],"type":"method","params":"(Object hash)","paramsDescription":"hash: Object<br>The object literal of CSS properties to apply. Properties should be camelCased, not hyphenated."},{"name":"Renderer--g","returnType":"Element","since":"","description":"Add an SVG/VML group.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-g/\" target=\"_blank\">Show and hide grouped objects</a>","deprecated":false,"fullname":"Renderer.g","title":"g","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(String name)","paramsDescription":"name: String<br>The name of the group. This will be used in the class name, which will be <code>\"highcharts-\"+ name</code>. Other Element objects are added to the group by using the group as the first parameter in .add() for the wrappers."},{"name":"Element--add","returnType":"Element","since":"","description":"Add the element to the renderer canvas.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-g/\" target=\"_blank\">Elements added to a group</a>","deprecated":false,"fullname":"Element.add","title":"add","parent":"Element","isParent":false,"products":[],"type":"method","params":"[(Object parent)]","paramsDescription":"parent: Object<br>The element can be added to a <code>g</code> (group) element."},{"name":"Chart--print","returnType":"","since":"","description":"Exporting module required. Clears away other elements in the page and prints the chart as it is displayed. By default, when the exporting module is enabled, a button at the upper right calls this method.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/chart-print/\" target=\"_blank\">Print from a HTML button</a>","deprecated":false,"fullname":"Chart.print","title":"print","parent":"Chart","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":""},{"name":"Chart--showLoading","returnType":"null","since":"","description":"Dim the chart's plot area and show a loading label text. Options for the loading screen are defined at <a class=\"internal\" href=\"#loading\">options.loading</a>. A custom text can be given as a parameter for loading.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/chart-show-hide-loading/\" target=\"_blank\">Show and hide loading from a button</a>","deprecated":false,"fullname":"Chart.showLoading","title":"showLoading","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(String str)","paramsDescription":""},{"name":"Point--remove","returnType":"","since":"","description":"Remove the point from the series.","demo":"","deprecated":false,"fullname":"Point.remove","title":"remove","parent":"Point","isParent":false,"products":[],"type":"method","params":"([Boolean redraw], [Mixed animation])","paramsDescription":"redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is removed.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.||animation: Mixed<br>Defaults to true. When true, the graph's updating will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Point--select","returnType":"","since":"","description":"Select or unselect the point.","demo":"","deprecated":false,"fullname":"Point.select","title":"select","parent":"Point","isParent":false,"products":[],"type":"method","params":"([Boolean select], [Boolean accumulate])","paramsDescription":"select: Boolean<br>When <code>true</code>, the point is selected. When <code>false</code>, the point is unselected. When <code>null</code> or <code>undefined</code>, the selection state is toggled.||accumulate: Boolean<br>When <code>true</code>, the selection is added to other selected points. When <code>false</code>, other selected points are deselected. Internally in Highcharts,selected points are accumulated on Control, Shift or Cmd clicking the point."},{"name":"Series--remove","returnType":"","since":"","description":"Remove the series from the chart.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/series-remove/\" target=\"_blank\">Remove first series from a button</a>","deprecated":false,"fullname":"Series.remove","title":"remove","parent":"Series","isParent":false,"products":[],"type":"method","params":"([Boolean redraw])","paramsDescription":"redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the series is removed.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after."},{"name":"Chart--options","returnType":"Object","since":"","description":"The options structure for the chart.","demo":"","deprecated":false,"fullname":"Chart.options","title":"options","parent":"Chart","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Axis--removePlotBand","returnType":"","since":"","description":"Remove a plot band by its <code>id</code>.","demo":"","deprecated":false,"fullname":"Axis.removePlotBand","title":"removePlotBand","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(String id)","paramsDescription":"id: String<br>The plot band's <code>id</code> as given in the original configuration object or in the addPlotBand method."},{"name":"Axis--removePlotLine","returnType":"","since":"","description":"Remove a plot line by its <code>id</code>.","demo":"","deprecated":false,"fullname":"Axis.removePlotLine","title":"removePlotLine","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(String id)","paramsDescription":"id: String<br>The plot line's <code>id</code> as given in the original configuration object or in the addPlotLine method."},{"name":"Chart--getSelectedSeries","returnType":"Array<Series>","since":"","description":"Returns an array of all currently selected series in the chart. Series can be selected either programmatically by the <code>series.select()</code> method or by checking the checkbox next to the legend item if <code>series.showCheckBox</code> is true.","demo":"","deprecated":false,"fullname":"Chart.getSelectedSeries","title":"getSelectedSeries","parent":"Chart","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":"An array of the selected Series items."},{"name":"Series--select","returnType":"","since":"","description":"Select or unselect the series. This means its <code>selected</code> property is set,the checkbox in the legend is toggled and when selected, the series is returned in the <code>chart.getSelectedSeries()</code> method.","demo":"","deprecated":false,"fullname":"Series.select","title":"select","parent":"Series","isParent":false,"products":[],"type":"method","params":"([Boolean|null selected])","paramsDescription":"selected: Boolean|null<br>When <code>true</code>, the series is selected. When <code>false</code> it is unselected. When <code>null</code> or <code>undefined</code>, the series' selection state is toggled."},{"name":"Chart--hideLoading","returnType":"","since":"","description":"Hide the loading screen. Options for the loading screen are defined at <a class=\"internal\" href=\"#loading\">options.loading</a>.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/chart-show-hide-loading/\" target=\"_blank\">Show and hide loading from a button</a>","deprecated":false,"fullname":"Chart.hideLoading","title":"hideLoading","parent":"Chart","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":""},{"name":"Axis--addPlotBand","returnType":"","since":"","description":"Add a plot band after render time.","demo":"","deprecated":false,"fullname":"Axis.addPlotBand","title":"addPlotBand","parent":"Axis","isParent":false,"products":[],"type":"method","params":"(Object options)","paramsDescription":"options: Object<br>A configuration object consisting of the same members as <a class=\"internal\" href=\"#xAxis.plotBands\">options.xAxis.plotBands</a>"},{"name":"Chart--series","returnType":"Array<Series>","since":"","description":"An array of all the chart's series.","demo":"","deprecated":false,"fullname":"Chart.series","title":"series","parent":"Chart","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Element--destroy","returnType":"","since":"","description":"Destroy the element and free up memory","demo":"","deprecated":false,"fullname":"Element.destroy","title":"destroy","parent":"Element","isParent":false,"products":[],"type":"method","params":"","paramsDescription":""},{"name":"Chart--reflow","returnType":"","since":"","description":"Reflows the chart to its container. By default, the chart reflows automatically to its container following a <code>window.resize</code> event, as per the <a href=\"#chart.reflow\">chart.reflow</a> option. However, there are no reliable events for div resize, so if the container is resized without a window resize event, this must be called explicitly. ","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/chart-reflow/\" target=\"_blank\">Resize div and reflow</a>, <a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/chart/events-container/\" target=\"_blank\">pop up and reflow</a>","deprecated":false,"fullname":"Chart.reflow","title":"reflow","parent":"Chart","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":""},{"name":"Series--yAxis","returnType":"Axis","since":"","description":"Read only. The unique yAxis object associated with the series.","demo":"","deprecated":false,"fullname":"Series.yAxis","title":"yAxis","parent":"Series","isParent":false,"products":[],"type":"property","params":"","paramsDescription":""},{"name":"Series--removePoint","returnType":"","since":"2.1.0","description":"Remove a point from the series. Unlike the <a href=\"#Point.remove\">Point.remove</a> method, this can also be done on a point that is not instanciated because it is outside the view or subject to data grouping.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/series-removepoint/\" target=\"_blank\">Remove cropped point</a>","deprecated":false,"fullname":"Series.removePoint","title":"removePoint","parent":"Series","isParent":false,"products":[],"type":"method","params":"(Object index, [Boolean redraw], [Mixed animation])","paramsDescription":"index: Number<br>The index of the point in the data array.||\r\nredraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is added. When adding more than one point, it is highly recommended that the <code>redraw</code> option be set to false, and instead <code>chart.redraw()</code> is explicitly called after the adding of points is finished.||\r\nanimation: Mixed<br>Defaults to true. When true, the graph will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Highcharts--numberFormat","returnType":"String","since":"","description":"Formats a JavaScript number with grouped thousands, a fixed amount of decimals and an optional decimal point. It is a port of PHP's function with the same name. See <a href=\"http://php.net/manual/en/function.number-format.php\">PHP number_format</a> for a full explanation of the parameters.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/highcharts-numberformat/\" target=\"_blank\">Custom number format</a>","deprecated":false,"fullname":"Highcharts.numberFormat","title":"numberFormat","parent":"Highcharts","isParent":false,"products":[],"type":"method","params":"(Number number, [Number decimals], [String decimalPoint], [String thousandsSep])","paramsDescription":"number: Number<br>The raw number to format.||decimals: Number<br>The desired number of decimals.||decimalPoint: String<br>The decimal point. Defaults to \".\" or to the string specified globally in options.lang.decimalPoint.||thousandsSep: String<br>The thousands separator. Defaults to \" \" or to the string specified globally in options.lang.thousandsSep."},{"name":"Renderer--label","returnType":"Element","since":"","description":"Draw a label, which is an extended <code>text</code> element with support for border and background. Highcharts creates a <code>g</code> element with a <code>text</code> and a <code>path</code> or <code>rect</code> inside, to make it behave somewhat like a HTML <code>div</code>. Border and background are set through <code>stroke</code>, <code>stroke-width</code> and <code>fill</code> attributes using the <a href=\"#Element.attr\">attr</a> method. To update the text after render, run <code>Element.attr({ text: 'New text' })</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/renderer-label-on-chart/\" target=\"_blank\">A label on the chart</a>","deprecated":false,"fullname":"Renderer.label","title":"label","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(String str, Number x, Number y, String shape, Number anchorX, Number anchorY, Boolean useHTML, Boolean baseline, String className)","paramsDescription":"str: String<br>\r\nThe text or HTML to draw||\r\n\r\nx: Number<br>\r\nThe x position of the label's left side.||\r\n\r\ny: Number<br>\r\nThe y position of the label's top side or baseline, depending on the <code>baseline</code> parameter.||\r\n\r\nshape: String<br>\r\nThe shape of the label's border/background, if any. Defaults to <code>rect</code>.||\r\n\r\nanchorX: Number<br>\r\nIf the shape has a pointer, like the chevron on a callout shape, anchorX is the x position to point to.||\r\n\r\nanchorY: Number<br>\r\nIf the shape has a pointer, like the chevron on a callout shape, anchorY is the y position to point to.||\r\n\r\nuseHTML: Boolean<br>\r\nUse HTML to render the text of the label.||\r\n\r\nbaseline: Boolean<br>\r\nWhether the label should be vertically aligned by the text baseline, which makes it behave like the <code>text</code> element, or by the top left side, which makes it behave like a HTML <code>div</code>.||\r\n\r\nclassName: String<br>\r\nA class name for the <code>g</code> element surrounding the label.\r\n\r\n"},{"name":"Chart--redraw","returnType":"","since":"","description":"Redraw the chart after changes have been done to the data or axis extremes. All methods for updating axes, series or points have a parameter for redrawing the chart. This is <code>true</code> by default. But in many cases you want to do more than one operation on the chart before redrawing, for example add a number of points. In those cases it is a waste of resources to redraw the chart for each new point added. So you add the points and call <code>chart.redraw()</code> after.","demo":"","deprecated":false,"fullname":"Chart.redraw","title":"redraw","parent":"Chart","isParent":false,"products":[],"type":"method","params":"([Mixed animation])","paramsDescription":"animation: Mixed<br>Defaults to true. When true, the update will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Point--update","returnType":"","since":"","description":"Update the point with new values.","demo":"","deprecated":false,"fullname":"Point.update","title":"update","parent":"Point","isParent":false,"products":[],"type":"method","params":"([Mixed options], [Boolean redraw], [Mixed animation])","paramsDescription":"options: Number|Array|Object<br>The point options. Point options are handled as described under the <code>series&lt;type&gt;.data</code> item for each series type. For example for a line series, if options is a single number, the point will be given that number as the main <code>y</code> value. If it is an array, it will be interpreted as x and y values respectively. If it is an object, advanced options are applied.\r\n\r\n||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is updated.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.\r\n\r\n||animation: Mixed<br>Defaults to true. When true, the update will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Series--setData","returnType":"","since":"","description":"<p>Apply a new set of data to the series and optionally redraw it. The new data array is passed by reference (except in case of <code>updatePoints</code>), and may later be mutated when updating the chart data.</p>\r\n\r\n<p>Note the difference in behaviour when setting the same amount of points, or a different amount of points, as handled by the <code>updatePoints</code> parameter. </p>","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/series-setdata/\" target=\"_blank\">Set new data from a button</a>","deprecated":false,"fullname":"Series.setData","title":"setData","parent":"Series","isParent":false,"products":[],"type":"method","params":"(Array<Mixed> data, [Boolean redraw], [Mixed animation], [Boolean updatePoints])","paramsDescription":"data: Array&lt;Number&gt;|Array&lt;Array&gt;|Array&lt;Object&gt;<br>Takes an array of data in the same format as described under <code>series&lt;type&gt;data</code> for the given series type.||\r\n\r\nredraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the series is altered. If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.||\r\n\r\n\r\nanimation: Mixed<br>When the updated data is the same length as the existing data, points will be updated by default, and animation visualizes how the points are changed. Set false to disable animation, or a configuration object to set duration or easing.||\r\n\r\n\r\nupdatePoints: Boolean<br>When the updated data is the same length as the existing data, points will be updated instead of replaced. This allows updating with animation. In this case, the original array is not passed by reference. Set false to prevent."},{"name":"Highcharts--Chart","returnType":"Chart","since":"","description":"This is the constructor for creating a new basic chart object (not Stock chart).","demo":"","deprecated":false,"fullname":"Highcharts.Chart","title":"Chart","parent":"Highcharts","isParent":false,"products":[],"type":"method","params":"([String|Object renderTo], Object options, Function callback)","paramsDescription":"renderTo: String|Object<br>The id or a reference to a DOM element where the chart should be rendered (since v4.2.0).||\r\n\r\n\r\noptions: Object<br>The chart options, as documented under the heading \"The options object\"in the left menu.||\r\n\r\ncallback: Function<br>A function to execute when the chart object is finished loading and rendering. Since v4.2.2, it also waits for images to be loaded, for example from point markers. In most cases the chart is built in one thread, but in Internet Explorer version 8 or less the chart is sometimes initiated before the document is ready, and in these cases the <code>chart</code> object will not be finished directly after calling<code>new Highcharts.Chart()</code>. As a consequence, code that relies on the newly built Chart object should always run in the callback. Defining a <code>chart.event.load</code> handler is equivalent."},{"name":"Highcharts--StockChart","returnType":"Chart","since":"","description":"This is the constructor for creating a new stock chart object. Basically a stock chart object is the same as a Chart object with some different default options.","demo":"","deprecated":false,"fullname":"Highcharts.StockChart","title":"StockChart","parent":"Highcharts","isParent":false,"products":[],"type":"method","params":"([String|Object renderTo], Object options, Function callback)","paramsDescription":"renderTo: String[Object<br>The id or a reference to a DOM element where the chart should be rendered (since v4.2.0).||\r\n\r\noptions: Object<br>The chart options, as documented under the heading \"Configuration options\"in the left menu.||\r\n\r\ncallback: Function<br>A function to execute when the chart object is finished loading and rendering. In most cases the chart is built in one thread, but in Internet Explorer version 8 or less the chart is sometimes initiated before the document is ready, and in these cases the <code>chart</code> object will not be finished directly after calling<code>new Highcharts.Chart()</code>. As a consequence, code that relies on the newly built Chart object should always run in the callback. Defining a <code>chart.event.load</code> handler is equivalent."},{"name":"Chart--exportChartLocal","returnType":"","since":"","description":"Export the chart to a PNG or SVG without sending it to a server. Requires <code>modules/exporting.js</code> and <code>modules/offline-exporting.js</code>.","demo":"","deprecated":false,"fullname":"Chart.exportChartLocal","title":"exportChartLocal","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Object options, Object chartOptions)","paramsDescription":"See <a href=\"#Chart.exportChart\">exportChart</a> for parameter description."},{"name":"Point--dataGroup","returnType":"Object","since":"4.2.4","description":"If a point object is created by data grouping, it doesn't reflect actual points in the raw data. In this case, the <code>dataGroup</code> property holds information that points back to the raw data:\r\n<ul>\r\n<li><code>dataGroup.start</code> is the index of the first raw data point in the group.</li>\r\n<li><code>dataGroup.length</code> is the amount of points in the group.</li>\r\n</ul>","demo":"","deprecated":false,"fullname":"Point.dataGroup","title":"dataGroup","parent":"Point","isParent":false,"products":[],"type":"Object","params":"","paramsDescription":""},{"name":"Chart--addSeries","returnType":"Series","since":"","description":"Add a series to the chart after render time. Note that this method should never be used when adding data synchronously at chart render time, as it adds expense to the calculations and rendering. When adding data at the same time as the chart is initiated, add the series as a configuration option instead. In a StockChart with the navigator enabled, the base series can't be added dynamically. With multiple axes, the <a href=\"/highcharts#xAxis.offset\">offset</a> is dynamically adjusted","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/chart-addseries/\" target=\"_blank\">Add series from a button</a>","deprecated":false,"fullname":"Chart.addSeries","title":"addSeries","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Object options, [Boolean redraw], [Mixed animation])","paramsDescription":"options: Object<br>The series options, as documented under <a class=\"internal\" href=\"#plotOptions.series\">plotOptions.series</a> and under the plotOptions for each series type.||\r\n\r\nredraw: Boolean<bcalr>Defaults to <code>true</code>. Whether to redraw the chart after the series is added. See the <code>redraw()</code> method below.||animation: Mixed<br>Defaults to true. When true, the series' updating will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Axis--getExtremes","returnType":"Object","since":"","description":"Get the current extremes for the axis. The returned object contains:\r\n\r\n<dl>\r\n  <dt>dataMax:</dt>\r\n  <dd>The maximum value of the axis' associated series.</dd>\r\n\r\n  <dt>dataMin:</dt>\r\n  <dd>The minimum value of the axis' associated series.</dd>\r\n\r\n  <dt>max:</dt>\r\n  <dd>The maximum axis value, either automatic or set manually. If the <code>max</code> option is not set, <code>maxPadding</code> is 0 and <code>endOnTick</code> is <code>false</code>, this value will be the same as <code>dataMax</code>.</dd>\r\n\r\n  <dt>min:</dt>\r\n  <dd>The minimum axis value, either automatic or set manually. If the <code>min</code> option is not set, <code>minPadding</code> is 0 and <code>startOnTick</code> is <code>false</code>, this value will be the same as <code>dataMin</code>.</dd>\r\n</dl>","demo":"","deprecated":false,"fullname":"Axis.getExtremes","title":"getExtremes","parent":"Axis","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":""},{"name":"Renderer--button","returnType":"Element","since":"","description":"Creates a button in the given location.","demo":"","deprecated":false,"fullname":"Renderer.button","title":"button","parent":"Renderer","isParent":false,"products":[],"type":"","params":"(String str, Number x, Number y, Function callback, Object normalState, Object hoverState, Object pressedState, Object disabledState, String shape)","paramsDescription":"str: String<br>\r\nThe text or HTML to draw||\r\n\r\nx: Number<br>\r\nThe x position of the button's left side.||\r\n\r\ny: Number<br>\r\nThe y position of the button's top side.||\r\n\r\ncallback: Function<br>\r\nThe function to execute on button click or touch.||\r\n\r\nnormalState: Object<br>\r\nSVG attributes for the normal state.||\r\n\r\nhoverState: Object<br>\r\nSVG attributes for the hovered state.||\r\n\r\npressedState: Object<br>\r\nSVG attributes for the pressed state.||\r\n\r\ndisabledState: Object<br>\r\nSVG attributes for the disabled state.||\r\n\r\nshape: String<br>\r\nThe shape of the button's border/background, if any. Defaults to <code>rect</code>.\r\n"},{"name":"Chart--setSize","returnType":"","since":"","description":"Resize the chart to a given width and height. In order to set the width only, the height argument can be skipped. To set the height only, pass <code>undefined</code> for the width.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/chart-setsize/\" target=\"_blank\">Set the size from a jQuery UI resizable</a>","deprecated":false,"fullname":"Chart.setSize","title":"setSize","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Number width, Number height, [Mixed animation])","paramsDescription":"width: Number<br>\r\nThe new pixel width of the chart. Since v4.2.6, the argument can be <code>undefined</code> in order to preserve the current value (when setting height only), or <code>null</code> to adapt to the width of the containing element.||\r\n\r\nheight: Number<br>\r\nThe new pixel height of the chart. Since v4.2.6, the argument can be <code>undefined</code> in order to preserve the current value, or <code>null</code> in order to adapt to the height of the containing element.||\r\n\r\nanimation: Mixed<br>\r\nDefaults to true. When true, the resize will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>."},{"name":"Legend","returnType":"","since":"5.0.0","description":"<p>The Legend object is available from <code>chart.legend</code>. Each chart has only one legend.</p>","demo":"","deprecated":false,"fullname":"Legend","title":"Legend","isParent":true,"products":[],"params":"","paramsDescription":""},{"name":"Chart--title","returnType":"","since":"5.0.0","description":"The chart title. The title has an <code>update</code> method that points back to <a href=\"#Chart.setTitle\">Chart.setTitle</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/title-update/\" target=\"_blank\">Updating titles</a>.","deprecated":false,"fullname":"Chart.title","title":"title","parent":"Chart","isParent":false,"products":[],"type":"","params":"","paramsDescription":""},{"name":"Chart--addCredits","returnType":"","since":"5.0.0","description":"Set a new credits label for the chart.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/credits/credits-update/\" target=\"_blank\">Add and update credits</a>.","deprecated":false,"fullname":"Chart.addCredits","title":"addCredits","parent":"Chart","isParent":false,"products":[],"type":"","params":"(Object options)","paramsDescription":"options: Object<br>A configuration object for the credits as defined at <a class=\"internal\" href=\"#credits\">credits</a>."},{"name":"Chart--update","returnType":"","since":"5.0.0","description":"<p>A generic function to update any element of the chart. Elements can be enabled and disabled, moved, re-styled, re-formatted etc.</p>\r\n<p>A special case is configuration objects that take arrays, for example <a href=\"#xAxis\">xAxis</a>, <a href=\"#yAxis\">yAxis</a> or <a href=\"#series\">series</a>. For these collections, an <code>id</code> option is used to map the new option set to an existing object. If an existing object of the same <code>id</code> is not found, the corresponding item is updated. So for example, running <code>chart.update</code> with a series item without an id, will cause the existing chart's series with the same index in the series array to be updated.</p>\r\n<p>See also <a href=\"#responsive\">the responsive option set</a>. Switching between <a href=\"#responsive.rules\">responsive.rules</a> basically runs <code>chart.update</code> under the hood.</p>","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/members/chart-update/\" target=\"_blank\">Update chart geometry</a>.\r\n\r\n\r\n","deprecated":false,"fullname":"Chart.update","title":"update","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(Object options, Boolean redraw)","paramsDescription":"options: Object<br>A configuration object for the new chart options as defined in the <em>options</em> section of the API.||\r\nredraw: Boolean<br>Whether to redraw the chart. Defaults to <code>true</code>."},{"name":"Legend--update","returnType":"","since":"5.0.0","description":"Update the legend with new options.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/legend/legend-update/\" target=\"_blank\">Legend update</a>","deprecated":false,"fullname":"Legend.update","title":"update","parent":"Legend","isParent":false,"products":[],"type":"metthod","params":"(Object options, [Boolean redraw])","paramsDescription":"options: Object<br>\r\nThe new legend options as documented under <a href=\"#legend\">legend</a>.||\r\nredraw: Boolean<br>\r\nWhether to redraw the chart. Defaults to <code>true</code>."},{"name":"Renderer--definition","returnType":"Element","since":"5.0.0","description":"<p><a href=\"http://www.highcharts.com/docs/chart-design-and-style/style-by-css\">Styled mode</a> only. A hook for adding general definitions to the SVG's <code>defs</code> tag. Definitions can be referenced from the CSS by its <code>id</code>. Read more in <a href=\"http://www.highcharts.com/docs/chart-design-and-style/gradients-shadows-and-patterns\">Gradients, shadows and patterns</a>.</p>\r\n\r\n<p>The definitions can also be added as configuration options, see <a href=\"#defs\">defs</a>.</p>","demo":"","deprecated":false,"fullname":"Renderer.definition","title":"definition","parent":"Renderer","isParent":false,"products":[],"type":"method","params":"(Object def)","paramsDescription":"def: Object<br>\r\nA serialized form of an SVG definition, including children. "},{"name":"Chart--credits","returnType":"","since":"5.0.0","description":"The chart's credits label. The label has an <code>update</code> method that allows setting new options as per <a href=\"#credits\">the credits option set</a>.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/credits/credits-update/\" target=\"_blank\">Add and update credits</a>.","deprecated":false,"fullname":"Chart.credits","title":"credits","parent":"Chart","isParent":false,"products":[],"type":"","params":"","paramsDescription":""},{"name":"Series--hide","returnType":"","since":"","description":"Hides the series if visible. If the <code>chart.ignoreHiddenSeries</code> option is true, the chart is redrawn without this series.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/stock/members/series-show-hide/\" target=\"_blank\">Toggle visibility from a button</a>","deprecated":false,"fullname":"Series.hide","title":"hide","parent":"Series","isParent":false,"products":[],"type":"method","params":"()","paramsDescription":""},{"name":"Highcharts--error","returnType":"","since":"5.0.6","description":"The error handler function. By default is provides error messages for debugging, with links to the descriptions on Highcharts website. This function can be redefined to catch errors in client applications.","demo":"<a href=\"http://jsfiddle.net/gh/get/library/pure/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/highcharts-error/\" target=\"_blank\">Custom error handler</a>.","deprecated":false,"fullname":"Highcharts.error","title":"error","parent":"Highcharts","isParent":false,"products":[],"type":"","params":"(Number|String code, Boolean fatal)","paramsDescription":"code: Number|String<br>The error code. If this is a number, the default error function prints a link to a human readable error code description according to <a href=\"https://github.com/highcharts/highcharts/blob/master/errors/errors.xml\">error definition file</a>. If it's a string, the description is printed in the console.||\r\nfatal: Boolean<br>Whether the error should stop execution."},{"name":"Chart--get","returnType":"Axis|Series|Point","since":"","description":"Get an axis, series or point by its <code>id</code> as given in the configuration options. Returns <code>undefined</code> if no item is found.","demo":"","deprecated":false,"fullname":"Chart.get","title":"get","parent":"Chart","isParent":false,"products":[],"type":"method","params":"(String id)","paramsDescription":"id: String<br>The id of the axis, series or point to get."}]
+[
+ {
+  "name": "Highcharts",
+  "title": "Highcharts",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Highcharts--charts",
+  "title": "charts",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object Highcharts.Chart|undefined)",
+  "description": "An array containing the current chart objects in the page. A chart's position in the array is preserved throughout the page's lifetime. When a chart is destroyed, the array item becomes undefined."
+ },
+ {
+  "name": "Highcharts--dateFormats",
+  "title": "dateFormats",
+  "parent": "Highcharts",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "A hook for defining additional date format specifiers. New specifiers are defined as key-value pairs by using the specifier as key, and a function which takes the timestamp as value. This function returns the formatted portion of the date. Using dateFormats is also a convenient way to define new keys for complex locale-aware date formats compatible with the Intl.DateTimeFormat browser API, whenever the built-in formats are not sufficient."
+ },
+ {
+  "name": "Highcharts--defaultOptions",
+  "title": "defaultOptions",
+  "parent": "Highcharts",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Global default settings."
+ },
+ {
+  "name": "Highcharts--maps",
+  "title": "maps",
+  "parent": "Highcharts",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains all loaded map data for Highmaps."
+ },
+ {
+  "name": "Highcharts--sonification",
+  "title": "sonification",
+  "parent": "Highcharts",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Global Sonification classes and objects."
+ },
+ {
+  "name": "Highcharts--theme",
+  "title": "theme",
+  "parent": "Highcharts",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Theme options that should get applied to the chart. In module mode it might not be possible to change this property because of read-only restrictions, instead use Highcharts.setOptions."
+ },
+ {
+  "name": "Highcharts--addEvent",
+  "title": "addEvent",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Function",
+  "params": "(Object el, String type, Function fn, [Object options])",
+  "description": "Add an event listener."
+ },
+ {
+  "name": "Highcharts--ajax",
+  "title": "ajax",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object settings)",
+  "description": "Perform an Ajax call."
+ },
+ {
+  "name": "Highcharts--animObject",
+  "title": "animObject",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object animation)",
+  "description": "Get the animation in object form, where a disabled animation is always returned as { duration: 0 }."
+ },
+ {
+  "name": "Highcharts--animate",
+  "title": "animate",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object el, Object params, [Object opt])",
+  "description": "The global animate method, which uses Fx to create individual animators."
+ },
+ {
+  "name": "Highcharts--arrayMax",
+  "title": "arrayMax",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Array<Object> data)",
+  "description": "Non-recursive method to find the lowest member of an array. Math.max raises a maximum call stack size exceeded error in Chrome when trying to apply more than 150.000 points. This method is slightly slower, but safe."
+ },
+ {
+  "name": "Highcharts--arrayMin",
+  "title": "arrayMin",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Array<Object> data)",
+  "description": "Non-recursive method to find the lowest member of an array. Math.min raises a maximum call stack size exceeded error in Chrome when trying to apply more than 150.000 points. This method is slightly slower, but safe."
+ },
+ {
+  "name": "Highcharts--attr",
+  "title": "attr",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "String",
+  "params": "(Object elem, [Object keyOrAttribs], [Object value])",
+  "description": "Set or get an attribute or an object of attributes. To use as a setter, pass a key and a value, or let the second argument be a collection of keys and values. When using a collection, passing a value of null or undefined will remove the attribute. To use as a getter, pass only a string as the second argument."
+ },
+ {
+  "name": "Highcharts--chart",
+  "title": "chart",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Chart",
+  "params": "([Object renderTo], Object options, [Function callback])",
+  "description": "Factory function for basic charts."
+ },
+ {
+  "name": "Highcharts--color",
+  "title": "color",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Color input)",
+  "description": "Creates a color instance out of a color string."
+ },
+ {
+  "name": "Highcharts--correctFloat",
+  "title": "correctFloat",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Number num, [Number prec])",
+  "description": "Fix JS round off float errors."
+ },
+ {
+  "name": "Highcharts--createElement",
+  "title": "createElement",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "HTMLElement",
+  "params": "(String tag, [Object attribs], [CSSObject styles], [HTMLElement parent], [Boolean nopad])",
+  "description": "Utility function to create an HTML element with attributes and styles."
+ },
+ {
+  "name": "Highcharts--css",
+  "title": "css",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object el, CSSObject styles)",
+  "description": "Set CSS on a given element."
+ },
+ {
+  "name": "Highcharts--data",
+  "title": "data",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Creates a data object to parse data for a chart."
+ },
+ {
+  "name": "Highcharts--defined",
+  "title": "defined",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object obj)",
+  "description": "Check if an object is null or undefined."
+ },
+ {
+  "name": "Highcharts--destroyObjectProperties",
+  "title": "destroyObjectProperties",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object obj, [Object except])",
+  "description": "Utility method that destroys any SVGElement instances that are properties on the given object. It loops all properties and invokes destroy if there is a destroy method. The property is then delete."
+ },
+ {
+  "name": "Highcharts--discardElement",
+  "title": "discardElement",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(HTMLElement element)",
+  "description": "Discard a HTML element"
+ },
+ {
+  "name": "Highcharts--downloadSVGLocal",
+  "title": "downloadSVGLocal",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(String svg, Object options)",
+  "description": "Deprecated. Use Exporting.downloadSVG instead. Get data URL to an image of an SVG and call download on it options object: filename: Name of resulting downloaded file without extension. Default is chart. type: File type of resulting download. Default is image/png. scale: Scaling factor of downloaded image compared to source. Default is 1. libURL: URL pointing to location of dependency scripts to download on demand."
+ },
+ {
+  "name": "Highcharts--erase",
+  "title": "erase",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Array<Object> arr, Object item)",
+  "description": "Remove the last occurrence of an item from an array."
+ },
+ {
+  "name": "Highcharts--error",
+  "title": "error",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object code, [Boolean stop], [Chart chart], [Object params])",
+  "description": "Provide error messages for debugging, with links to online explanation. This function can be overridden to provide custom error handling."
+ },
+ {
+  "name": "Highcharts--extend",
+  "title": "extend",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object a, Object b)",
+  "description": "Utility function to extend an object with the members of another."
+ },
+ {
+  "name": "Highcharts--extendClass",
+  "title": "extendClass",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object parent, Object members)",
+  "description": "Extend a prototyped class by new members."
+ },
+ {
+  "name": "Highcharts--find",
+  "title": "find",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Array<Object> arr, Function callback)",
+  "description": "Return the value of the first element in the array that satisfies the provided testing function."
+ },
+ {
+  "name": "Highcharts--fireEvent",
+  "title": "fireEvent",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object el, String type, [Object eventArguments], [Function defaultFunction])",
+  "description": "Fire an event that was registered with Highcharts#addEvent."
+ },
+ {
+  "name": "Highcharts--ganttChart",
+  "title": "ganttChart",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object renderTo, Object options, [Function callback])",
+  "description": "The factory function for creating new gantt charts. Creates a new GanttChart object with different default options than the basic Chart."
+ },
+ {
+  "name": "Highcharts--geojson",
+  "title": "geojson",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "(Object json, [String hType])",
+  "description": "Highcharts Maps only. Restructure a GeoJSON or TopoJSON object in preparation to be read directly by the series.mapData option. The object will be broken down to fit a specific Highcharts type, either map, mapline or mappoint. Meta data in GeoJSON's properties object will be copied directly over to Highcharts.Point.properties in Highcharts Maps."
+ },
+ {
+  "name": "Highcharts--getDeferredAnimation",
+  "title": "getDeferredAnimation",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Chart chart, Object animation, [Series series])",
+  "description": "Get the defer as a number value from series animation options."
+ },
+ {
+  "name": "Highcharts--getJSON",
+  "title": "getJSON",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(String url, Function success)",
+  "description": "Get a JSON resource over XHR, also supporting CORS without preflight."
+ },
+ {
+  "name": "Highcharts--getMagnitude",
+  "title": "getMagnitude",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Number num)",
+  "description": "Get the magnitude of a number."
+ },
+ {
+  "name": "Highcharts--getOptions",
+  "title": "getOptions",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "",
+  "description": "Get the updated default options. Until 3.0.7, merely exposing defaultOptions for outside modules wasn't enough because the setOptions method created a new object."
+ },
+ {
+  "name": "Highcharts--getStyle",
+  "title": "getStyle",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(HTMLElement el, String prop, [Boolean toInt])",
+  "description": "Get the computed CSS value for given element and property, only for numerical properties. For width and height, the dimension of the inner box (excluding padding) is returned. Used for fitting the chart within the container."
+ },
+ {
+  "name": "Highcharts--hasWebGLSupport",
+  "title": "hasWebGLSupport",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Returns true if the current browser supports WebGL."
+ },
+ {
+  "name": "Highcharts--i18nFormat",
+  "title": "i18nFormat",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "String",
+  "params": "(String formatString, Object context, Chart chart)",
+  "description": "i18n formatting function. Extends Highcharts.format() functionality by also handling arrays and plural conditionals. Arrays can be indexed as follows: Format: 'This is the first index: {myArray[0]}. The last: {myArray[-1]}.' Context: { myArray: [0, 1, 2, 3, 4, 5] } Result: 'This is the first index: 0. The last: 5.' They can also be iterated using the #each() function. This will repeat the contents of the bracket expression for each element. Example: Format: 'List contains: {#each(myArray)cm }' Context: { myArray: [0, 1, 2] } Result: 'List contains: 0cm 1cm 2cm ' The #each() function optionally takes a length parameter. If positive, this parameter specifies the max number of elements to iterate through. If negative, the function will subtract the number from the length of the array. Use this to stop iterating before the array ends. Example: Format: 'List contains: {#each(myArray, -1), }and {myArray[-1]}.' Context: { myArray: [0, 1, 2, 3] } Result: 'List contains: 0, 1, 2, and 3.' Use the #plural() function to pick a string depending on whether or not a context object is 1. Arguments are #plural(obj, plural, singular). Example: Format: 'Has {numPoints} {#plural(numPoints, points, point}.' Context: { numPoints: 5 } Result: 'Has 5 points.' Optionally there are additional parameters for dual and none: #plural(obj, plural, singular, dual, none). Example: Format: 'Has {#plural(numPoints, many points, one point, two points, none}.' Context: { numPoints: 2 } Result: 'Has two points.' The dual or none parameters will take precedence if they are supplied."
+ },
+ {
+  "name": "Highcharts--isArray",
+  "title": "isArray",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object obj)",
+  "description": "Utility function to check if an item is an array."
+ },
+ {
+  "name": "Highcharts--isClass",
+  "title": "isClass",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object obj)",
+  "description": "Utility function to check if an Object is a class."
+ },
+ {
+  "name": "Highcharts--isDOMElement",
+  "title": "isDOMElement",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object obj)",
+  "description": "Utility function to check if an Object is a HTML Element."
+ },
+ {
+  "name": "Highcharts--isFunction",
+  "title": "isFunction",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object obj)",
+  "description": "Utility function to check if object is a function."
+ },
+ {
+  "name": "Highcharts--isNumber",
+  "title": "isNumber",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object n)",
+  "description": "Utility function to check if an item is a number and it is finite (not NaN, Infinity or -Infinity)."
+ },
+ {
+  "name": "Highcharts--isObject",
+  "title": "isObject",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object obj, [Boolean strict])",
+  "description": "Utility function to check if an item is of type object."
+ },
+ {
+  "name": "Highcharts--isString",
+  "title": "isString",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Object s)",
+  "description": "Utility function to check for string type."
+ },
+ {
+  "name": "Highcharts--mapChart",
+  "title": "mapChart",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "([Object renderTo], Object options, [Function callback])",
+  "description": "The factory function for creating new map charts. Creates a new MapChart object with different default options than the basic Chart."
+ },
+ {
+  "name": "Highcharts--merge",
+  "title": "merge",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object extendOrSource, [Array<Object> sources])",
+  "description": "Utility function to deep merge two or more objects and return a third object. If the first argument is true, the contents of the second object is copied into the first object. The merge function can also be used with a single object argument to create a deep copy of an object."
+ },
+ {
+  "name": "Highcharts--navigator",
+  "title": "navigator",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "([Object renderTo], Object options)",
+  "description": "Factory function for standalone navigator."
+ },
+ {
+  "name": "Highcharts--normalizeTickInterval",
+  "title": "normalizeTickInterval",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Number interval, [Array<Object> multiples], [Number magnitude], [Boolean allowDecimals], [Boolean hasTickAmount])",
+  "description": "Take an interval and normalize it to multiples of round numbers."
+ },
+ {
+  "name": "Highcharts--objectEach",
+  "title": "objectEach",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object obj, Function fn, [Object ctx])",
+  "description": "Iterate over object key pairs in an object."
+ },
+ {
+  "name": "Highcharts--offset",
+  "title": "offset",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object el)",
+  "description": "Get the element's offset position, corrected for overflow: auto."
+ },
+ {
+  "name": "Highcharts--pad",
+  "title": "pad",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "String",
+  "params": "(Number number, [Number length], [String padder])",
+  "description": "Left-pad a string to a given length by adding a character repetitively."
+ },
+ {
+  "name": "Highcharts--pick",
+  "title": "pick",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object args)",
+  "description": "Return the first value that is not null or undefined."
+ },
+ {
+  "name": "Highcharts--relativeLength",
+  "title": "relativeLength",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Object value, Number base, [Number offset])",
+  "description": "Return a length based on either the integer value, or a percentage of a base."
+ },
+ {
+  "name": "Highcharts--removeEvent",
+  "title": "removeEvent",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object el, [String type], [Function fn])",
+  "description": "Remove an event that was added with Highcharts#addEvent."
+ },
+ {
+  "name": "Highcharts--setAnimation",
+  "title": "setAnimation",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object animation, Chart chart)",
+  "description": "Set the global animation to either a given value, or fall back to the given chart's animation option."
+ },
+ {
+  "name": "Highcharts--setOptions",
+  "title": "setOptions",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object options)",
+  "description": "Merge the default options with custom options and return the new options structure. Commonly used for defining reusable templates."
+ },
+ {
+  "name": "Highcharts--splat",
+  "title": "splat",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object obj)",
+  "description": "Check if an element is an array, and if not, make it into an array."
+ },
+ {
+  "name": "Highcharts--splitPath",
+  "title": "splitPath",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object path)",
+  "description": "Utility for reading SVG paths directly."
+ },
+ {
+  "name": "Highcharts--stableSort",
+  "title": "stableSort",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Array<Object> arr, Function sortFunction)",
+  "description": "Sort an object array and keep the order of equal items. The ECMAScript standard does not specify the behavior when items are equal."
+ },
+ {
+  "name": "Highcharts--stockChart",
+  "title": "stockChart",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Object",
+  "params": "([Object renderTo], Object options, [Function callback])",
+  "description": "Factory function for creating new stock charts. Creates a new StockChart object with different default options than the basic Chart."
+ },
+ {
+  "name": "Highcharts--stop",
+  "title": "stop",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Element el, [String prop])",
+  "description": "Stop running animation."
+ },
+ {
+  "name": "Highcharts--syncTimeout",
+  "title": "syncTimeout",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Function fn, Number delay, [Object context])",
+  "description": "Set a timeout if the delay is given, otherwise perform the function synchronously."
+ },
+ {
+  "name": "Highcharts--uniqueKey",
+  "title": "uniqueKey",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "String",
+  "params": "",
+  "description": "Get a unique key for using in internal element id's and pointers. The key is composed of a random hash specific to this Highcharts instance, and a counter."
+ },
+ {
+  "name": "Highcharts--useSerialIds",
+  "title": "useSerialIds",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Boolean mode)",
+  "description": "Activates a serial mode for element IDs provided by Highcharts.uniqueKey. This mode can be used in automated tests, where a simple comparison of two rendered SVG graphics is needed. Note: This is only for testing purposes and will break functionality in webpages with multiple charts."
+ },
+ {
+  "name": "Highcharts--wrap",
+  "title": "wrap",
+  "parent": "Highcharts",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object obj, String method, Function func)",
+  "description": "Wrap a method with extended functionality, preserving the original function."
+ },
+ {
+  "name": "Axis",
+  "title": "Axis",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Axis--categories",
+  "title": "categories",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "If categories are present for the axis, names are used instead of numbers for that axis. Since Highcharts 3.0, categories can also be extracted by giving each point a name and setting axis type to category. However, if you have multiple series, best practice remains defining the categories array."
+ },
+ {
+  "name": "Axis--chart",
+  "title": "chart",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Chart",
+  "params": "",
+  "description": "The Chart that the axis belongs to."
+ },
+ {
+  "name": "Axis--coll",
+  "title": "coll",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "String",
+  "params": "",
+  "description": "The collection where the axis belongs, for example xAxis, yAxis or colorAxis. Corresponds to properties on Chart, for example Highcharts.Chart.xAxis."
+ },
+ {
+  "name": "Axis--crosshair",
+  "title": "crosshair",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The processed crosshair options."
+ },
+ {
+  "name": "Axis--horiz",
+  "title": "horiz",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Whether the axis is horizontal."
+ },
+ {
+  "name": "Axis--isXAxis",
+  "title": "isXAxis",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Whether the axis is the x-axis."
+ },
+ {
+  "name": "Axis--len",
+  "title": "len",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The length of the axis in terms of pixels."
+ },
+ {
+  "name": "Axis--max",
+  "title": "max",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The maximum value of the axis. In a logarithmic axis, this is the logarithm of the real value, and the real value can be obtained from Highcharts.Axis#getExtremes."
+ },
+ {
+  "name": "Axis--min",
+  "title": "min",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The minimum value of the axis. In a logarithmic axis, this is the logarithm of the real value, and the real value can be obtained from Highcharts.Axis#getExtremes."
+ },
+ {
+  "name": "Axis--minorTicks",
+  "title": "minorTicks",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "List of minor ticks mapped by position on the axis."
+ },
+ {
+  "name": "Axis--options",
+  "title": "options",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Current options for the axis after merge of defaults and user's options."
+ },
+ {
+  "name": "Axis--pos",
+  "title": "pos",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The position of the axis in terms of pixels, compared to the chart edge. In a horizontal axis it is the same as chart.plotLeft unless the axis is explicitly positioned, and in a default vertical axis it is the same as chart.plotTop."
+ },
+ {
+  "name": "Axis--reversed",
+  "title": "reversed",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Whether the axis is reversed. Based on the axis.reversed, option, but inverted charts have reversed xAxis by default."
+ },
+ {
+  "name": "Axis--series",
+  "title": "series",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "All series associated to the axis."
+ },
+ {
+  "name": "Axis--side",
+  "title": "side",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The side on which the axis is rendered. 0 is top, 1 is right, 2 is bottom and 3 is left."
+ },
+ {
+  "name": "Axis--tickPositions",
+  "title": "tickPositions",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains the current positions that are laid out on the axis. The positions are numbers in terms of axis values. In a category axis they are integers, in a datetime axis they are also integers, but designating milliseconds. This property is read only - for modifying the tick positions, use the tickPositioner callback or [axis.tickPositions( https://api.highcharts.com/highcharts/xAxis.tickPositions) option instead."
+ },
+ {
+  "name": "Axis--ticks",
+  "title": "ticks",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "List of major ticks mapped by position on axis."
+ },
+ {
+  "name": "Axis--userOptions",
+  "title": "userOptions",
+  "parent": "Axis",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "User's options for this axis without defaults."
+ },
+ {
+  "name": "Axis--addTitle",
+  "title": "addTitle",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean display)",
+  "description": "Adds the title defined in axis.options.title."
+ },
+ {
+  "name": "Axis--defaultLabelFormatter",
+  "title": "defaultLabelFormatter",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "String",
+  "params": "(Object this)",
+  "description": "The default label formatter. The context is a special config object for the label. In apps, use the labels.formatter instead, except when a modification is needed."
+ },
+ {
+  "name": "Axis--drawCrosshair",
+  "title": "drawCrosshair",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object e, [Point point])",
+  "description": "Internal function to draw a crosshair."
+ },
+ {
+  "name": "Axis--drilldownCategory",
+  "title": "drilldownCategory",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Number x, [Object originalEvent])",
+  "description": "Drill down to a given category. This is the same as clicking on an axis label. If multiple series with drilldown are present, all will drill down to the given category. See also Point.doDrilldown for drilling down on a single point instance."
+ },
+ {
+  "name": "Axis--getExtremes",
+  "title": "getExtremes",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Object",
+  "params": "",
+  "description": "Get the current extremes for the axis."
+ },
+ {
+  "name": "Axis--getLinePath",
+  "title": "getLinePath",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Number lineWidth)",
+  "description": "Internal function to get the path for the axis line. Extended for polar charts."
+ },
+ {
+  "name": "Axis--getLinearTickPositions",
+  "title": "getLinearTickPositions",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "(Number tickInterval, Number min, Number max)",
+  "description": "Internal function to get the tick positions of a linear axis to round values like whole tens or every five."
+ },
+ {
+  "name": "Axis--getMinorTickInterval",
+  "title": "getMinorTickInterval",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Number",
+  "params": "",
+  "description": "Resolve the new minorTicks/minorTickInterval options into the legacy loosely typed minorTickInterval option."
+ },
+ {
+  "name": "Axis--getMinorTickPositions",
+  "title": "getMinorTickPositions",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "",
+  "description": "Internal function to return the minor tick positions. For logarithmic axes, the same logic as for major ticks is reused."
+ },
+ {
+  "name": "Axis--getPlotBandPath",
+  "title": "getPlotBandPath",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Number from, Number to, Object options)",
+  "description": "Internal function to create the SVG path definition for a plot band."
+ },
+ {
+  "name": "Axis--getPlotLinePath",
+  "title": "getPlotLinePath",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object options)",
+  "description": "Create the path for a plot line that goes from the given value on this axis, across the plot to the opposite side. Also used internally for grid lines and crosshairs."
+ },
+ {
+  "name": "Axis--getThreshold",
+  "title": "getThreshold",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Number threshold)",
+  "description": "Get the zero plane either based on zero or on the min or max value. Used in bar and area plots."
+ },
+ {
+  "name": "Axis--hasData",
+  "title": "hasData",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Return true if the axis has associated data."
+ },
+ {
+  "name": "Axis--hideCrosshair",
+  "title": "hideCrosshair",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Hide the crosshair if visible."
+ },
+ {
+  "name": "Axis--init",
+  "title": "init",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Chart chart, Object userOptions)",
+  "description": "Overridable function to initialize the axis."
+ },
+ {
+  "name": "Axis--remove",
+  "title": "remove",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean redraw)",
+  "description": "Remove the axis from the chart."
+ },
+ {
+  "name": "Axis--renderLine",
+  "title": "renderLine",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Render the axis line. Called internally when rendering and redrawing the axis."
+ },
+ {
+  "name": "Axis--renderMinorTick",
+  "title": "renderMinorTick",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Number pos, Boolean slideIn)",
+  "description": "Render a minor tick into the given position. If a minor tick already exists in this position, move it."
+ },
+ {
+  "name": "Axis--renderTick",
+  "title": "renderTick",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Number pos, Number i, Boolean slideIn)",
+  "description": "Render a major tick into the given position. If a tick already exists in this position, move it."
+ },
+ {
+  "name": "Axis--setCategories",
+  "title": "setCategories",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Array<Object> categories, [Boolean redraw])",
+  "description": "Set new axis categories and optionally redraw."
+ },
+ {
+  "name": "Axis--setExtremes",
+  "title": "setExtremes",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object min, [Object max], [Boolean redraw], [Object animation], [Object eventArguments])",
+  "description": "Set the minimum and maximum of the axes after render time. If the startOnTick and endOnTick options are true, the minimum and maximum values are rounded off to the nearest tick. To prevent this, these options can be set to false before calling setExtremes. Also, setExtremes will not allow a range lower than the minRange option, which by default is the range of five points."
+ },
+ {
+  "name": "Axis--setTitle",
+  "title": "setTitle",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object titleOptions, [Boolean redraw])",
+  "description": "Update the axis title by options after render time."
+ },
+ {
+  "name": "Axis--toPixels",
+  "title": "toPixels",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Object value, [Boolean paneCoordinates])",
+  "description": "Translate a value in terms of axis units into pixels within the chart."
+ },
+ {
+  "name": "Axis--toValue",
+  "title": "toValue",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "Number",
+  "params": "(Number pixel, [Boolean paneCoordinates])",
+  "description": "Translate a pixel position along the axis to a value in terms of axis units."
+ },
+ {
+  "name": "Axis--update",
+  "title": "update",
+  "parent": "Axis",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options, [Boolean redraw])",
+  "description": "Update an axis object with a new set of options. The options are merged with the existing options, so only new or altered options need to be specified."
+ },
+ {
+  "name": "Chart",
+  "title": "Chart",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Chart--axes",
+  "title": "axes",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "All the axes in the chart."
+ },
+ {
+  "name": "Chart--chartHeight",
+  "title": "chartHeight",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The current pixel height of the chart."
+ },
+ {
+  "name": "Chart--chartWidth",
+  "title": "chartWidth",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The current pixel width of the chart."
+ },
+ {
+  "name": "Chart--container",
+  "title": "container",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "HTMLElement",
+  "params": "",
+  "description": "The containing HTML element of the chart. The container is dynamically inserted into the element given as the renderTo parameter in the Highcharts#chart constructor."
+ },
+ {
+  "name": "Chart--credits",
+  "title": "credits",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "The chart's credits label. The label has an update method that allows setting new options as per the credits options set."
+ },
+ {
+  "name": "Chart--data",
+  "title": "data",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The data parser for this chart."
+ },
+ {
+  "name": "Chart--exporting",
+  "title": "exporting",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Exporting object."
+ },
+ {
+  "name": "Chart--fullscreen",
+  "title": "fullscreen",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Chart--hoverPoint",
+  "title": "hoverPoint",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains the original hovered point."
+ },
+ {
+  "name": "Chart--hoverPoints",
+  "title": "hoverPoints",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains all hovered points."
+ },
+ {
+  "name": "Chart--hoverSeries",
+  "title": "hoverSeries",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains the original hovered series."
+ },
+ {
+  "name": "Chart--index",
+  "title": "index",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "Index position of the chart in the Highcharts#charts property."
+ },
+ {
+  "name": "Chart--inverted",
+  "title": "inverted",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The flag is set to true if a series of the chart is inverted."
+ },
+ {
+  "name": "Chart--legend",
+  "title": "legend",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Legend",
+  "params": "",
+  "description": "The legend contains an interactive overview over chart items, usually individual series or points depending on the series type. The color axis and bubble legend are also rendered in the chart legend."
+ },
+ {
+  "name": "Chart--numberFormatter",
+  "title": "numberFormatter",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Function",
+  "params": "",
+  "description": "Callback function to override the default function that formats all the numbers in the chart. Returns a string with the formatted number."
+ },
+ {
+  "name": "Chart--options",
+  "title": "options",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The options structure for the chart after merging #defaultOptions and #userOptions. It contains members for the sub elements like series, legend, tooltip etc."
+ },
+ {
+  "name": "Chart--plotHeight",
+  "title": "plotHeight",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The current height of the plot area in pixels."
+ },
+ {
+  "name": "Chart--plotLeft",
+  "title": "plotLeft",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The current left position of the plot area in pixels."
+ },
+ {
+  "name": "Chart--plotTop",
+  "title": "plotTop",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The current top position of the plot area in pixels."
+ },
+ {
+  "name": "Chart--plotWidth",
+  "title": "plotWidth",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The current width of the plot area in pixels."
+ },
+ {
+  "name": "Chart--pointer",
+  "title": "pointer",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The Pointer that keeps track of mouse and touch interaction."
+ },
+ {
+  "name": "Chart--renderer",
+  "title": "renderer",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Renderer",
+  "params": "",
+  "description": "The renderer instance of the chart. Each chart instance has only one associated renderer."
+ },
+ {
+  "name": "Chart--series",
+  "title": "series",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "All the current series in the chart."
+ },
+ {
+  "name": "Chart--sonification",
+  "title": "sonification",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Sonification capabilities for the chart."
+ },
+ {
+  "name": "Chart--styledMode",
+  "title": "styledMode",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Whether the chart is in styled mode, meaning all presentational attributes are avoided."
+ },
+ {
+  "name": "Chart--subtitle",
+  "title": "subtitle",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The chart subtitle. The subtitle has an update method that allows modifying the options directly or indirectly via chart.update."
+ },
+ {
+  "name": "Chart--time",
+  "title": "time",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The Time object associated with the chart. Since v6.0.5, time settings can be applied individually for each chart. If no individual settings apply, the Time object is shared by all instances."
+ },
+ {
+  "name": "Chart--title",
+  "title": "title",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The chart title. The title has an update method that allows modifying the options directly or indirectly via chart.update."
+ },
+ {
+  "name": "Chart--tooltip",
+  "title": "tooltip",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Tooltip object for points of series."
+ },
+ {
+  "name": "Chart--userOptions",
+  "title": "userOptions",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The original options given to the constructor or a chart factory like Highcharts.chart and Highcharts.stockChart. The original options are shallow copied to avoid mutation. The copy, chart.userOptions, may later be mutated to reflect updated options throughout the lifetime of the chart. For collections, like series, xAxis and yAxis, the chart user options should always be reflected by the item user option, so for example the following should always be true: chart.xAxis[0].userOptions === chart.userOptions.xAxis[0]"
+ },
+ {
+  "name": "Chart--xAxis",
+  "title": "xAxis",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "A collection of the X axes in the chart."
+ },
+ {
+  "name": "Chart--yAxis",
+  "title": "yAxis",
+  "parent": "Chart",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "A collection of the Y axes in the chart."
+ },
+ {
+  "name": "Chart--addAnnotation",
+  "title": "addAnnotation",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object options, [Boolean redraw])",
+  "description": "Add an annotation to the chart after render time."
+ },
+ {
+  "name": "Chart--addAxis",
+  "title": "addAxis",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Axis",
+  "params": "(Object options, [Boolean isX], [Boolean redraw], [Object animation])",
+  "description": "Add an axis to the chart after render time. Note that this method should never be used when adding data synchronously at chart render time, as it adds expense to the calculations and rendering. When adding data at the same time as the chart is initialized, add the axis as a configuration option instead."
+ },
+ {
+  "name": "Chart--addColorAxis",
+  "title": "addColorAxis",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Axis",
+  "params": "(Object options, [Boolean redraw], [Object animation])",
+  "description": "Add a color axis to the chart after render time. Note that this method should never be used when adding data synchronously at chart render time, as it adds expense to the calculations and rendering. When adding data at the same time as the chart is initialized, add the axis as a configuration option instead."
+ },
+ {
+  "name": "Chart--addCredits",
+  "title": "addCredits",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object credits)",
+  "description": "Set a new credits label for the chart."
+ },
+ {
+  "name": "Chart--addSeries",
+  "title": "addSeries",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Series",
+  "params": "(Object options, [Boolean redraw], [Object animation])",
+  "description": "Add a series to the chart after render time. Note that this method should never be used when adding data synchronously at chart render time, as it adds expense to the calculations and rendering. When adding data at the same time as the chart is initialized, add the series as a configuration option instead. With multiple axes, the offset is dynamically adjusted."
+ },
+ {
+  "name": "Chart--addSeriesAsDrilldown",
+  "title": "addSeriesAsDrilldown",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Point point, Object options)",
+  "description": "Add a series to the chart as drilldown from a specific point in the parent series. This method is used for async drilldown, when clicking a point in a series should result in loading and displaying a more high-resolution series. When not async, the setup is simpler using the drilldown.series options structure."
+ },
+ {
+  "name": "Chart--destroy",
+  "title": "destroy",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Remove the chart and purge memory. This method is called internally before adding a second chart into the same container, as well as on window unload to prevent leaks."
+ },
+ {
+  "name": "Chart--drillUp",
+  "title": "drillUp",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "When the chart is drilled down to a child series, calling chart.drillUp() will drill up to the parent series."
+ },
+ {
+  "name": "Chart--fromLatLonToPoint",
+  "title": "fromLatLonToPoint",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object lonLat)",
+  "description": "Deprecated. Use MapView.lonLatToProjectedUnits instead."
+ },
+ {
+  "name": "Chart--fromPointToLatLon",
+  "title": "fromPointToLatLon",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object point)",
+  "description": "Deprecated. Use MapView.projectedUnitsToLonLat instead."
+ },
+ {
+  "name": "Chart--get",
+  "title": "get",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Axis",
+  "params": "(String id)",
+  "description": "Get an axis, series or point object by id as given in the configuration options. Returns undefined if no item is found."
+ },
+ {
+  "name": "Chart--getOptions",
+  "title": "getOptions",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Return the current options of the chart, but only those that differ from default options. Items that can be either an object or an array of objects, like series, xAxis and yAxis, are always returned as array."
+ },
+ {
+  "name": "Chart--getSelectedPoints",
+  "title": "getSelectedPoints",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "",
+  "description": "Returns an array of all currently selected points in the chart. Points can be selected by clicking or programmatically by the Highcharts.Point#select function."
+ },
+ {
+  "name": "Chart--getSelectedSeries",
+  "title": "getSelectedSeries",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "",
+  "description": "Returns an array of all currently selected series in the chart. Series can be selected either programmatically by the Highcharts.Series#select function or by checking the checkbox next to the legend item if series.showCheckBox is true."
+ },
+ {
+  "name": "Chart--hideLoading",
+  "title": "hideLoading",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Hide the loading layer."
+ },
+ {
+  "name": "Chart--init",
+  "title": "init",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object userOptions, [Object callback])",
+  "description": "Overridable function that initializes the chart. The constructor's arguments are passed on directly."
+ },
+ {
+  "name": "Chart--isInsidePlot",
+  "title": "isInsidePlot",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(Number plotX, Number plotY, [Object options])",
+  "description": "Check whether a given point is within the plot area."
+ },
+ {
+  "name": "Chart--langFormat",
+  "title": "langFormat",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "String",
+  "params": "(String langKey, Object context)",
+  "description": "Apply context to a format string from lang options of the chart."
+ },
+ {
+  "name": "Chart--mapZoom",
+  "title": "mapZoom",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Number howMuch, [Number xProjected], [Number yProjected], [Number chartX], [Number chartY])",
+  "description": "Highcharts Maps only. Zoom in or out of the map. See also Highcharts.Point#zoomTo. See Highcharts.Chart#fromLatLonToPoint for how to get the centerX and centerY parameters for a geographic location. Deprecated as of v9.3 in favor of MapView.zoomBy."
+ },
+ {
+  "name": "Chart--redraw",
+  "title": "redraw",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object animation)",
+  "description": "Redraw the chart after changes have been done to the data, axis extremes chart size or chart elements. All methods for updating axes, series or points have a parameter for redrawing the chart. This is true by default. But in many cases you want to do more than one operation on the chart before redrawing, for example add a number of points. In those cases it is a waste of resources to redraw the chart for each new point added. So you add the points and call chart.redraw() after."
+ },
+ {
+  "name": "Chart--reflow",
+  "title": "reflow",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object e)",
+  "description": "Reflows the chart to its container. By default, the Resize Observer is attached to the chart's div which allows to reflows the chart automatically to its container, as per the chart.reflow option."
+ },
+ {
+  "name": "Chart--removeAnnotation",
+  "title": "removeAnnotation",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object idOrAnnotation)",
+  "description": "Remove an annotation from the chart."
+ },
+ {
+  "name": "Chart--setCaption",
+  "title": "setCaption",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options)",
+  "description": "Set the caption options. This can also be done from Highcharts.Chart#update."
+ },
+ {
+  "name": "Chart--setClassName",
+  "title": "setClassName",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(String className)",
+  "description": "Set the chart container's class name, in addition to highcharts-container."
+ },
+ {
+  "name": "Chart--setSize",
+  "title": "setSize",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object width, [Object height], [Object animation])",
+  "description": "Resize the chart to a given width and height. In order to set the width only, the height argument may be skipped. To set the height only, pass undefined for the width."
+ },
+ {
+  "name": "Chart--setSubtitle",
+  "title": "setSubtitle",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options)",
+  "description": "Shortcut to set the subtitle options. This can also be done from Highcharts.Chart#update or Highcharts.Chart#setTitle."
+ },
+ {
+  "name": "Chart--setTitle",
+  "title": "setTitle",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object titleOptions, [Object subtitleOptions], [Boolean redraw])",
+  "description": "Set a new title or subtitle for the chart."
+ },
+ {
+  "name": "Chart--showLoading",
+  "title": "showLoading",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(String str)",
+  "description": "Dim the chart and show a loading text or symbol. Options for the loading screen are defined in the loading options."
+ },
+ {
+  "name": "Chart--showResetZoom",
+  "title": "showResetZoom",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Display the zoom button, so users can reset zoom to the default view settings."
+ },
+ {
+  "name": "Chart--sonify",
+  "title": "sonify",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object onEnd)",
+  "description": "Play a sonification of a chart."
+ },
+ {
+  "name": "Chart--toggleSonify",
+  "title": "toggleSonify",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean reset, [Object onEnd])",
+  "description": "Play/pause sonification of a chart."
+ },
+ {
+  "name": "Chart--transformFromLatLon",
+  "title": "transformFromLatLon",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object latLon, Object transform)",
+  "description": "Highcharts Maps only. Get point from latitude and longitude using specified transform definition."
+ },
+ {
+  "name": "Chart--transformToLatLon",
+  "title": "transformToLatLon",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object point, Object transform)",
+  "description": "Highcharts Maps only. Get latLon from point using specified transform definition. The method returns an object with the numeric properties lat and lon."
+ },
+ {
+  "name": "Chart--update",
+  "title": "update",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options, [Boolean redraw], [Boolean oneToOne], [Object animation])",
+  "description": "A generic function to update any element of the chart. Elements can be enabled and disabled, moved, re-styled, re-formatted etc. A special case is configuration objects that take arrays, for example xAxis, yAxis or series. For these collections, an id option is used to map the new option set to an existing object. If an existing object of the same id is not found, the corresponding item is updated. So for example, running chart.update with a series item without an id, will cause the existing chart's series with the same index in the series array to be updated. When the oneToOne parameter is true, chart.update will also take care of adding and removing items from the collection. Read more under the parameter description below. Note that when changing series data, chart.update may mutate the passed data options. If the given options don't differ from the current chart options, the update is skipped and the afterUpdate event is not emitted. See also the responsive option set. Switching between responsive.rules basically runs chart.update under the hood."
+ },
+ {
+  "name": "Chart--zoomOut",
+  "title": "zoomOut",
+  "parent": "Chart",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Zoom the chart out after a user has zoomed in. See also Axis.setExtremes."
+ },
+ {
+  "name": "Legend",
+  "title": "Legend",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Legend--allItems",
+  "title": "allItems",
+  "parent": "Legend",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object Highcharts.Point|Highcharts.Series)",
+  "description": "All items for the legend, which is an array of series for most series and an array of points for pie series and its derivatives."
+ },
+ {
+  "name": "Legend--box",
+  "title": "box",
+  "parent": "Legend",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "SVG element of the legend box."
+ },
+ {
+  "name": "Legend--chart",
+  "title": "chart",
+  "parent": "Legend",
+  "type": "property",
+  "returnType": "Chart",
+  "params": "",
+  "description": "Chart of this legend."
+ },
+ {
+  "name": "Legend--group",
+  "title": "group",
+  "parent": "Legend",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "SVG group of the legend."
+ },
+ {
+  "name": "Legend--options",
+  "title": "options",
+  "parent": "Legend",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Legend options."
+ },
+ {
+  "name": "Legend--title",
+  "title": "title",
+  "parent": "Legend",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "SVG element of the legend title."
+ },
+ {
+  "name": "Legend--setText",
+  "title": "setText",
+  "parent": "Legend",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object item)",
+  "description": "Set the legend item text."
+ },
+ {
+  "name": "Legend--update",
+  "title": "update",
+  "parent": "Legend",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options, [Boolean redraw])",
+  "description": "Update the legend with new options. Equivalent to running chart.update with a legend configuration option."
+ },
+ {
+  "name": "Point",
+  "title": "Point",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Point--category",
+  "title": "category",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "For categorized axes this property holds the category name for the point. For other axes it holds the X value."
+ },
+ {
+  "name": "Point--color",
+  "title": "color",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The point's current color."
+ },
+ {
+  "name": "Point--colorIndex",
+  "title": "colorIndex",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The point's current color index, used in styled mode instead of color. The color index is inserted in class names used for styling."
+ },
+ {
+  "name": "Point--dataGroup",
+  "title": "dataGroup",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Highcharts Stock only. If a point object is created by data grouping, it doesn't reflect actual points in the raw data. In this case, the dataGroup property holds information that points back to the raw data. dataGroup.start is the index of the first raw data point in the group. dataGroup.length is the amount of points in the group."
+ },
+ {
+  "name": "Point--graphic",
+  "title": "graphic",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "SVG graphic representing the point in the chart. In some cases it may be a hidden graphic to improve accessibility. Typically this is a simple shape, like a rect for column charts or path for line markers, but for some complex series types like boxplot or 3D charts, the graphic may be a g element containing other shapes. The graphic is generated the first time Highcharts.Series#drawPoints runs, and updated and moved on subsequent runs."
+ },
+ {
+  "name": "Point--graphics",
+  "title": "graphics",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Array for multiple SVG graphics representing the point in the chart. Only used in cases where the point can not be represented by a single graphic."
+ },
+ {
+  "name": "Point--high",
+  "title": "high",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Range series only. The high or maximum value for each data point."
+ },
+ {
+  "name": "Point--index",
+  "title": "index",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "Contains the point's index in the Series.points array."
+ },
+ {
+  "name": "Point--key",
+  "title": "key",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The point's name if it is defined, or its category in case of a category, otherwise the x value. Convenient for tooltip and data label formatting."
+ },
+ {
+  "name": "Point--low",
+  "title": "low",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Range series only. The low or minimum value for each data point."
+ },
+ {
+  "name": "Point--name",
+  "title": "name",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "String",
+  "params": "",
+  "description": "The name of the point. The name can be given as the first position of the point configuration array, or as a name property in the configuration:"
+ },
+ {
+  "name": "Point--options",
+  "title": "options",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The point's options as applied in the initial configuration, or extended through Point.update. In TypeScript you have to extend PointOptionsObject via an additional interface to allow custom data options: declare interface PointOptionsObject { customProperty: string; }"
+ },
+ {
+  "name": "Point--percentage",
+  "title": "percentage",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The percentage for points in a stacked series, pies or gauges."
+ },
+ {
+  "name": "Point--plotX",
+  "title": "plotX",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The translated X value for the point in terms of pixels. Relative to the X axis position if the series has one, otherwise relative to the plot area. Depending on the series type this value might not be defined. In an inverted chart the x-axis is going from the bottom to the top so the plotX value is the number of pixels from the bottom of the axis."
+ },
+ {
+  "name": "Point--plotY",
+  "title": "plotY",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The translated Y value for the point in terms of pixels. Relative to the Y axis position if the series has one, otherwise relative to the plot area. Depending on the series type this value might not be defined. In an inverted chart the y-axis is going from right to left so the plotY value is the number of pixels from the right of the yAxis."
+ },
+ {
+  "name": "Point--points",
+  "title": "points",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Array of all hovered points when using shared tooltips."
+ },
+ {
+  "name": "Point--properties",
+  "title": "properties",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "In Highcharts Maps, when data is loaded from GeoJSON, the GeoJSON item's properties are copied over here."
+ },
+ {
+  "name": "Point--selected",
+  "title": "selected",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Whether the point is selected or not."
+ },
+ {
+  "name": "Point--series",
+  "title": "series",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Series",
+  "params": "",
+  "description": "The series object associated with the point."
+ },
+ {
+  "name": "Point--shapeArgs",
+  "title": "shapeArgs",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The attributes of the rendered SVG shape like in column or pie series."
+ },
+ {
+  "name": "Point--sliced",
+  "title": "sliced",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Pie series only. Whether to display a slice offset from the center."
+ },
+ {
+  "name": "Point--tooltipPos",
+  "title": "tooltipPos",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Defines the tooltip's position for a data point in a chart. It is an array of numbers representing the coordinates for the tooltip's placement, allowing for precise control over its location."
+ },
+ {
+  "name": "Point--total",
+  "title": "total",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The total of values in either a stack for stacked series, or a pie in a pie series."
+ },
+ {
+  "name": "Point--visible",
+  "title": "visible",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "For certain series types, like pie charts, where individual points can be shown or hidden."
+ },
+ {
+  "name": "Point--x",
+  "title": "x",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "The x value of the point."
+ },
+ {
+  "name": "Point--y",
+  "title": "y",
+  "parent": "Point",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The y value of the point."
+ },
+ {
+  "name": "Point--doDrilldown",
+  "title": "doDrilldown",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Perform drilldown on a point instance. The drilldown property must be set on the point options. To drill down multiple points in the same category, use Axis.drilldownCategory instead."
+ },
+ {
+  "name": "Point--getClassName",
+  "title": "getClassName",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "String",
+  "params": "",
+  "description": "Get the CSS class names for individual points. Used internally where the returned value is set on every point."
+ },
+ {
+  "name": "Point--getZone",
+  "title": "getZone",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "Object",
+  "params": "",
+  "description": "In a series with zones, return the zone that the point belongs to."
+ },
+ {
+  "name": "Point--haloPath",
+  "title": "haloPath",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Number size)",
+  "description": "Get the path definition for the halo, which is usually a shadow-like circle around the currently hovered point."
+ },
+ {
+  "name": "Point--onMouseOut",
+  "title": "onMouseOut",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Runs on mouse out from the point. Called internally from mouse and touch events."
+ },
+ {
+  "name": "Point--onMouseOver",
+  "title": "onMouseOver",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object e)",
+  "description": "Runs on mouse over the point. Called internally from mouse and touch events."
+ },
+ {
+  "name": "Point--optionsToObject",
+  "title": "optionsToObject",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object options)",
+  "description": "Transform number or array configs into objects. Also called for object configs. Used internally to unify the different configuration formats for points. For example, a simple number 10 in a line series will be transformed to { y: 10 }, and an array config like [1, 10] in a scatter series will be transformed to { x: 1, y: 10 }."
+ },
+ {
+  "name": "Point--pos",
+  "title": "pos",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "(Boolean chartCoordinates, Object plotX, Object plotY)",
+  "description": "Get the pixel position of the point relative to the plot area."
+ },
+ {
+  "name": "Point--remove",
+  "title": "remove",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean redraw, [Object animation])",
+  "description": "Remove a point and optionally redraw the series and if necessary the axes"
+ },
+ {
+  "name": "Point--select",
+  "title": "select",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean selected, [Boolean accumulate])",
+  "description": "Toggle the selection status of a point."
+ },
+ {
+  "name": "Point--setNestedProperty",
+  "title": "setNestedProperty",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object object, Object value, String key)",
+  "description": "Set a value in an object, on the property defined by key. The key supports nested properties using dot notation. The function modifies the input object and does not make a copy. Paths containing __proto__ or constructor are ignored."
+ },
+ {
+  "name": "Point--setState",
+  "title": "setState",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object state, [Boolean move])",
+  "description": "Set the point's state."
+ },
+ {
+  "name": "Point--setVisible",
+  "title": "setVisible",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean vis, [Boolean redraw])",
+  "description": "Toggle the visibility of a pie slice or other data point. Note that this method is available only for some series, like pie, treemap and sunburst."
+ },
+ {
+  "name": "Point--sonify",
+  "title": "sonify",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object onEnd)",
+  "description": "Play a sonification of a point."
+ },
+ {
+  "name": "Point--tooltipFormatter",
+  "title": "tooltipFormatter",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "String",
+  "params": "(String pointFormat)",
+  "description": "Extendable method for formatting each point's tooltip line."
+ },
+ {
+  "name": "Point--update",
+  "title": "update",
+  "parent": "Point",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options, [Boolean redraw], [Object animation])",
+  "description": "Update point with new options (typically x/y data) and optionally redraw the series."
+ },
+ {
+  "name": "Series",
+  "title": "Series",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Series--center",
+  "title": "center",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The series center position, read only. This applies only to circular chart types like pie and sunburst. It is an array of [centerX, centerY, diameter, innerDiameter]."
+ },
+ {
+  "name": "Series--chart",
+  "title": "chart",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Chart",
+  "params": "",
+  "description": "Read only. The chart that the series belongs to."
+ },
+ {
+  "name": "Series--color",
+  "title": "color",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Series color as used by the legend and some series types."
+ },
+ {
+  "name": "Series--data",
+  "title": "data",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Read only. An array containing those values converted to points. In case the series data length exceeds the cropThreshold, or if the data is grouped, series.data doesn't contain all the points. Also, in case a series is hidden, the data array may be empty. In case of cropping, the data array may contain undefined values, instead of points. To access raw values, series.options.data will always be up to date. Series.data only contains the points that have been created on demand. To modify the data, use Highcharts.Series#setData or Highcharts.Point#update."
+ },
+ {
+  "name": "Series--dataMax",
+  "title": "dataMax",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains the maximum value of the series' data point. Some series types like networkgraph do not support this property as they lack a y-value."
+ },
+ {
+  "name": "Series--dataMin",
+  "title": "dataMin",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains the minimum value of the series' data point. Some series types like networkgraph do not support this property as they lack a y-value."
+ },
+ {
+  "name": "Series--group",
+  "title": "group",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "The main group for the series' graphics."
+ },
+ {
+  "name": "Series--index",
+  "title": "index",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Number",
+  "params": "",
+  "description": "Contains the series' index in the Chart.series array."
+ },
+ {
+  "name": "Series--legendItem",
+  "title": "legendItem",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Legend data for the series."
+ },
+ {
+  "name": "Series--linkedParent",
+  "title": "linkedParent",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Series",
+  "params": "",
+  "description": "The parent series of the current series, if the current series has a linkedTo setting."
+ },
+ {
+  "name": "Series--linkedSeries",
+  "title": "linkedSeries",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "All child series that are linked to the current series through the linkedTo option."
+ },
+ {
+  "name": "Series--name",
+  "title": "name",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "String",
+  "params": "",
+  "description": "The series name as given in the options. Defaults to \"Series {n}\"."
+ },
+ {
+  "name": "Series--options",
+  "title": "options",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Read only. The series' current options. To update, use Highcharts.Series#update."
+ },
+ {
+  "name": "Series--points",
+  "title": "points",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "An array containing all currently visible point objects. In case of cropping, the cropped-away points are not part of this array. The series.points array starts at series.cropStart compared to series.data and series.options.data. If however the series data is grouped, these can't be correlated one to one. To modify the data, use Highcharts.Series#setData or Highcharts.Point#update."
+ },
+ {
+  "name": "Series--selected",
+  "title": "selected",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Read only. The series' selected state as set by Highcharts.Series#select."
+ },
+ {
+  "name": "Series--type",
+  "title": "type",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "String",
+  "params": "",
+  "description": "Read only. The series' type, like \"line\", \"area\", \"column\" etc. The type in the series options anc can be altered using Highcharts.Series#update."
+ },
+ {
+  "name": "Series--userOptions",
+  "title": "userOptions",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Contains series options by the user without defaults."
+ },
+ {
+  "name": "Series--visible",
+  "title": "visible",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Read only. The series' visibility state as set by Highcharts.Series#show, Highcharts.Series#hide, or in the initial configuration. True by default."
+ },
+ {
+  "name": "Series--xAxis",
+  "title": "xAxis",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Axis",
+  "params": "",
+  "description": "Read only. The unique xAxis object associated with the series."
+ },
+ {
+  "name": "Series--yAxis",
+  "title": "yAxis",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Axis",
+  "params": "",
+  "description": "Read only. The unique yAxis object associated with the series."
+ },
+ {
+  "name": "Series--types",
+  "title": "types",
+  "parent": "Series",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Registry of all available series types."
+ },
+ {
+  "name": "Series--addPoint",
+  "title": "addPoint",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options, [Boolean redraw], [Boolean shift], [Object animation], [Boolean withEvent])",
+  "description": "Add a point to the series after render time. The point can be added at the end, or by giving it an X value, to the start or in the middle of the series. Alternatively, when the chart is using data table for the data, a point can be added by running dataTable.setRow."
+ },
+ {
+  "name": "Series--animate",
+  "title": "animate",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean init)",
+  "description": "Animate in the series. Called internally twice. First with the init parameter set to true, which sets up the initial state of the animation. Then when ready, it is called with the init parameter undefined, in order to perform the actual animation."
+ },
+ {
+  "name": "Series--drawPoints",
+  "title": "drawPoints",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Draw the markers for line-like series types, and columns or other graphical representation for Highcharts.Point objects for other series types. The resulting element is typically stored as Highcharts.Point#graphic, and is created on the first call and updated and moved on subsequent calls."
+ },
+ {
+  "name": "Series--getName",
+  "title": "getName",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "String",
+  "params": "",
+  "description": "Return the name for the series. Looks for a name in the options. If not found, looks for a column name in the data mapping. If not found, returns a default name based on the series type and index in Series {n}\" format. This method can be simply overridden as series name format can vary (e.g. technical indicators)."
+ },
+ {
+  "name": "Series--getPlotBox",
+  "title": "getPlotBox",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Get the translation and scale for the plot area of this series."
+ },
+ {
+  "name": "Series--getValidPoints",
+  "title": "getValidPoints",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "Array<Object>",
+  "params": "(Array<Object> points, [Boolean insideOnly], [Boolean allowNull])",
+  "description": "Return the series points with null points filtered out."
+ },
+ {
+  "name": "Series--groupData",
+  "title": "groupData",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object table, Array<Object> groupPositions, [Object approximation])",
+  "description": "Highcharts Stock only. Takes parallel arrays of x and y data and groups the data into intervals defined by groupPositions, a collection of starting x values for each group."
+ },
+ {
+  "name": "Series--hide",
+  "title": "hide",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Hide the series if visible. If the chart.ignoreHiddenSeries option is true, the chart is redrawn without this series."
+ },
+ {
+  "name": "Series--is",
+  "title": "is",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(String type)",
+  "description": "Check whether the series item is itself or inherits from a certain series type."
+ },
+ {
+  "name": "Series--markerAttribs",
+  "title": "markerAttribs",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Point point, [String state])",
+  "description": "Get non-presentational attributes for a point. Used internally for both styled mode and classic. Can be overridden for different series types."
+ },
+ {
+  "name": "Series--onMouseOut",
+  "title": "onMouseOut",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Runs on mouse out of the series graphical items."
+ },
+ {
+  "name": "Series--onMouseOver",
+  "title": "onMouseOver",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Runs on mouse over the series graphical items."
+ },
+ {
+  "name": "Series--remove",
+  "title": "remove",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean redraw, [Object animation], [Boolean withEvent])",
+  "description": "Remove a series and optionally redraw the chart."
+ },
+ {
+  "name": "Series--removePoint",
+  "title": "removePoint",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Number i, [Boolean redraw], [Object animation])",
+  "description": "Remove a point from the series. Unlike the Highcharts.Point#remove method, this can also be done on a point that is not instantiated because it is outside the view or subject to Highcharts Stock data grouping."
+ },
+ {
+  "name": "Series--render",
+  "title": "render",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Render the graph and markers. Called internally when first rendering and later when redrawing the chart. This function can be extended in plugins, but normally shouldn't be called directly."
+ },
+ {
+  "name": "Series--searchPoint",
+  "title": "searchPoint",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "Point",
+  "params": "(Object e, [Boolean compareX])",
+  "description": "Find the nearest point from a pointer event. This applies to series that use k-d-trees to get the nearest point. Native pointer events must be normalized using Pointer.normalize, that adds chartX and chartY properties."
+ },
+ {
+  "name": "Series--select",
+  "title": "select",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean selected)",
+  "description": "Select or unselect the series. This means its selected property is set, the checkbox in the legend is toggled and when selected, the series is returned by the Highcharts.Chart#getSelectedSeries function."
+ },
+ {
+  "name": "Series--setData",
+  "title": "setData",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object data, [Boolean redraw], [Object animation], [Boolean updatePoints])",
+  "description": "Apply a new set of data to the series and optionally redraw it. The new data array is passed by reference (except in case of updatePoints), and may later be mutated when updating the chart data. Note the difference in behavior when setting the same amount of points, or a different amount of points, as handled by the updatePoints parameter."
+ },
+ {
+  "name": "Series--setState",
+  "title": "setState",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object state, [Boolean inherit])",
+  "description": "Set the state of the series. Called internally on mouse interaction operations, but it can also be called directly to visually highlight a series."
+ },
+ {
+  "name": "Series--setVisible",
+  "title": "setVisible",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Boolean visible, [Boolean redraw])",
+  "description": "Show or hide the series."
+ },
+ {
+  "name": "Series--show",
+  "title": "show",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Show the series if hidden."
+ },
+ {
+  "name": "Series--sonify",
+  "title": "sonify",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object onEnd)",
+  "description": "Play a sonification of a series."
+ },
+ {
+  "name": "Series--translate",
+  "title": "translate",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Translate data points from raw data values to chart specific positioning data needed later in the drawPoints and drawGraph functions. This function can be overridden in plugins and custom series type implementations."
+ },
+ {
+  "name": "Series--update",
+  "title": "update",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object options, [Boolean redraw])",
+  "description": "Update the series with a new set of options. For a clean and precise handling of new options, all methods and elements from the series are removed, and it is initialized from scratch. Therefore, this method is more performance expensive than some other utility methods like Highcharts.Series#setData or Highcharts.Series#setVisible. Note that Series.update may mutate the passed data options."
+ },
+ {
+  "name": "Series--registerType",
+  "title": "registerType",
+  "parent": "Series",
+  "type": "method",
+  "returnType": "",
+  "params": "(String seriesType, Function SeriesClass)",
+  "description": "Registers a series class to be accessible via Series.types."
+ },
+ {
+  "name": "Renderer",
+  "title": "Renderer",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Renderer--SVGRenderer",
+  "title": "SVGRenderer",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "",
+  "params": "(HTMLElement container, Number width, Number height, [CSSObject style], [Boolean forExport], [Boolean allowHTML], [Boolean styledMode])",
+  "description": "Allows direct access to the Highcharts rendering layer in order to draw primitive shapes like circles, rectangles, paths or text directly on a chart, or independent from any chart. The SVGRenderer represents a wrapper object for SVG in modern browsers. An existing chart's renderer can be accessed through Highcharts.Chart.renderer. The renderer can also be used completely decoupled from a chart. See How to use the SVG Renderer for a comprehensive tutorial."
+ },
+ {
+  "name": "Renderer--Element",
+  "title": "Element",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "A pointer to the renderer's associated Element class."
+ },
+ {
+  "name": "Renderer--box",
+  "title": "box",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The root svg node of the renderer."
+ },
+ {
+  "name": "Renderer--boxWrapper",
+  "title": "boxWrapper",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "The wrapper for the root svg node of the renderer."
+ },
+ {
+  "name": "Renderer--defs",
+  "title": "defs",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Element",
+  "params": "",
+  "description": "A pointer to the defs node of the root SVG."
+ },
+ {
+  "name": "Renderer--escapes",
+  "title": "escapes",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "A collection of characters mapped to HTML entities. When useHTML on an element is true, these entities will be rendered correctly by HTML. In the SVG pseudo-HTML, they need to be unescaped back to simple characters, so for example &lt; will render as <."
+ },
+ {
+  "name": "Renderer--forExport",
+  "title": "forExport",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "Whether the rendered content is intended for export."
+ },
+ {
+  "name": "Renderer--symbols",
+  "title": "symbols",
+  "parent": "Renderer",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "An extendable collection of functions for defining symbol paths. Each symbol function takes five parameters: x, y, width, height and options, and returns an SVGPath array."
+ },
+ {
+  "name": "Renderer--arc",
+  "title": "arc",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Number x, [Number y], [Number r], [Number innerR], [Number start], [Number end])",
+  "description": "Draw and return an arc."
+ },
+ {
+  "name": "Renderer--arc",
+  "title": "arc",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object attribs)",
+  "description": "Draw and return an arc. Overloaded function that takes arguments object."
+ },
+ {
+  "name": "Renderer--button",
+  "title": "button",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String text, Number x, Number y, Function callback, [Object theme], [Object hoverState], [Object selectState], [Object disabledState], [String shape], [Boolean useHTML])",
+  "description": "Create a button with preset states. Styles for the button can either be set as arguments, or a general theme for all buttons can be set by the global.buttonTheme option."
+ },
+ {
+  "name": "Renderer--circle",
+  "title": "circle",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Number x, [Number y], [Number r])",
+  "description": "Draw a circle, wraps the SVG circle element."
+ },
+ {
+  "name": "Renderer--circle",
+  "title": "circle",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object attribs)",
+  "description": "Draw a circle, wraps the SVG circle element."
+ },
+ {
+  "name": "Renderer--clipRect",
+  "title": "clipRect",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Number x, [Number y], [Number width], [Number height])",
+  "description": "Define a clipping rectangle. The clipping rectangle is later applied to Highcharts.SVGElement objects through the Highcharts.SVGElement#clip function. This function is deprecated as of v11.2. Instead, use a regular shape (rect, path etc), and the SVGElement.clipTo function."
+ },
+ {
+  "name": "Renderer--createElement",
+  "title": "createElement",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String nodeName)",
+  "description": "Create a wrapper for an SVG element. Serves as a factory for Highcharts.SVGElement, but this function is itself mostly called from primitive factories like Highcharts.SVGRenderer#path, Highcharts.SVGRenderer#rect or Highcharts.SVGRenderer#text."
+ },
+ {
+  "name": "Renderer--crispLine",
+  "title": "crispLine",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object points, Number width)",
+  "description": "Make a straight line crisper by not spilling out to neighbor pixels."
+ },
+ {
+  "name": "Renderer--definition",
+  "title": "definition",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object def)",
+  "description": "General method for adding a definition to the SVG defs tag. Can be used for gradients, fills, filters etc. Styled mode only. A hook for adding general definitions to the SVG's defs tag. Definitions can be referenced from the CSS by its id. Read more in gradients, shadows and patterns. Styled mode only."
+ },
+ {
+  "name": "Renderer--destroy",
+  "title": "destroy",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Destroys the renderer and its allocated members."
+ },
+ {
+  "name": "Renderer--draw",
+  "title": "draw",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Dummy function for plugins, called every time the renderer is updated. Prior to Highcharts 5, this was used for the canvg renderer."
+ },
+ {
+  "name": "Renderer--fontMetrics",
+  "title": "fontMetrics",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object ref)",
+  "description": "Utility to return the baseline offset and total line height from the font size."
+ },
+ {
+  "name": "Renderer--g",
+  "title": "g",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String name)",
+  "description": "Create and return an svg group element. Child Highcharts.SVGElement objects are added to the group by using the group as the first parameter in add()."
+ },
+ {
+  "name": "Renderer--getContrast",
+  "title": "getContrast",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Color",
+  "params": "(Color color)",
+  "description": "Returns white for dark colors and black for bright colors, based on W3C's definition of Relative luminance."
+ },
+ {
+  "name": "Renderer--image",
+  "title": "image",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String href, [Number x], [Number y], [Number width], [Number height], [Function onload])",
+  "description": "Display an image."
+ },
+ {
+  "name": "Renderer--init",
+  "title": "init",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "",
+  "params": "(HTMLElement container, Number width, Number height, [CSSObject style], [Boolean forExport], [Boolean allowHTML], [Boolean styledMode])",
+  "description": "Initialize the SVGRenderer. Overridable initializer function that takes the same parameters as the constructor."
+ },
+ {
+  "name": "Renderer--isHidden",
+  "title": "isHidden",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "",
+  "description": "Detect whether the renderer is hidden. This happens when one of the parent elements has display: none. Used internally to detect when we need to render preliminarily in another div to get the text bounding boxes right."
+ },
+ {
+  "name": "Renderer--label",
+  "title": "label",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String str, Number x, [Number y], [String shape], [Number anchorX], [Number anchorY], [Boolean useHTML], [Boolean baseline], [String className])",
+  "description": "Draw a label, which is an extended text element with support for border and background. Highcharts creates a g element with a text and a path or rect inside, to make it behave somewhat like a HTML div. Border and background are set through stroke, stroke-width and fill attributes using the attr method. To update the text after render, run label.attr({ text: 'New text' })."
+ },
+ {
+  "name": "Renderer--path",
+  "title": "path",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object path)",
+  "description": "Draw a path, wraps the SVG path element."
+ },
+ {
+  "name": "Renderer--rect",
+  "title": "rect",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Number x, [Number y], [Number width], [Number height], [Number r], [Number strokeWidth])",
+  "description": "Draw and return a rectangle."
+ },
+ {
+  "name": "Renderer--rect",
+  "title": "rect",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object attributes)",
+  "description": "Draw and return a rectangle."
+ },
+ {
+  "name": "Renderer--roundedRect",
+  "title": "roundedRect",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object attribs)",
+  "description": "Draw and return a rectangle with advanced corner rounding options."
+ },
+ {
+  "name": "Renderer--setSize",
+  "title": "setSize",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "",
+  "params": "(Number width, Number height, [Object animate])",
+  "description": "Resize the Highcharts.SVGRenderer#box and re-align all aligned child elements."
+ },
+ {
+  "name": "Renderer--setStyle",
+  "title": "setStyle",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "",
+  "params": "(CSSObject style)",
+  "description": "Apply the global style on the renderer, mixed with the default styles."
+ },
+ {
+  "name": "Renderer--symbol",
+  "title": "symbol",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String symbol, [Number x], [Number y], [Number width], [Number height], [Object options])",
+  "description": "Draw a symbol out of pre-defined shape paths from Highcharts.SVGRenderer#symbols. It is used in Highcharts for point makers, which cake a symbol option, and label and button backgrounds like in the tooltip and stock flags."
+ },
+ {
+  "name": "Renderer--text",
+  "title": "text",
+  "parent": "Renderer",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String str, [Number x], [Number y], [Boolean useHTML])",
+  "description": "Draw text. The text can contain a subset of HTML, like spans and anchors and some basic text styling of these. For more advanced features like border and background, use Highcharts.SVGRenderer#label instead. To update the text after render, run text.attr({ text: 'New text' })."
+ },
+ {
+  "name": "Element",
+  "title": "Element",
+  "parent": null,
+  "type": null,
+  "returnType": "",
+  "params": "",
+  "description": ""
+ },
+ {
+  "name": "Element--SVGElement",
+  "title": "SVGElement",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "The SVGElement prototype is a JavaScript wrapper for SVG elements used in the rendering layer of Highcharts. Combined with the Highcharts.SVGRenderer object, these prototypes allow freeform annotation in the charts or even in HTML pages without instantiating a chart. The SVGElement can also wrap HTML labels, when text or label elements are created with the useHTML parameter. The SVGElement instances are created through factory functions on the Highcharts.SVGRenderer object, like rect, path, text, label, g and more. See How to use the SVG Renderer for a comprehensive tutorial on how to draw SVG elements on a chart."
+ },
+ {
+  "name": "Element--element",
+  "title": "element",
+  "parent": "Element",
+  "type": "property",
+  "returnType": "Object",
+  "params": "",
+  "description": "The primary DOM node. Each SVGElement instance wraps a main DOM node, but may also represent more nodes."
+ },
+ {
+  "name": "Element--renderer",
+  "title": "renderer",
+  "parent": "Element",
+  "type": "property",
+  "returnType": "Renderer",
+  "params": "",
+  "description": "The renderer that the SVGElement belongs to."
+ },
+ {
+  "name": "Element--add",
+  "title": "add",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Element parent)",
+  "description": "Add the element to the DOM. All elements must be added this way."
+ },
+ {
+  "name": "Element--addClass",
+  "title": "addClass",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String className, [Boolean replace])",
+  "description": "Add a class name to an element."
+ },
+ {
+  "name": "Element--align",
+  "title": "align",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object alignOptions, [Boolean alignByTranslate], [Object alignTo], [Boolean redraw])",
+  "description": "Align the element relative to the chart or another box."
+ },
+ {
+  "name": "Element--animate",
+  "title": "animate",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object params, [Object options], [Function complete])",
+  "description": "Animate to given attributes or CSS properties."
+ },
+ {
+  "name": "Element--attr",
+  "title": "attr",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "",
+  "params": "(String key)",
+  "description": ""
+ },
+ {
+  "name": "Element--attr",
+  "title": "attr",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object hash, [Object val], [Function complete], [Boolean continueAnimation])",
+  "description": "Apply native and custom attributes to the SVG elements. In order to set the rotation center for rotation, set x and y to 0 and use translateX and translateY attributes to position the element instead. Attributes frequently used in Highcharts are fill, stroke, stroke-width."
+ },
+ {
+  "name": "Element--clip",
+  "title": "clip",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Element clipElem)",
+  "description": "Apply a clipping shape to this element."
+ },
+ {
+  "name": "Element--crisp",
+  "title": "crisp",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Object rect, [Number strokeWidth])",
+  "description": "Calculate the coordinates needed for drawing a rectangle crisply and return the calculated attributes."
+ },
+ {
+  "name": "Element--css",
+  "title": "css",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(CSSObject styles)",
+  "description": "Set styles for the element. In addition to CSS styles supported by native SVG and HTML elements, there are also some custom made for Highcharts, like width, ellipsis and textOverflow for SVG text elements."
+ },
+ {
+  "name": "Element--destroy",
+  "title": "destroy",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "",
+  "params": "",
+  "description": "Destroy the element and element wrapper and clear up the DOM and event hooks."
+ },
+ {
+  "name": "Element--fadeIn",
+  "title": "fadeIn",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "",
+  "params": "(Object animation)",
+  "description": "A general fadeIn method."
+ },
+ {
+  "name": "Element--getBBox",
+  "title": "getBBox",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Object",
+  "params": "(Boolean reload, [Number rot])",
+  "description": "Get the bounding box (width, height, x and y) for the element. Generally used to get rendered text size. Since this is called a lot in charts, the results are cached based on text properties, in order to save DOM traffic. The returned bounding box includes the rotation, so for example a single text line of rotation 90 will report a greater height, and a width corresponding to the line-height."
+ },
+ {
+  "name": "Element--getBBoxCacheKey",
+  "title": "getBBoxCacheKey",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "String",
+  "params": "",
+  "description": "Overridable method to get a cache key for the bounding box of this element."
+ },
+ {
+  "name": "Element--getStyle",
+  "title": "getStyle",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "String",
+  "params": "(String prop)",
+  "description": "Get the computed style. Only in styled mode."
+ },
+ {
+  "name": "Element--hasClass",
+  "title": "hasClass",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Boolean",
+  "params": "(String className)",
+  "description": "Check if an element has the given class name."
+ },
+ {
+  "name": "Element--hide",
+  "title": "hide",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "",
+  "description": "Hide the element, similar to setting the visibility attribute to hidden."
+ },
+ {
+  "name": "Element--init",
+  "title": "init",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "",
+  "params": "(Renderer renderer, String nodeName)",
+  "description": "Initialize the SVG element. This function only exists to make the initialization process overridable. It should not be called directly."
+ },
+ {
+  "name": "Element--on",
+  "title": "on",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(String eventType, Function handler)",
+  "description": "Add an event listener. This is a simple setter that replaces the previous event of the same type added by this function, as opposed to the Highcharts#addEvent function."
+ },
+ {
+  "name": "Element--removeClass",
+  "title": "removeClass",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object className)",
+  "description": "Remove a class name from the element."
+ },
+ {
+  "name": "Element--setRadialReference",
+  "title": "setRadialReference",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Array<Object> coordinates)",
+  "description": "Set the coordinates needed to draw a consistent radial gradient across a shape regardless of positioning inside the chart. Used on pie slices to make all the slices have the same radial reference point."
+ },
+ {
+  "name": "Element--shadow",
+  "title": "shadow",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Object shadowOptions)",
+  "description": "Add a shadow to the element. In styled mode, this method is not used, instead use defs and filters."
+ },
+ {
+  "name": "Element--show",
+  "title": "show",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Boolean inherit)",
+  "description": "Show the element after it has been hidden."
+ },
+ {
+  "name": "Element--strokeWidth",
+  "title": "strokeWidth",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Number",
+  "params": "",
+  "description": "Get the computed stroke width in pixel values. This is used extensively when drawing shapes to ensure the shapes are rendered crisp and positioned correctly relative to each other. Using shape-rendering: crispEdges leaves us less control over positioning, for example when we want to stack columns next to each other, or position things pixel-perfectly within the plot box. The common pattern when placing a shape is: Create the SVGElement and add it to the DOM. In styled mode, it will now receive a stroke width from the style sheet. In classic mode we will add the stroke-width attribute. Read the computed elem.strokeWidth(). Place it based on the stroke width."
+ },
+ {
+  "name": "Element--toFront",
+  "title": "toFront",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "",
+  "description": "Bring the element to the front. Alternatively, a new zIndex can be set."
+ },
+ {
+  "name": "Element--translate",
+  "title": "translate",
+  "parent": "Element",
+  "type": "method",
+  "returnType": "Element",
+  "params": "(Number x, Number y)",
+  "description": "Move an object and its children by x and y values."
+ }
+]

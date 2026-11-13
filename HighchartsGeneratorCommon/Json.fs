@@ -2,7 +2,7 @@
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -82,7 +82,7 @@ let parse =
     let jlist   = listBetweenStrings "[" "]" jvalue JList
     let jobject = listBetweenStrings "{" "}" keyValue (Map.ofList >> JObject)
 
-    jvalueRef := choice [ jobject; jlist; jstring; jnumber; jbool; jnull ]
+    jvalueRef.Value <- choice [ jobject; jlist; jstring; jnumber; jbool; jnull ]
 
     let json = ws >>. jvalue .>> ws .>> eof
 

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSharper.Highcharts — sample</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M7 24V8h4v6h10V8h4v16h-4v-6H11v6z' fill='white'/%3E%3C/svg%3E" />
+    <script>
+        // Apply a previously chosen theme before first paint. Light is the
+        // default; the key is shared with Client.fs (themeStorageKey).
+        try {
+            var t = localStorage.getItem('websharper-highcharts-theme');
+            if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { }
+    </script>
+    <link rel="stylesheet" href="css/index.css" />
+    <!-- The only resource the binding links is jQuery; Highcharts is bundled from npm. -->
+    <!-- ws-head -->
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-titles">
+            <h1>WebSharper.Highcharts</h1>
+            <p>Highcharts bindings for F# — with <a href="https://websharper.com">WebSharper</a></p>
+        </div>
+        <div class="app-actions">
+            <button class="btn theme-toggle" ws-onclick="ToggleTheme" title="Switch between the light and dark theme">
+                <span>${themeLabel}</span>
+            </button>
+            <a class="app-source" href="https://github.com/dotnet-websharper/highcharts">Source</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <header class="card-header">
+                <h2>${Title}</h2>
+                <p>
+                    A <code>HighchartsCfg</code> built in F#, rendered through
+                    <code>Highcharts.Create(JQuery.Of el, cfg)</code>. Highcharts is
+                    bundled from the npm package, and
+                    <code>Highcharts.Modules.Exporting()</code> imports the
+                    <code>exporting</code> module (hence the export menu) for its
+                    side effect.
+                </p>
+            </header>
+            <div class="card-body">
+                <div id="chart"></div>
+                <p class="chart-note">${ChartSummary}</p>
+            </div>
+        </section>
+    </main>
+
+    <script type="text/javascript" src="Scripts/WebSharper.Highcharts.Sample.min.js"></script>
+</body>
+</html>
