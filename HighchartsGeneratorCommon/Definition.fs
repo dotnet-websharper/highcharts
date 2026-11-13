@@ -19,6 +19,10 @@
 // $end{copyright}
 module HighchartsGeneratorCommon.Definition
 
+// `|=>` is the WIG way to associate a type with a declaration; it is marked
+// obsolete in the interface generator, but there is no replacement for it.
+#nowarn "44"
+
 open WebSharper
 open WebSharper.InterfaceGenerator
 
@@ -72,12 +76,12 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     let warnTypeCreate = ref false
 
     let getRawType (n: string) = 
-        match !typeMap |> Map.tryFind n with
+        match typeMap.Value |> Map.tryFind n with
         | Some t -> t
         | None ->
-            if !warnTypeCreate then printfn "Creating type: %s" n
+            if warnTypeCreate.Value then printfn "Creating type: %s" n
             let t = (Class n).Type
-            typeMap := !typeMap |> Map.add n t
+            typeMap.Value <- typeMap.Value |> Map.add n t
             t
 
     /// Split on `sep`, ignoring separators nested inside `<>`, `()` or `[]`.
@@ -191,7 +195,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     let rec addArrayConfigs (c: HcConfig) =
         if c.Members |> List.isEmpty |> not then
             if isArray c.Type then
-                arrayConfigs := !arrayConfigs |> Set.add c.RefName
+                arrayConfigs.Value <- arrayConfigs.Value |> Set.add c.RefName
             c.Members |> List.iter addArrayConfigs
 
     configs |> List.iter addArrayConfigs
@@ -246,7 +250,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                 (cmem |> List.map (fun cc ->
                     let cls = getConfig cc
                     let ty =
-                        if isArray cc.Type || (cc.Extends |> Option.exists (fun t -> !arrayConfigs |> Set.contains t)) then
+                        if isArray cc.Type || (cc.Extends |> Option.exists (fun t -> arrayConfigs.Value |> Set.contains t)) then
                             Type.ArrayOf cls
                         else
                             cls.Type
@@ -278,7 +282,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
                     | d, None -> d
                 )
             cfgClasses.[c.RefName] <- cls
-            configsList := upcast cls :: !configsList
+            configsList.Value <- upcast cls :: configsList.Value
             cls
 
     /// Loads the Highcharts modules the option model needs. Highcharts modules
@@ -296,7 +300,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
             )
         )
 
-    configsList := upcast modulesCls :: !configsList
+    configsList.Value <- upcast modulesCls :: configsList.Value
 
     let optConfigs, hcConfigs =
         configs |> List.partition (fun c -> c.RefName = "global" || c.RefName = "lang")
@@ -319,7 +323,7 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         )
         |+> Static [ Constructor T<unit> |> WithInline "{}" ] 
 
-    configsList := upcast configCls :: !configsList
+    configsList.Value <- upcast configCls :: configsList.Value
 
     let optionsCls =
         Class "OptionsCfg"
@@ -331,9 +335,9 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
         )
         |+> Static [ Constructor T<unit> |> WithInline "{}" ] 
 
-    configsList := upcast optionsCls :: !configsList
+    configsList.Value <- upcast optionsCls :: configsList.Value
 
-    warnTypeCreate := true
+    warnTypeCreate.Value <- true
 
     let getClass (o: HcObject) =
         let members =
@@ -386,21 +390,21 @@ let getAssembly lib (configs: HcConfig list) (objects : HcObject list) =
     | Highcharts ->
         Assembly [
             Namespace "WebSharper.Highcharts" (
-                !configsList @
+                configsList.Value @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
         ]
     | Highstock -> 
         Assembly [
             Namespace "WebSharper.Highstock" (
-                !configsList @
+                configsList.Value @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
         ]
     | Highmaps ->
         Assembly [
             Namespace "WebSharper.Highmaps" (
-                !configsList @
+                configsList.Value @
                 (objects |> Seq.map getClass |> Seq.cast |> List.ofSeq)
             ) 
         ]

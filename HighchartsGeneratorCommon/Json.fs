@@ -82,7 +82,7 @@ let parse =
     let jlist   = listBetweenStrings "[" "]" jvalue JList
     let jobject = listBetweenStrings "{" "}" keyValue (Map.ofList >> JObject)
 
-    jvalueRef := choice [ jobject; jlist; jstring; jnumber; jbool; jnull ]
+    jvalueRef.Value <- choice [ jobject; jlist; jstring; jnumber; jbool; jnull ]
 
     let json = ws >>. jvalue .>> ws .>> eof
 
